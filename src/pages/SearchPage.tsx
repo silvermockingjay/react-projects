@@ -7,6 +7,7 @@ import { getCharacters } from '../services/APIRequests/getCharacters';
 import type { Character } from '../services/interfaces/interfaces';
 import { Loader } from '../components/Loader/Loader';
 import { FallBack } from '../components/FallBack/FallBack';
+import { Button } from '../components/Button/Button';
 
 interface State {
   query: string;
@@ -76,6 +77,16 @@ export class SearchPage extends React.Component {
           />
         </Section>
         <Section>{content}</Section>
+        <Section>
+          <Button
+            type="button"
+            text="Error Button"
+            className="error-btn"
+            onClick={() => {
+              this.setState({ hasError: true });
+            }}
+          />
+        </Section>
       </Main>
     );
   }
