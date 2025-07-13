@@ -2,7 +2,10 @@ import type { SearchResults } from '../interfaces/interfaces';
 
 export async function getCharacters(query: string): Promise<SearchResults> {
   const basicUrl = 'https://rickandmortyapi.com/api';
-  const characterUrl = `${basicUrl}/character/?name=${query.trim()}`;
+  const characterUrl =
+    query !== ''
+      ? `${basicUrl}/character/?name=${query}`
+      : `${basicUrl}/character/?page=1`;
   try {
     const response = await fetch(characterUrl);
     if (!response.ok) {
