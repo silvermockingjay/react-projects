@@ -5,7 +5,7 @@ interface MyProps {
   type?: 'button' | 'submit' | 'reset' | undefined;
   className?: string;
   text: string;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 export class Button extends React.Component<MyProps> {
