@@ -42,23 +42,25 @@ export class SearchPage extends React.Component {
   };
 
   handleSearch = async (): Promise<void> => {
-    const query = localStorage.getItem('query') || '';
-    this.setState({ loading: true, error: null });
+    const query = this.state.query.trim();
+    this.setState({ loading: true, fetchError: null });
     try {
       const data = await getCharacters(query);
       this.setState({ results: data.results, loading: false });
     } catch (error) {
       if (error instanceof Error) {
-        this.setState({ error: error.message, loading: false });
+        this.setState({ fetchError: error.message, loading: false });
       } else {
-        this.setState({ error: 'Unknown error occurred', loading: false });
+        this.setState({ fetchError: 'Unknown error occurred', loading: false });
       }
     }
   };
 
   render() {
     let content: React.ReactNode;
-    if (this.state.loading) {
+    if (this.state.hasError) {
+      throw new Error('Rendering error');
+    } else if (this.state.loading) {
       content = <Loader />;
     } else if (this.state.fetchError) {
       content = <FallBack text={this.state.fetchError} />;
