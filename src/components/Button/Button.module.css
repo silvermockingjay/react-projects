@@ -1,0 +1,20 @@
+button {
+  flex-shrink: 0;
+  min-width: 120px;
+  padding: 1rem;
+  background: white;
+  color: black;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.search-btn:hover,
+.error-btn:hover {
+  background-color: #ffe600;
+  transform: scale(1.03);
+}
+
