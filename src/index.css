@@ -5,7 +5,7 @@ body {
   justify-content: center;
   height: 100vh;
   background: linear-gradient(to bottom right, magenta, cyan);
-  font-family: "Arial", sans-serif;
+  font-family: 'Arial', sans-serif;
 }
 
 .searchBtn:hover,
