@@ -18,7 +18,7 @@ export class SearchForm extends React.Component<FormProps> {
           type="text"
           value={value}
           className="search-input"
-          placeholder="Search for character, planet or episode"
+          placeholder="Search for characters from Rick and Morty, e.g: Rick Sanchez"
           onChange={onChange}
         />
         <Button type="submit" className="search-btn" text="Search" />
