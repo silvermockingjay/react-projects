@@ -5,16 +5,23 @@ import { SearchForm } from '../components/SearchForm/SearchForm';
 import { CardList } from '../components/CardList/CardList';
 import { getCharacters } from '../services/APIRequests/getCharacters';
 import type { Character } from '../services/interfaces/interfaces';
+import { Loader } from '../components/Loader/Loader';
 
 interface State {
   query: string;
   results: Character[];
+  loading: boolean;
+  fetchError: string | null;
+  hasError: boolean;
 }
 
 export class SearchPage extends React.Component {
   state: State = {
     query: '',
     results: [],
+    loading: false,
+    fetchError: null,
+    hasError: false,
   };
 
   componentDidMount(): void {
@@ -34,8 +41,17 @@ export class SearchPage extends React.Component {
 
   handleSearch = async (): Promise<void> => {
     const query = localStorage.getItem('query') || '';
-    const data = await getCharacters(query);
-    this.setState({ results: data.results });
+    this.setState({ loading: true, error: null });
+    try {
+      const data = await getCharacters(query);
+      this.setState({ results: data.results, loading: false });
+    } catch (error) {
+      if (error instanceof Error) {
+        this.setState({ error: error.message, loading: false });
+      } else {
+        this.setState({ error: 'Unknown error occurred', loading: false });
+      }
+    }
   };
 
   render() {
@@ -49,7 +65,11 @@ export class SearchPage extends React.Component {
           />
         </Section>
         <Section>
-          <CardList cards={this.state.results} />
+          {this.state.loading ? (
+            <Loader />
+          ) : (
+            <CardList cards={this.state.results} />
+          )}
         </Section>
       </Main>
     );
