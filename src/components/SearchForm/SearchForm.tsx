@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from '../Button/Button';
 import { Input } from '../Input/Input';
-import './SearchForm.module.css';
+import styles from './SearchForm.module.css';
 
 interface FormProps {
   value: string;
@@ -13,15 +13,15 @@ export class SearchForm extends React.Component<FormProps> {
   render() {
     const { value, onSubmit, onChange } = this.props;
     return (
-      <form className="search-form" onSubmit={onSubmit}>
+      <form className={styles.searchForm} onSubmit={onSubmit}>
         <Input
           type="text"
           value={value}
-          className="search-input"
+          className={styles.searchInput}
           placeholder="Search for characters from Rick and Morty, e.g: Rick Sanchez"
           onChange={onChange}
         />
-        <Button type="submit" className="search-btn" text="Search" />
+        <Button type="submit" className="searchBtn" text="Search" />
       </form>
     );
   }

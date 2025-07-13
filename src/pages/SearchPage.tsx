@@ -84,7 +84,7 @@ export class SearchPage extends React.Component {
           <Button
             type="button"
             text="Error Button"
-            className="error-btn"
+            className="errorBtn"
             onClick={() => {
               this.setState({ hasError: true });
             }}

@@ -1,5 +1,5 @@
 import React from 'react';
-import './Card.module.css';
+import styles from './Card.module.css';
 
 interface CardProps {
   image: string;
@@ -16,13 +16,13 @@ export class Card extends React.Component<CardProps> {
     const { image, name, status, species, gender, origin, location } =
       this.props;
     return (
-      <div className="item-card">
-        <div className="image-container">
-          <img className="item-image" src={image} alt={name} />
+      <div className={styles.itemCard}>
+        <div className={styles.itemContainer}>
+          <img className={styles.itemImage} src={image} alt={name} />
         </div>
         <div>
-          <h3 className="item-title">{name}</h3>
-          <div className="item-content">
+          <h3 className={styles.itemTitle}>{name}</h3>
+          <div className={styles.itemContent}>
             <ul>
               <li>
                 <b>Status: </b> {status}

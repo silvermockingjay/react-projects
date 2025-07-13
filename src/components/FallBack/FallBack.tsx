@@ -1,5 +1,5 @@
 import React from 'react';
-import './FallBack.module.css';
+import styles from './FallBack.module.css';
 
 interface FallBackProps {
   text: string;
@@ -7,6 +7,6 @@ interface FallBackProps {
 
 export class FallBack extends React.Component<FallBackProps> {
   render() {
-    return <div className="fallback">{this.props.text}</div>;
+    return <div className={styles.fallback}>{this.props.text}</div>;
   }
 }

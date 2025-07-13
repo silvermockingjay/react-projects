@@ -1,5 +1,4 @@
 import React from 'react';
-import './ErrorBoundary.module.css';
 import { FallBack } from '../FallBack/FallBack';
 
 interface MyProps {

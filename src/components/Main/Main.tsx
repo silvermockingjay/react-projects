@@ -1,5 +1,5 @@
 import React from 'react';
-import './Main.module.css';
+import styles from './Main.module.css';
 
 interface MainProps {
   children: React.ReactNode;
@@ -7,6 +7,6 @@ interface MainProps {
 
 export class Main extends React.Component<MainProps> {
   render() {
-    return <main className="search-page">{this.props.children}</main>;
+    return <main className={styles.searchPage}>{this.props.children}</main>;
   }
 }

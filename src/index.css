@@ -4,6 +4,12 @@ body {
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-color: linear-gradient(to bottom right, magenta, cyan);
+  background: linear-gradient(to bottom right, magenta, cyan);
   font-family: "Arial", sans-serif;
+}
+
+.searchBtn:hover,
+.errorBtn:hover {
+  background-color: #ffe600;
+  transform: scale(1.03);
 }

@@ -1,4 +1,4 @@
-.search-input {
+.searchInput {
   flex: 1;
   height: 100%;
   padding: 0 1rem;
@@ -11,22 +11,22 @@
   transition: border-color 0.2s ease, background 0.2s ease;
 }
 
-.search-input::placeholder{
+.searchInput::placeholder{
   color: rgba(255, 255, 255, 0.6);
 }
 
-.search-input:focus {
+.searchInput:focus {
   outline: none;
   border-color: #fff;
   background: rgba(255, 255, 255, 0.25);
 }
 
-.search-form {
+.searchForm {
   display: flex;
   flex-direction: row;
   gap: 0.5rem;
   height: 48px;
-  max-width: 560px;
+  width: 70%;
   margin: 2rem auto;
   padding: 0 1rem;
 }

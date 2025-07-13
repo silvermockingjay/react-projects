@@ -1,9 +1,9 @@
-.cards-list {
+.cardList {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 24px;
   padding: 1rem;
-  max-width: 1200px;
+  width: 100%;
   margin: 0 auto;
 }
