@@ -1,10 +1,14 @@
 import React from 'react';
 import { Card } from '../Card/Card';
-import type { SearchResults } from '../../services/interfaces/interfaces';
+import type { Character } from '../../services/interfaces/interfaces';
 
-export class CardList extends React.Component<SearchResults> {
+interface CardListProps {
+  cards: Character[];
+}
+
+export class CardList extends React.Component<CardListProps> {
   render() {
-    const cards = this.props.results;
+    const { cards } = this.props;
     return (
       <div className="cards-list">
         {cards.map((card, index) => (
