@@ -9,12 +9,11 @@ interface CardProps {
   gender: string;
   origin: Record<string, string>;
   location: Record<string, string>;
-  episode: string[];
 }
 
 export class Card extends React.Component<CardProps> {
   render() {
-    const { image, name, status, species, gender, origin, location, episode } =
+    const { image, name, status, species, gender, origin, location } =
       this.props;
     return (
       <div className="item-card">
@@ -39,9 +38,6 @@ export class Card extends React.Component<CardProps> {
               </li>
               <li>
                 <b>Location: </b> {location.name}
-              </li>
-              <li>
-                <b>Episodes: </b> {episode.join(', ')}
               </li>
             </ul>
           </div>
