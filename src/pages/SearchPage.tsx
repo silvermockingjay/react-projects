@@ -26,9 +26,10 @@ export class SearchPage extends React.Component {
     hasError: false,
   };
 
-  componentDidMount(): void {
+  async componentDidMount(): Promise<void> {
     const query = localStorage.getItem('query') || '';
-    this.setState({ query: query });
+    this.setState({ query });
+    await this.handleSearch(query);
   }
 
   handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,12 +38,12 @@ export class SearchPage extends React.Component {
 
   handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
-    localStorage.setItem('query', this.state.query.trim());
-    await this.handleSearch();
+    const query = this.state.query.trim();
+    localStorage.setItem('query', query);
+    await this.handleSearch(query);
   };
 
-  handleSearch = async (): Promise<void> => {
-    const query = this.state.query.trim();
+  handleSearch = async (query: string): Promise<void> => {
     this.setState({ loading: true, fetchError: null });
     try {
       const data = await getCharacters(query);
@@ -74,7 +75,7 @@ export class SearchPage extends React.Component {
         <Section>
           <SearchForm
             onChange={this.handleInput}
-            onSubmit={this.handleSearch}
+            onSubmit={this.handleSubmit}
             value={this.state.query}
           />
         </Section>
