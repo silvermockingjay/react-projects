@@ -1,5 +1,7 @@
 import React from 'react';
 import { FallBack } from '../FallBack/FallBack';
+import { Main } from '../Main/Main';
+import { Section } from '../Section/Section';
 
 interface MyProps {
   children: React.ReactNode;
@@ -19,7 +21,13 @@ export class ErrorBoundary extends React.Component<MyProps, State> {
 
   render() {
     if (this.state.hasError) {
-      return <FallBack text="Something went wrong. Please refresh." />;
+      return (
+        <Main>
+          <Section>
+            <FallBack text="Something went wrong. Please refresh the page." />
+          </Section>
+        </Main>
+      );
     }
     return this.props.children;
   }
