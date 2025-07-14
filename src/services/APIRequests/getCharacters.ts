@@ -17,7 +17,7 @@ export async function getCharacters(query: string): Promise<SearchResults> {
     return searchResults;
   } catch (error) {
     throw new Error(
-      `Couldn't get characters data. Error: ${error instanceof Error ? error.message : String(error)}`
+      `No results found, try one more time. ${error instanceof Error ? error.message : String(error)}`
     );
   }
 }
