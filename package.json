@@ -10,7 +10,8 @@
     "format:fix": "prettier --write .",
     "preview": "vite preview",
     "prepare": "husky",
-    "test": "vitest"
+    "test": "vitest",
+    "coverage": "vitest --coverage"
   },
   "dependencies": {
     "react": "^19.1.0",
