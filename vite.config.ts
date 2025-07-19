@@ -16,7 +16,7 @@ export default defineConfig({
         'src/**/*.test.{js,jsx,ts,tsx}',
         'src/**/*.spec.{js,jsx,ts,tsx}',
         'src/main.{js,jsx,ts,tsx}',
-        'src/setupTests.{js,ts}',
+        './vitest.setup.{js,ts}',
         'src/**/*.d.ts',
       ],
       all: true,
