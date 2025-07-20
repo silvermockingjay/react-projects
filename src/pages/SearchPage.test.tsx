@@ -83,31 +83,34 @@ describe('SearchPage', () => {
   });
 
   test('search page initially renders with the empty query because local storage is empty', async () => {
-    const localStorageSpy = vi
-      .spyOn(window.localStorage, 'getItem')
+    const getItemSpy = vi
+      .spyOn(window.localStorage.__proto__, 'getItem')
       .mockReturnValue('');
     (getCharacters as MockedFunction<typeof getCharacters>).mockResolvedValue(
       searchResultsEmptyQuery
     );
     render(<SearchPage />);
+    expect(getItemSpy).toHaveBeenCalledWith('query');
     expect(getCharacters).toHaveBeenCalledWith('');
     expect(await screen.findAllByRole('list')).toHaveLength(2);
-    localStorageSpy.mockRestore();
+    getItemSpy.mockRestore();
   });
 
   test('search page shows results when user searches for the character', async () => {
-    const { user } = userSetUp(<SearchPage />);
-    const input = screen.getByRole('textbox');
-    await user.type(input, 'Morty');
-    const localStorageSpy = vi
-      .spyOn(window.localStorage, 'getItem')
-      .mockReturnValue('Morty');
-    const button = screen.getByRole('button', { name: /search/i });
-    await user.click(button);
+    const setItemSpy = vi.spyOn(window.localStorage.__proto__, 'setItem');
     (getCharacters as MockedFunction<typeof getCharacters>).mockResolvedValue(
       searchResultsQuery
     );
-    expect(await screen.findAllByRole('list')).toHaveLength(2);
-    localStorageSpy.mockRestore();
+    const { user } = userSetUp(<SearchPage />);
+    const input = screen.getByRole('textbox');
+    await user.type(input, 'Morty');
+    const button = screen.getByRole('button', { name: /search/i });
+    await user.click(button);
+    expect(setItemSpy).toHaveBeenCalledWith('query', 'Morty');
+    expect(getCharacters).toHaveBeenCalledWith('Morty');
+    expect(await screen.findAllByText(/Morty Smith|Alien Morty/)).toHaveLength(
+      2
+    );
+    setItemSpy.mockRestore();
   });
 });
