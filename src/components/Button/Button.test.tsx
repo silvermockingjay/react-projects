@@ -19,6 +19,10 @@ const mockData: ButtonProps[] = [
 ];
 
 describe('Button', () => {
+  beforeEach(() => {
+    onClick.mockClear();
+  });
+
   test('button renders successfully with all props', () => {
     render(<Button {...mockData[0]} />);
     const button = screen.getByRole('button');

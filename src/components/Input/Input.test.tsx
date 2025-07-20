@@ -19,6 +19,10 @@ const mockData: InputProps[] = [
 ];
 
 describe('Input', () => {
+  beforeEach(() => {
+    mockOnChange.mockClear();
+  });
+
   mockData.forEach((setOfAttributes) => {
     test('input renders successfully with provided attributes', () => {
       render(<Input {...setOfAttributes} />);

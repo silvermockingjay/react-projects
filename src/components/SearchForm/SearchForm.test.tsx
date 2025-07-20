@@ -13,6 +13,11 @@ const mockData: FormProps = {
 };
 
 describe('SearchForm', () => {
+  beforeEach(() => {
+    mockOnChange.mockClear();
+    mockOnSubmit.mockClear();
+  });
+
   test('renders form with input and button', () => {
     render(<SearchForm {...mockData} />);
     expect(screen.getByRole('textbox')).toBeInTheDocument();
