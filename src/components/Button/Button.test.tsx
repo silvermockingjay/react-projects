@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import { Button } from './Button';
 import type { ButtonProps } from './Button';
 import styles from './Button.module.css';
+import { userSetUp } from '../../test-utils/test-utils';
 
 const onClick = vi.fn();
 
@@ -31,9 +31,8 @@ describe('Button', () => {
   });
 
   test('calls the onClick callback handler', async () => {
-    render(<Button {...mockData[0]} />);
+    const { user } = userSetUp(<Button {...mockData[0]} />);
     const button = screen.getByRole('button');
-    const user = userEvent.setup();
     await user.click(button);
     expect(onClick).toHaveBeenCalled();
   });
