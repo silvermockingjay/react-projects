@@ -3,15 +3,18 @@ import { FallBack } from '../FallBack/FallBack';
 import { Main } from '../Main/Main';
 import { Section } from '../Section/Section';
 
-interface MyProps {
+export interface ErrorBoundaryProps {
   children: React.ReactNode;
 }
 
-interface State {
+interface ErrorBoundaryState {
   hasError: boolean;
 }
 
-export class ErrorBoundary extends React.Component<MyProps, State> {
+export class ErrorBoundary extends React.Component<
+  ErrorBoundaryProps,
+  ErrorBoundaryState
+> {
   state = { hasError: false };
 
   componentDidCatch(error: Error): void {
