@@ -36,7 +36,7 @@ const mockData: CardListProps = {
 };
 
 describe('CardList', () => {
-  it('renders successfully CardList with all props', () => {
+  test('renders successfully CardList with all props', () => {
     render(<CardList {...mockData} />);
     expect(screen.getByText('Rick Sanchez')).toBeInTheDocument();
     expect(screen.getByText('Morty Smith')).toBeInTheDocument();
