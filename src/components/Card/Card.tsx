@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './Card.module.css';
 
-interface CardProps {
+export interface CardProps {
   image: string;
   name: string;
   status: string;

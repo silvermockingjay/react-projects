@@ -3,7 +3,7 @@ import { Card } from '../Card/Card';
 import type { Character } from '../../services/interfaces/interfaces';
 import styles from './CardList.module.css';
 
-interface CardListProps {
+export interface CardListProps {
   cards: Character[];
 }
 

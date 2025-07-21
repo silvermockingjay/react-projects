@@ -3,7 +3,7 @@ import { Button } from '../Button/Button';
 import { Input } from '../Input/Input';
 import styles from './SearchForm.module.css';
 
-interface FormProps {
+export interface FormProps {
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
