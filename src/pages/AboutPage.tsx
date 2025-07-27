@@ -1,6 +1,6 @@
 export function AboutPage() {
   return (
-    <>
+    <div data-testId="about-page-content">
       <div>
         Hi! I&#39;m Anastasia. <br />
         I&#39;m a motivated frontend developer passionate about creating
@@ -19,6 +19,6 @@ export function AboutPage() {
           RS School React 2025 Q3 course
         </a>
       </div>
-    </>
+    </div>
   );
 }
