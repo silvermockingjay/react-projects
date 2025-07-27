@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './Card.module.css';
+import type { Location } from '../../services/interfaces/interfaces';
 
 export interface CardProps {
   image: string;
@@ -7,8 +8,8 @@ export interface CardProps {
   status: string;
   species: string;
   gender: string;
-  origin: Record<string, string>;
-  location: Record<string, string>;
+  origin: Location;
+  location: Location;
 }
 
 export class Card extends React.Component<CardProps> {
