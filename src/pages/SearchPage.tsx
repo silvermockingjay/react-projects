@@ -1,4 +1,4 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 import { CustomMain } from '../components/CustomMain/CustomMain';
 import { CustomSection } from '../components/CustomSection/CustomSection';
 import { SearchForm } from '../components/SearchForm/SearchForm';
@@ -7,90 +7,75 @@ import { getCharacters } from '../services/APIRequests/getCharacters';
 import type { Character } from '../services/interfaces/interfaces';
 import { Loader } from '../components/Loader/Loader';
 import { Fallback } from '../components/FallBack/Fallback';
-import { CustomButton } from '../components/CustomButton/CustomButton';
 
-interface State {
-  query: string;
-  results: Character[];
-  loading: boolean;
-  fetchError: string | null;
-  hasError: boolean;
-}
+export function SearchPage() {
+  const [query, setQuery] = useState('');
+  const [results, setResults] = useState<Character[] | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [fetchError, setFetchError] = useState<string | null>(null);
 
-export class SearchPage extends React.Component {
-  state: State = {
-    query: '',
-    results: [],
-    loading: false,
-    fetchError: null,
-    hasError: false,
-  };
+  useEffect(() => {
+    const fetchCards = async (): Promise<void> => {
+      const character = localStorage.getItem('query') || '';
+      setQuery(character);
+      await handleSearch(character);
+    };
 
-  async componentDidMount(): Promise<void> {
-    const query = localStorage.getItem('query') || '';
-    this.setState({ query });
-    await this.handleSearch(query);
-  }
+    fetchCards();
+  }, []);
 
-  handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ query: e.target.value });
-  };
-
-  handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
-    e.preventDefault();
-    const query = this.state.query.trim();
-    localStorage.setItem('query', query);
-    await this.handleSearch(query);
-  };
-
-  handleSearch = async (query: string): Promise<void> => {
-    this.setState({ loading: true, fetchError: null });
+  const handleSearch = async (query: string): Promise<void> => {
+    setLoading(true);
+    setFetchError(null);
     try {
       const data = await getCharacters(query);
-      this.setState({ results: data.results, loading: false });
+      setResults(data.results);
+      setLoading(false);
     } catch (error) {
       if (error instanceof Error) {
-        this.setState({ fetchError: error.message, loading: false });
+        setFetchError(error.message);
+        setLoading(false);
       } else {
-        this.setState({ fetchError: 'Unknown error occurred', loading: false });
+        setFetchError('Unknown error occurred');
+        setLoading(false);
       }
     }
   };
 
-  render() {
-    let content: React.ReactNode;
-    if (this.state.hasError) {
-      throw new Error('Rendering error');
-    } else if (this.state.loading) {
-      content = <Loader />;
-    } else if (this.state.fetchError) {
-      content = <Fallback text={this.state.fetchError} />;
-    } else if (this.state.results.length === 0) {
-      content = <Fallback text="No results found, try another character" />;
-    } else {
-      content = <CardList cards={this.state.results} />;
-    }
-    return (
-      <CustomMain>
-        <CustomSection>
-          <SearchForm
-            onChange={this.handleInput}
-            onSubmit={this.handleSubmit}
-            value={this.state.query}
-          />
-        </CustomSection>
-        <CustomSection>{content}</CustomSection>
-        <CustomSection>
-          <CustomButton
-            type="button"
-            text="Error Button"
-            customClass="errorBtn"
-            onClick={() => {
-              this.setState({ hasError: true });
-            }}
-          />
-        </CustomSection>
-      </CustomMain>
-    );
+  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setQuery(e.target.value);
+  };
+
+  const handleSubmit = async (
+    e: React.FormEvent<HTMLFormElement>
+  ): Promise<void> => {
+    e.preventDefault();
+    const character = query.trim();
+    localStorage.setItem('query', character);
+    await handleSearch(character);
+  };
+
+  let content: React.ReactNode;
+  if (loading) {
+    content = <Loader />;
+  } else if (fetchError) {
+    content = <Fallback text={fetchError} />;
+  } else if (results?.length === 0) {
+    content = <Fallback text="No results found, try another character" />;
+  } else if (results) {
+    content = <CardList cards={results} />;
   }
+
+  return (
+    <CustomMain>
+      <CustomSection>
+        <SearchForm
+          onChange={handleInput}
+          onSubmit={handleSubmit}
+          value={query}
+        />
+      </CustomSection>
+      <CustomSection>{content}</CustomSection>
+    </CustomMain>
+  );
 }
