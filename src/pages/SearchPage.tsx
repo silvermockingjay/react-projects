@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useLocalStorage } from '../services/CustomHooks/useLocalStorage';
 import { CustomMain } from '../components/CustomMain/CustomMain';
 import { CustomSection } from '../components/CustomSection/CustomSection';
 import { SearchForm } from '../components/SearchForm/SearchForm';
@@ -13,16 +14,17 @@ export function SearchPage() {
   const [results, setResults] = useState<Character[] | null>(null);
   const [loading, setLoading] = useState(false);
   const [fetchError, setFetchError] = useState<string | null>(null);
+  const [localQuery, setLocalQuery] = useLocalStorage('query', '');
 
   useEffect(() => {
     const fetchCards = async (): Promise<void> => {
-      const character = localStorage.getItem('query') || '';
+      const character = localQuery;
       setQuery(character);
       await handleSearch(character);
     };
 
     fetchCards();
-  }, []);
+  }, [localQuery]);
 
   const handleSearch = async (query: string): Promise<void> => {
     setLoading(true);
@@ -51,7 +53,7 @@ export function SearchPage() {
   ): Promise<void> => {
     e.preventDefault();
     const character = query.trim();
-    localStorage.setItem('query', character);
+    setLocalQuery(character);
     await handleSearch(character);
   };
 
