@@ -1,5 +1,5 @@
 import { Component, type ErrorInfo } from 'react';
-import { FallBack } from '../FallBack/FallBack';
+import { Fallback } from '../FallBack/Fallback';
 import { Main } from '../Main/Main';
 import { Section } from '../Section/Section';
 
@@ -30,7 +30,7 @@ export class ErrorBoundary extends Component<
       return (
         <Main>
           <Section>
-            <FallBack text="Something went wrong. Please refresh the page." />
+            <Fallback text="Something went wrong. Please refresh the page." />
           </Section>
         </Main>
       );

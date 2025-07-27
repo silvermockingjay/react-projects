@@ -6,7 +6,7 @@ import { CardList } from '../components/CardList/CardList';
 import { getCharacters } from '../services/APIRequests/getCharacters';
 import type { Character } from '../services/interfaces/interfaces';
 import { Loader } from '../components/Loader/Loader';
-import { FallBack } from '../components/FallBack/FallBack';
+import { Fallback } from '../components/FallBack/Fallback';
 import { CustomButton } from '../components/CustomButton/CustomButton';
 
 interface State {
@@ -64,9 +64,9 @@ export class SearchPage extends React.Component {
     } else if (this.state.loading) {
       content = <Loader />;
     } else if (this.state.fetchError) {
-      content = <FallBack text={this.state.fetchError} />;
+      content = <Fallback text={this.state.fetchError} />;
     } else if (this.state.results.length === 0) {
-      content = <FallBack text="No results found, try another character" />;
+      content = <Fallback text="No results found, try another character" />;
     } else {
       content = <CardList cards={this.state.results} />;
     }

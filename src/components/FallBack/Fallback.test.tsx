@@ -1,9 +1,9 @@
 import { render, screen } from '@testing-library/react';
-import { FallBack } from './FallBack';
+import { Fallback } from './Fallback';
 
-describe('FallBack', () => {
+describe('Fallback', () => {
   test('renders successfully with the prop', () => {
-    render(<FallBack text="Mock text for fallback" />);
+    render(<Fallback text="Mock text for fallback" />);
     expect(screen.getByText('Mock text for fallback')).toBeInTheDocument();
   });
 });
