@@ -1,6 +1,6 @@
 import { Component, type ErrorInfo } from 'react';
 import { Fallback } from '../FallBack/Fallback';
-import { Main } from '../Main/Main';
+import { CustomMain } from '../CustomMain/CustomMain';
 import { Section } from '../Section/Section';
 
 export interface ErrorBoundaryProps {
@@ -28,11 +28,11 @@ export class ErrorBoundary extends Component<
   render() {
     if (this.state.error) {
       return (
-        <Main>
+        <CustomMain>
           <Section>
             <Fallback text="Something went wrong. Please refresh the page." />
           </Section>
-        </Main>
+        </CustomMain>
       );
     }
     return this.props.children;

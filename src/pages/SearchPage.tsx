@@ -1,5 +1,5 @@
 import React from 'react';
-import { Main } from '../components/Main/Main';
+import { CustomMain } from '../components/CustomMain/CustomMain';
 import { Section } from '../components/Section/Section';
 import { SearchForm } from '../components/SearchForm/SearchForm';
 import { CardList } from '../components/CardList/CardList';
@@ -71,7 +71,7 @@ export class SearchPage extends React.Component {
       content = <CardList cards={this.state.results} />;
     }
     return (
-      <Main>
+      <CustomMain>
         <Section>
           <SearchForm
             onChange={this.handleInput}
@@ -90,7 +90,7 @@ export class SearchPage extends React.Component {
             }}
           />
         </Section>
-      </Main>
+      </CustomMain>
     );
   }
 }
