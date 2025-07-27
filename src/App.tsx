@@ -1,8 +1,6 @@
-import React from 'react';
+import { type JSX } from 'react';
 import { SearchPage } from './pages/SearchPage';
 
-export class App extends React.Component {
-  render() {
-    return <SearchPage />;
-  }
+export function App(): JSX.Element {
+  return <SearchPage />;
 }
