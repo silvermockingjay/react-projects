@@ -1,7 +1,9 @@
-import { redirect } from 'react-router';
+import { useNavigate } from 'react-router';
 import { CustomButton } from '../components/CustomButton/CustomButton';
 
 export function NotFoundPage() {
+  const navigate = useNavigate();
+  const onClick = () => navigate('/');
   return (
     <div>
       <h1>Page not found</h1>
@@ -10,7 +12,7 @@ export function NotFoundPage() {
         type="button"
         text="Back to home"
         customClass="backHomeBtn"
-        onClick={() => redirect('/')}
+        onClick={onClick}
       />
     </div>
   );
