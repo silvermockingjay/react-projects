@@ -1,6 +1,38 @@
 import { type JSX } from 'react';
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  Outlet,
+  Route,
+  RouterProvider,
+} from 'react-router';
+import { ErrorBoundary } from './components/ErrorBoundary/ErrorBoundary';
+import { CustomMain } from './components/CustomMain/CustomMain';
 import { SearchPage } from './pages/SearchPage';
+import { AboutPage } from './pages/AboutPage';
+import { NotFoundPage } from './pages/NotFoundPage';
+
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <>
+      <Route
+        element={
+          <div>
+            <CustomMain>
+              <Outlet />
+            </CustomMain>
+          </div>
+        }
+        ErrorBoundary={ErrorBoundary}
+      >
+        <Route path="/" element={<SearchPage />} />
+        <Route path="/about" element={<AboutPage />} />
+      </Route>
+      <Route path="*" element={<NotFoundPage />} />
+    </>
+  )
+);
 
 export function App(): JSX.Element {
-  return <SearchPage />;
+  return <RouterProvider router={router} />;
 }

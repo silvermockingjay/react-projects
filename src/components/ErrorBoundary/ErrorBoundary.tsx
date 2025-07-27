@@ -4,7 +4,7 @@ import { CustomMain } from '../CustomMain/CustomMain';
 import { CustomSection } from '../CustomSection/CustomSection';
 
 export interface ErrorBoundaryProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 interface ErrorBoundaryState {
