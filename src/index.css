@@ -13,7 +13,7 @@ body {
 }
 
 .searchBtn:hover,
-.errorBtn:hover {
+.backHomeBtn:hover {
   background-color: #ffe600;
   transform: scale(1.03);
 }
