@@ -1,12 +1,10 @@
-import React from 'react';
+import { type JSX } from 'react';
 import styles from './CustomMain.module.css';
 
 interface MainProps {
   children: React.ReactNode;
 }
 
-export class CustomMain extends React.Component<MainProps> {
-  render() {
-    return <main className={styles.searchPage}>{this.props.children}</main>;
-  }
+export function CustomMain({ children }: MainProps): JSX.Element {
+  return <main className={styles.searchPage}>{children}</main>;
 }
