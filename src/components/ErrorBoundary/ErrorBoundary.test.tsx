@@ -5,15 +5,15 @@ import { userSetUp } from '../../test-utils/test-utils';
 
 describe('ErrorBoundary', () => {
   test('logs an error to console', async () => {
+    const getConsoleErrorSpy = vi
+      .spyOn(console, 'error')
+      .mockImplementation(() => {});
+
     const { user } = userSetUp(
       <ErrorBoundary>
         <App />
       </ErrorBoundary>
     );
-
-    const getConsoleErrorSpy = vi
-      .spyOn(console, 'error')
-      .mockImplementation(() => {});
     await user.click(screen.getByRole('button', { name: /error button/i }));
     expect(getConsoleErrorSpy).toBeCalled();
     getConsoleErrorSpy.mockRestore();
