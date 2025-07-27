@@ -4,6 +4,12 @@ import type { MockedFunction } from 'vitest';
 import type { SearchResults } from '../services/interfaces/interfaces';
 import { SearchPage } from './SearchPage';
 import { userSetUp } from '../test-utils/test-utils';
+import {
+  createMemoryRouter,
+  createRoutesFromElements,
+  Route,
+  RouterProvider,
+} from 'react-router';
 
 const searchResultsEmptyQuery: SearchResults = {
   info: { count: 2, pages: 1, next: 'urlOfTheNextPage', prev: null },
@@ -83,13 +89,22 @@ describe('SearchPage', () => {
   });
 
   test('search page initially renders with the empty query because local storage is empty', async () => {
+    const router = createMemoryRouter(
+      createRoutesFromElements(
+        <>
+          <Route path="/" element={<SearchPage />} />
+        </>
+      ),
+      { initialEntries: ['/'] }
+    );
+
     const getItemSpy = vi
       .spyOn(window.localStorage.__proto__, 'getItem')
       .mockReturnValue('');
     (getCharacters as MockedFunction<typeof getCharacters>).mockResolvedValue(
       searchResultsEmptyQuery
     );
-    render(<SearchPage />);
+    render(<RouterProvider router={router} />);
     expect(getItemSpy).toHaveBeenCalledWith('query');
     expect(getCharacters).toHaveBeenCalledWith('', 1);
     expect(await screen.findAllByRole('list')).toHaveLength(2);
@@ -97,11 +112,20 @@ describe('SearchPage', () => {
   });
 
   test('search page shows results when user searches for the character', async () => {
+    const router = createMemoryRouter(
+      createRoutesFromElements(
+        <>
+          <Route path="/" element={<SearchPage />} />
+        </>
+      ),
+      { initialEntries: ['/'] }
+    );
+
     const setItemSpy = vi.spyOn(window.localStorage.__proto__, 'setItem');
     (getCharacters as MockedFunction<typeof getCharacters>).mockResolvedValue(
       searchResultsQuery
     );
-    const { user } = userSetUp(<SearchPage />);
+    const { user } = userSetUp(<RouterProvider router={router} />);
     const input = screen.getByRole('textbox');
     await user.type(input, 'Morty');
     const button = screen.getByRole('button', { name: /search/i });
