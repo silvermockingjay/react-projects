@@ -91,7 +91,7 @@ describe('SearchPage', () => {
     );
     render(<SearchPage />);
     expect(getItemSpy).toHaveBeenCalledWith('query');
-    expect(getCharacters).toHaveBeenCalledWith('');
+    expect(getCharacters).toHaveBeenCalledWith('', 1);
     expect(await screen.findAllByRole('list')).toHaveLength(2);
     getItemSpy.mockRestore();
   });
@@ -107,7 +107,7 @@ describe('SearchPage', () => {
     const button = screen.getByRole('button', { name: /search/i });
     await user.click(button);
     expect(setItemSpy).toHaveBeenCalledWith('query', 'Morty');
-    expect(getCharacters).toHaveBeenCalledWith('Morty');
+    expect(getCharacters).toHaveBeenCalledWith('Morty', 1);
     expect(await screen.findAllByText(/Morty Smith|Alien Morty/)).toHaveLength(
       2
     );
