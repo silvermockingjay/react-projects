@@ -11,6 +11,7 @@ import { CustomMain } from './components/CustomMain/CustomMain';
 import { SearchPage } from './pages/SearchPage';
 import { AboutPage } from './pages/AboutPage';
 import { NotFoundPage } from './pages/NotFoundPage';
+import { CustomHeader } from './components/CustomHeader/CustomHeader';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -18,6 +19,7 @@ const router = createBrowserRouter(
       <Route
         element={
           <div>
+            <CustomHeader />
             <CustomMain>
               <Outlet />
             </CustomMain>
