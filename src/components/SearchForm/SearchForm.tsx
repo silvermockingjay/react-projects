@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from '../Button/Button';
+import { CustomButton } from '../CustomButton/CustomButton';
 import { Input } from '../Input/Input';
 import styles from './SearchForm.module.css';
 
@@ -21,7 +21,7 @@ export class SearchForm extends React.Component<FormProps> {
           placeholder="Search for characters from Rick and Morty, e.g: Rick Sanchez"
           onChange={onChange}
         />
-        <Button type="submit" className="searchBtn" text="Search" />
+        <CustomButton type="submit" customClass="searchBtn" text="Search" />
       </form>
     );
   }

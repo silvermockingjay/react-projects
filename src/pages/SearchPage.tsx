@@ -7,7 +7,7 @@ import { getCharacters } from '../services/APIRequests/getCharacters';
 import type { Character } from '../services/interfaces/interfaces';
 import { Loader } from '../components/Loader/Loader';
 import { FallBack } from '../components/FallBack/FallBack';
-import { Button } from '../components/Button/Button';
+import { CustomButton } from '../components/CustomButton/CustomButton';
 
 interface State {
   query: string;
@@ -81,10 +81,10 @@ export class SearchPage extends React.Component {
         </Section>
         <Section>{content}</Section>
         <Section>
-          <Button
+          <CustomButton
             type="button"
             text="Error Button"
-            className="errorBtn"
+            customClass="errorBtn"
             onClick={() => {
               this.setState({ hasError: true });
             }}
