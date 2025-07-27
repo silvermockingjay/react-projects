@@ -1,7 +1,7 @@
 import { Component, type ErrorInfo } from 'react';
 import { Fallback } from '../FallBack/Fallback';
 import { CustomMain } from '../CustomMain/CustomMain';
-import { Section } from '../Section/Section';
+import { CustomSection } from '../CustomSection/CustomSection';
 
 export interface ErrorBoundaryProps {
   children: React.ReactNode;
@@ -29,9 +29,9 @@ export class ErrorBoundary extends Component<
     if (this.state.error) {
       return (
         <CustomMain>
-          <Section>
+          <CustomSection>
             <Fallback text="Something went wrong. Please refresh the page." />
-          </Section>
+          </CustomSection>
         </CustomMain>
       );
     }

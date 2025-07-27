@@ -1,6 +1,6 @@
 import React from 'react';
 import { CustomMain } from '../components/CustomMain/CustomMain';
-import { Section } from '../components/Section/Section';
+import { CustomSection } from '../components/CustomSection/CustomSection';
 import { SearchForm } from '../components/SearchForm/SearchForm';
 import { CardList } from '../components/CardList/CardList';
 import { getCharacters } from '../services/APIRequests/getCharacters';
@@ -72,15 +72,15 @@ export class SearchPage extends React.Component {
     }
     return (
       <CustomMain>
-        <Section>
+        <CustomSection>
           <SearchForm
             onChange={this.handleInput}
             onSubmit={this.handleSubmit}
             value={this.state.query}
           />
-        </Section>
-        <Section>{content}</Section>
-        <Section>
+        </CustomSection>
+        <CustomSection>{content}</CustomSection>
+        <CustomSection>
           <CustomButton
             type="button"
             text="Error Button"
@@ -89,7 +89,7 @@ export class SearchPage extends React.Component {
               this.setState({ hasError: true });
             }}
           />
-        </Section>
+        </CustomSection>
       </CustomMain>
     );
   }
