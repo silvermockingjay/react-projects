@@ -8,10 +8,13 @@ import { getCharacters } from '../services/APIRequests/getCharacters';
 import type { Character } from '../services/interfaces/interfaces';
 import { Loader } from '../components/Loader/Loader';
 import { Fallback } from '../components/FallBack/Fallback';
+import { PaginationControls } from '../components/PaginationControls/PaginationControls';
 
 export function SearchPage() {
   const [query, setQuery] = useState('');
+  const [page, setPage] = useState(1);
   const [results, setResults] = useState<Character[] | null>(null);
+  const [totalPages, setTotalPages] = useState(0);
   const [loading, setLoading] = useState(false);
   const [fetchError, setFetchError] = useState<string | null>(null);
   const [localQuery, setLocalQuery] = useLocalStorage('query', '');
@@ -20,18 +23,19 @@ export function SearchPage() {
     const fetchCards = async (): Promise<void> => {
       const character = localQuery;
       setQuery(character);
-      await handleSearch(character);
+      await handleSearch(character, page);
     };
 
     fetchCards();
-  }, [localQuery]);
+  }, [localQuery, page]);
 
-  const handleSearch = async (query: string): Promise<void> => {
+  const handleSearch = async (query: string, page: number): Promise<void> => {
     setLoading(true);
     setFetchError(null);
     try {
-      const data = await getCharacters(query);
+      const data = await getCharacters(query, page);
       setResults(data.results);
+      setTotalPages(data.info.count);
       setLoading(false);
     } catch (error) {
       if (error instanceof Error) {
@@ -54,7 +58,20 @@ export function SearchPage() {
     e.preventDefault();
     const character = query.trim();
     setLocalQuery(character);
-    await handleSearch(character);
+    setPage(1);
+    await handleSearch(character, page);
+  };
+
+  const prevPage = async (): Promise<void> => {
+    const prevPage = page - 1;
+    setPage(prevPage);
+    await handleSearch(localQuery, prevPage);
+  };
+
+  const nextPage = async (): Promise<void> => {
+    const nextPage = page + 1;
+    setPage(nextPage);
+    await handleSearch(localQuery, nextPage);
   };
 
   let content: React.ReactNode;
@@ -65,7 +82,17 @@ export function SearchPage() {
   } else if (results?.length === 0) {
     content = <Fallback text="No results found, try another character" />;
   } else if (results) {
-    content = <CardList cards={results} />;
+    content = (
+      <>
+        <CardList cards={results} />
+        <PaginationControls
+          prevPage={prevPage}
+          nextPage={nextPage}
+          page={page}
+          totalPages={totalPages}
+        />
+      </>
+    );
   }
 
   return (

@@ -13,7 +13,15 @@ body {
 }
 
 .searchBtn:hover,
-.backHomeBtn:hover {
+.backHomeBtn:hover,
+.controlBtn:hover {
   background-color: #ffe600;
   transform: scale(1.03);
+}
+
+.inactive {
+  background-color: #ccc;
+  color: #666;
+  pointer-events: none;
+  cursor: not-allowed;
 }
