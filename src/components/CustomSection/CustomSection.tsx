@@ -1,14 +1,10 @@
-import React from 'react';
+import { type JSX } from 'react';
 import styles from './CustomSection.module.css';
 
 interface SectionProps {
   children: React.ReactNode;
 }
 
-export class CustomSection extends React.Component<SectionProps> {
-  render() {
-    return (
-      <section className={styles.pageSection}>{this.props.children}</section>
-    );
-  }
+export function CustomSection({ children }: SectionProps): JSX.Element {
+  return <section className={styles.pageSection}>{children}</section>;
 }
