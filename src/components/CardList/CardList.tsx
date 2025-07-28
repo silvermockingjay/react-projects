@@ -5,13 +5,14 @@ import styles from './CardList.module.css';
 
 export interface CardListProps {
   cards: Character[];
+  open: (e: React.MouseEvent<HTMLElement>) => void;
 }
 
-export function CardList({ cards }: CardListProps): JSX.Element {
+export function CardList({ cards, open }: CardListProps): JSX.Element {
   return (
     <div className={styles.cardList}>
       {cards.map((card, index) => (
-        <Card key={index} {...card} />
+        <Card key={index} openCardDetails={open} {...card} />
       ))}
     </div>
   );

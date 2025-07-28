@@ -33,6 +33,7 @@ const mockData: CardListProps = {
       created: '2017-11-04T18:50:21.651Z',
     },
   ],
+  open: vi.fn(),
 };
 
 describe('CardList', () => {
