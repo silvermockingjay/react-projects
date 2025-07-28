@@ -3,6 +3,7 @@ import styles from './Card.module.css';
 import type { Location } from '../../services/interfaces/interfaces';
 
 export interface CardProps {
+  id: number;
   image: string;
   name: string;
   status: string;
@@ -10,9 +11,11 @@ export interface CardProps {
   gender: string;
   origin: Location;
   location: Location;
+  openCardDetails: (e: React.MouseEvent<HTMLElement>) => void;
 }
 
 export function Card({
+  id,
   image,
   name,
   status,
@@ -20,9 +23,10 @@ export function Card({
   gender,
   origin,
   location,
+  openCardDetails,
 }: CardProps): JSX.Element {
   return (
-    <div className={styles.itemCard}>
+    <div className={styles.itemCard} onClick={openCardDetails} data-id={id}>
       <div className={styles.itemContainer}>
         <img className={styles.itemImage} src={image} alt={name} />
       </div>
