@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useLocalStorage } from '../services/CustomHooks/useLocalStorage';
 import { useSearchParams } from 'react-router';
-import { CustomMain } from '../components/CustomMain/CustomMain';
 import { CustomSection } from '../components/CustomSection/CustomSection';
 import { SearchForm } from '../components/SearchForm/SearchForm';
 import { CardList } from '../components/CardList/CardList';
@@ -102,7 +101,7 @@ export function SearchPage() {
   }
 
   return (
-    <CustomMain>
+    <>
       <CustomSection>
         <SearchForm
           onChange={handleInput}
@@ -111,6 +110,6 @@ export function SearchPage() {
         />
       </CustomSection>
       <CustomSection>{content}</CustomSection>
-    </CustomMain>
+    </>
   );
 }
