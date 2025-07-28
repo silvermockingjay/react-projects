@@ -79,6 +79,15 @@ export function SearchPage() {
     await handleSearch(localQuery, nextPage);
   };
 
+  useEffect(() => {
+    const fetchPage = async (): Promise<void> => {
+      const pageSearch = Number(params.get('page')) || 1;
+      setPage(pageSearch);
+      await handleSearch(localQuery, pageSearch);
+    };
+    fetchPage();
+  }, [params, localQuery]);
+
   let content: React.ReactNode;
   if (loading) {
     content = <Loader />;
