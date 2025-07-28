@@ -1,0 +1,21 @@
+.resultsView {
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 15px;
+}
+
+.partialViewRes {
+  width: 60%;
+}
+
+.totalViewRes {
+  width: 100%;
+}
+
+.partialViewDetails {
+  width: 40%;
+}
+
+.noViewDetails {
+  width: 0%;
+}

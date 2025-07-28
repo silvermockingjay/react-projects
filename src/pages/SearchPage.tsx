@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useLocalStorage } from '../services/CustomHooks/useLocalStorage';
-import { useSearchParams } from 'react-router';
+import { useNavigate, useSearchParams } from 'react-router';
 import { CustomSection } from '../components/CustomSection/CustomSection';
 import { SearchForm } from '../components/SearchForm/SearchForm';
 import { CardList } from '../components/CardList/CardList';
@@ -9,6 +9,8 @@ import type { Character } from '../services/interfaces/interfaces';
 import { Loader } from '../components/Loader/Loader';
 import { Fallback } from '../components/FallBack/Fallback';
 import { PaginationControls } from '../components/PaginationControls/PaginationControls';
+import { Outlet } from 'react-router';
+import styles from './SearchPage.module.css';
 
 export function SearchPage() {
   const [query, setQuery] = useState('');
@@ -19,16 +21,11 @@ export function SearchPage() {
   const [fetchError, setFetchError] = useState<string | null>(null);
   const [localQuery, setLocalQuery] = useLocalStorage('query', '');
   const [params, setParams] = useSearchParams();
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchCards = async (): Promise<void> => {
-      const character = localQuery;
-      setQuery(character);
-      await handleSearch(character, page);
-    };
-
-    fetchCards();
-  }, [localQuery, page]);
+  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setQuery(e.target.value);
+  };
 
   const handleSearch = async (query: string, page: number): Promise<void> => {
     setLoading(true);
@@ -49,10 +46,6 @@ export function SearchPage() {
     }
   };
 
-  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setQuery(e.target.value);
-  };
-
   const handleSubmit = async (
     e: React.FormEvent<HTMLFormElement>
   ): Promise<void> => {
@@ -62,6 +55,16 @@ export function SearchPage() {
     setPage(1);
     await handleSearch(character, page);
   };
+
+  useEffect(() => {
+    const fetchCards = async (): Promise<void> => {
+      const character = localQuery;
+      setQuery(character);
+      await handleSearch(character, page);
+    };
+
+    fetchCards();
+  }, [localQuery, page]);
 
   const prevPage = async (): Promise<void> => {
     const prevPage = page - 1;
@@ -88,6 +91,14 @@ export function SearchPage() {
     fetchPage();
   }, [params, localQuery]);
 
+  const openDetails = (e: React.MouseEvent<HTMLElement>): void => {
+    const detailsId = e.currentTarget.dataset.id || '';
+    params.set('details', detailsId);
+    setParams(params);
+    navigate(`/${page}/${detailsId}`);
+    e.currentTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
   let content: React.ReactNode;
   if (loading) {
     content = <Loader />;
@@ -98,7 +109,7 @@ export function SearchPage() {
   } else if (results) {
     content = (
       <>
-        <CardList cards={results} />
+        <CardList cards={results} open={openDetails} />
         <PaginationControls
           prevPage={prevPage}
           nextPage={nextPage}
@@ -109,6 +120,14 @@ export function SearchPage() {
     );
   }
 
+  const contentClass = params.get('details')
+    ? styles.partialViewRes
+    : styles.totalViewRes;
+
+  const outletClass = params.get('details')
+    ? styles.partialViewDetails
+    : styles.noViewDetails;
+
   return (
     <>
       <CustomSection>
@@ -118,7 +137,12 @@ export function SearchPage() {
           value={query}
         />
       </CustomSection>
-      <CustomSection>{content}</CustomSection>
+      <CustomSection customClass={styles.resultsView}>
+        <div className={contentClass}>{content}</div>
+        <div className={outletClass}>
+          <Outlet />
+        </div>
+      </CustomSection>
     </>
   );
 }
