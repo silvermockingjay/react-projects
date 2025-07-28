@@ -12,6 +12,7 @@ import { SearchPage } from './pages/SearchPage';
 import { AboutPage } from './pages/AboutPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { CustomHeader } from './components/CustomHeader/CustomHeader';
+import { CardDetails } from './components/CardDetails/CardDetails';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -27,7 +28,9 @@ const router = createBrowserRouter(
         }
         ErrorBoundary={ErrorBoundary}
       >
-        <Route path="/" element={<SearchPage />} />
+        <Route path="/" element={<SearchPage />}>
+          <Route path=":page/:detailsId" element={<CardDetails />} />
+        </Route>
         <Route path="/about" element={<AboutPage />} />
       </Route>
       <Route path="*" element={<NotFoundPage />} />
