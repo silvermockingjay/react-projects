@@ -1,5 +1,6 @@
 import type { JSX } from 'react';
 import { CustomButton } from '../CustomButton/CustomButton';
+import styles from './PaginationControls.module.css';
 
 interface PaginationProps {
   page: number;
@@ -17,7 +18,7 @@ export function PaginationControls({
   const nextPageClass =
     page === totalPages ? 'controlBtn inactive' : 'controlBtn';
   return (
-    <div className="paginationControls">
+    <div className={styles.paginationControls}>
       <CustomButton
         type="button"
         text="Prev"
