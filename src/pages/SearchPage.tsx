@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useLocalStorage } from '../services/CustomHooks/useLocalStorage';
-import { useNavigate, useSearchParams } from 'react-router';
+import { useNavigate, useParams, useSearchParams } from 'react-router';
 import { CustomSection } from '../components/CustomSection/CustomSection';
 import { SearchForm } from '../components/SearchForm/SearchForm';
 import { CardList } from '../components/CardList/CardList';
@@ -20,7 +20,7 @@ export function SearchPage() {
   const [loading, setLoading] = useState(false);
   const [fetchError, setFetchError] = useState<string | null>(null);
   const [localQuery, setLocalQuery] = useLocalStorage('query', '');
-  const [params, setParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -69,34 +69,33 @@ export function SearchPage() {
   const prevPage = async (): Promise<void> => {
     const prevPage = page - 1;
     setPage(prevPage);
-    params.set('page', `${prevPage}`);
-    setParams(params);
+    searchParams.set('page', `${prevPage}`);
+    setSearchParams(searchParams);
     await handleSearch(localQuery, prevPage);
   };
 
   const nextPage = async (): Promise<void> => {
     const nextPage = page + 1;
     setPage(nextPage);
-    params.set('page', `${nextPage}`);
-    setParams(params);
+    searchParams.set('page', `${nextPage}`);
+    setSearchParams(searchParams);
     await handleSearch(localQuery, nextPage);
   };
 
   useEffect(() => {
     const fetchPage = async (): Promise<void> => {
-      const pageSearch = Number(params.get('page')) || 1;
+      const pageSearch = Number(searchParams.get('page')) || 1;
       setPage(pageSearch);
       await handleSearch(localQuery, pageSearch);
     };
     fetchPage();
-  }, [params, localQuery]);
+  }, [searchParams, localQuery]);
 
   const openDetails = (e: React.MouseEvent<HTMLElement>): void => {
     const detailsId = e.currentTarget.dataset.id || '';
-    params.set('details', detailsId);
-    setParams(params);
+    searchParams.set('details', detailsId);
+    setSearchParams(searchParams);
     navigate(`/${page}/${detailsId}`);
-    e.currentTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   let content: React.ReactNode;
@@ -120,11 +119,13 @@ export function SearchPage() {
     );
   }
 
-  const contentClass = params.get('details')
+  const params = useParams();
+
+  const contentClass = params.details
     ? styles.partialViewRes
     : styles.totalViewRes;
 
-  const outletClass = params.get('details')
+  const outletClass = params.details
     ? styles.partialViewDetails
     : styles.noViewDetails;
 
