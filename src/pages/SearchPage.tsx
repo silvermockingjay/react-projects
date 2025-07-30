@@ -89,9 +89,10 @@ export function SearchPage() {
 
   const openDetails = (e: React.MouseEvent<HTMLElement>): void => {
     const detailsId = e.currentTarget.dataset.id || '';
-    searchParams.set('details', detailsId);
-    setSearchParams(searchParams);
-    navigate(`/${page}/${detailsId}`);
+    const newSearchParams = new URLSearchParams(searchParams);
+    newSearchParams.set('detailsId', detailsId);
+    setSearchParams(newSearchParams);
+    navigate(`/details?${newSearchParams.toString()}`);
   };
 
   let content: React.ReactNode;
