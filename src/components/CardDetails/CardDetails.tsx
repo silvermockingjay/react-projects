@@ -2,7 +2,7 @@ import type { JSX } from 'react';
 import type { Character } from '../../services/interfaces/interfaces';
 import styles from '../Card/Card.module.css';
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router';
+import { useNavigate, useSearchParams } from 'react-router';
 import { getCharacter } from '../../services/APIRequests/getCharacter';
 import { Loader } from '../Loader/Loader';
 import { Fallback } from '../FallBack/Fallback';
@@ -12,13 +12,13 @@ export function CardDetails(): JSX.Element {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [details, setDetails] = useState<Character | null>(null);
-  const params = useParams();
-  const id = Number(params.details) || 1;
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
   useEffect(() => {
     const getDetails = async (): Promise<void> => {
       setLoading(true);
+      const id = Number(searchParams.get('detailsId')) || 1;
       try {
         const results = await getCharacter(id);
         setDetails(results);
@@ -34,10 +34,12 @@ export function CardDetails(): JSX.Element {
       }
     };
     getDetails();
-  }, [id, setDetails]);
+  }, [searchParams]);
 
   const closeDetails = () => {
-    navigate('/');
+    const newSearchParams = new URLSearchParams(searchParams);
+    newSearchParams.delete('detailsId');
+    navigate(`/?${newSearchParams.toString()}`);
   };
 
   let content: React.ReactNode;
