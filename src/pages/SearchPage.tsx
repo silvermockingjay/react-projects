@@ -64,29 +64,27 @@ export function SearchPage() {
   useEffect(() => {
     const fetchCards = async (): Promise<void> => {
       const character = localQuery;
+      const pageQuery = Number(searchParams.get('page')) || 1;
+      setPage(pageQuery);
       setQuery(character);
-      await handleSearch(character, page);
+      await handleSearch(character, pageQuery);
     };
 
     fetchCards();
-  }, [localQuery, page]);
+  }, [localQuery, searchParams]);
 
   const prevPage = async (): Promise<void> => {
     const prevPage = page - 1;
-    setPage(prevPage);
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.set('page', `${prevPage}`);
     setSearchParams(newSearchParams);
-    await handleSearch(localQuery, prevPage);
   };
 
   const nextPage = async (): Promise<void> => {
     const nextPage = page + 1;
-    setPage(nextPage);
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.set('page', `${nextPage}`);
     setSearchParams(newSearchParams);
-    await handleSearch(localQuery, nextPage);
   };
 
   const openDetails = (e: React.MouseEvent<HTMLElement>): void => {
