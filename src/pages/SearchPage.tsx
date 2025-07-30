@@ -59,7 +59,6 @@ export function SearchPage() {
       newSearchParams.set('page', '1');
     }
     setSearchParams(newSearchParams);
-    await handleSearch(character, 1);
   };
 
   useEffect(() => {
@@ -89,15 +88,6 @@ export function SearchPage() {
     setSearchParams(newSearchParams);
     await handleSearch(localQuery, nextPage);
   };
-
-  useEffect(() => {
-    const fetchPage = async (): Promise<void> => {
-      const pageSearch = Number(searchParams.get('page')) || 1;
-      setPage(pageSearch);
-      await handleSearch(localQuery, pageSearch);
-    };
-    fetchPage();
-  }, [searchParams, localQuery]);
 
   const openDetails = (e: React.MouseEvent<HTMLElement>): void => {
     const detailsId = e.currentTarget.dataset.id || '';
