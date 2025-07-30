@@ -29,7 +29,7 @@ const router = createBrowserRouter(
         ErrorBoundary={ErrorBoundary}
       >
         <Route path="/" element={<SearchPage />}>
-          <Route path=":page/:details" element={<CardDetails />} />
+          <Route path="details" element={<CardDetails />} />
         </Route>
         <Route path="/about" element={<AboutPage />} />
       </Route>
