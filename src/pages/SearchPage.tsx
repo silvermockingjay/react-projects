@@ -33,7 +33,7 @@ export function SearchPage() {
     try {
       const data = await getCharacters(query, page);
       setResults(data.results);
-      setTotalPages(data.info.count);
+      setTotalPages(data.info.pages);
       setLoading(false);
     } catch (error) {
       if (error instanceof Error) {
