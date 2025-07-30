@@ -53,7 +53,13 @@ export function SearchPage() {
     const character = query.trim();
     setLocalQuery(character);
     setPage(1);
-    await handleSearch(character, page);
+    const newSearchParams = new URLSearchParams();
+    if (character) {
+      newSearchParams.set('search', character);
+      newSearchParams.set('page', '1');
+    }
+    setSearchParams(newSearchParams);
+    await handleSearch(character, 1);
   };
 
   useEffect(() => {
@@ -69,16 +75,18 @@ export function SearchPage() {
   const prevPage = async (): Promise<void> => {
     const prevPage = page - 1;
     setPage(prevPage);
-    searchParams.set('page', `${prevPage}`);
-    setSearchParams(searchParams);
+    const newSearchParams = new URLSearchParams(searchParams);
+    newSearchParams.set('page', `${prevPage}`);
+    setSearchParams(newSearchParams);
     await handleSearch(localQuery, prevPage);
   };
 
   const nextPage = async (): Promise<void> => {
     const nextPage = page + 1;
     setPage(nextPage);
-    searchParams.set('page', `${nextPage}`);
-    setSearchParams(searchParams);
+    const newSearchParams = new URLSearchParams(searchParams);
+    newSearchParams.set('page', `${nextPage}`);
+    setSearchParams(newSearchParams);
     await handleSearch(localQuery, nextPage);
   };
 
