@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useLocalStorage } from '../services/CustomHooks/useLocalStorage';
-import { useNavigate, useParams, useSearchParams } from 'react-router';
+import { useLocation, useNavigate, useSearchParams } from 'react-router';
 import { CustomSection } from '../components/CustomSection/CustomSection';
 import { SearchForm } from '../components/SearchForm/SearchForm';
 import { CardList } from '../components/CardList/CardList';
@@ -13,15 +13,18 @@ import { Outlet } from 'react-router';
 import styles from './SearchPage.module.css';
 
 export function SearchPage() {
-  const [query, setQuery] = useState('');
+  const [localQuery, setLocalQuery] = useLocalStorage('query', '');
+  const [query, setQuery] = useState(() => localQuery);
   const [page, setPage] = useState(1);
   const [results, setResults] = useState<Character[] | null>(null);
   const [totalPages, setTotalPages] = useState(0);
   const [loading, setLoading] = useState(false);
   const [fetchError, setFetchError] = useState<string | null>(null);
-  const [localQuery, setLocalQuery] = useLocalStorage('query', '');
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
+
+  const location = useLocation();
+  const areDetailsOpen = location.pathname === '/details';
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
@@ -58,20 +61,40 @@ export function SearchPage() {
       newSearchParams.set('search', character);
       newSearchParams.set('page', '1');
     }
-    setSearchParams(newSearchParams);
+
+    if (areDetailsOpen) {
+      navigate(`/?${newSearchParams.toString()}`);
+    } else {
+      setSearchParams(newSearchParams);
+    }
   };
+
+  const renderedOnMount = useRef(false);
+  useEffect(() => {
+    if (renderedOnMount.current) return;
+    renderedOnMount.current = true;
+    const character = localQuery;
+    if (character) {
+      const newSearchParams = new URLSearchParams();
+      newSearchParams.set('search', character);
+      newSearchParams.set('page', '1');
+      setPage(1);
+      setQuery(character);
+      setSearchParams(newSearchParams);
+    }
+  }, [localQuery, setSearchParams]);
 
   useEffect(() => {
     const fetchCards = async (): Promise<void> => {
-      const character = localQuery;
+      const searchQuery = searchParams.get('search') || '';
       const pageQuery = Number(searchParams.get('page')) || 1;
+      setQuery(searchQuery);
       setPage(pageQuery);
-      setQuery(character);
-      await handleSearch(character, pageQuery);
+      await handleSearch(searchQuery, pageQuery);
     };
 
     fetchCards();
-  }, [localQuery, searchParams]);
+  }, [searchParams]);
 
   const prevPage = async (): Promise<void> => {
     const prevPage = page - 1;
@@ -116,13 +139,11 @@ export function SearchPage() {
     );
   }
 
-  const params = useParams();
-
-  const contentClass = params.details
+  const contentClass = areDetailsOpen
     ? styles.partialViewRes
     : styles.totalViewRes;
 
-  const outletClass = params.details
+  const outletClass = areDetailsOpen
     ? styles.partialViewDetails
     : styles.noViewDetails;
 
