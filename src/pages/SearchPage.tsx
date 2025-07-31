@@ -94,20 +94,29 @@ export function SearchPage() {
     };
 
     fetchCards();
-  }, [searchParams]);
+  }, [searchParams, areDetailsOpen, navigate]);
+
+  const closeDetailsOnPagination = (params: URLSearchParams): void => {
+    if (areDetailsOpen) {
+      params.delete('detailsId');
+      navigate(`/?${params.toString()}`);
+    } else {
+      setSearchParams(params);
+    }
+  };
 
   const prevPage = async (): Promise<void> => {
     const prevPage = page - 1;
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.set('page', `${prevPage}`);
-    setSearchParams(newSearchParams);
+    closeDetailsOnPagination(newSearchParams);
   };
 
   const nextPage = async (): Promise<void> => {
     const nextPage = page + 1;
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.set('page', `${nextPage}`);
-    setSearchParams(newSearchParams);
+    closeDetailsOnPagination(newSearchParams);
   };
 
   const openDetails = (e: React.MouseEvent<HTMLElement>): void => {
