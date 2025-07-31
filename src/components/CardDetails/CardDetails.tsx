@@ -1,6 +1,6 @@
 import type { JSX } from 'react';
 import type { Character } from '../../services/interfaces/interfaces';
-import styles from '../Card/Card.module.css';
+import styles from './CardDetails.module.css';
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router';
 import { getCharacter } from '../../services/APIRequests/getCharacter';
