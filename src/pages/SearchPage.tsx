@@ -125,6 +125,7 @@ export function SearchPage() {
     newSearchParams.set('detailsId', detailsId);
     setSearchParams(newSearchParams);
     navigate(`/details?${newSearchParams.toString()}`);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   let content: React.ReactNode;
