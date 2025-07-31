@@ -3,6 +3,7 @@ import { Card } from './Card';
 import type { CardProps } from './Card';
 
 const mockData: CardProps = {
+  id: 1,
   image: 'someURL',
   name: 'John',
   status: 'alive',
@@ -10,6 +11,7 @@ const mockData: CardProps = {
   gender: 'male',
   origin: { name: 'Earth', url: 'someURL' },
   location: { name: 'Earth', url: 'someURL' },
+  openCardDetails: vi.fn(),
 };
 
 describe('Card', () => {
