@@ -1,6 +1,6 @@
 import type { JSX } from 'react';
 import type { Character } from '../../services/interfaces/interfaces';
-import styles from './CardDetails.module.css';
+import styles from '../Card/Card.module.css';
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router';
 import { getCharacter } from '../../services/APIRequests/getCharacter';
@@ -49,40 +49,45 @@ export function CardDetails(): JSX.Element {
     content = <Fallback text={error} />;
   } else {
     content = (
-      <>
-        <h3 className={styles.cardDetailsTitle}>{details?.name}</h3>
-        <div>
-          <ul>
-            <li>
-              <b>Status: </b> {details?.status}
-            </li>
-            <li>
-              <b>Species: </b> {details?.species}
-            </li>
-            <li>
-              <b>Gender: </b> {details?.gender}
-            </li>
-            <li>
-              <b>Origin: </b> {details?.origin.name}
-            </li>
-            <li>
-              <b>Location: </b> {details?.location.name}
-            </li>
-          </ul>
+      <div className={styles.itemCard}>
+        <div className={styles.itemContainer}>
+          <CustomButton
+            type="button"
+            text="X"
+            customClass={styles.closeBtn}
+            onClick={closeDetails}
+          />
+          <img
+            className={styles.itemImage}
+            src={details?.image}
+            alt={details?.name}
+          />
         </div>
-      </>
+        <div>
+          <h3 className={styles.itemTitle}>{details?.name}</h3>
+          <div className={styles.itemContent}>
+            <ul>
+              <li>
+                <b>Status: </b> {details?.status}
+              </li>
+              <li>
+                <b>Species: </b> {details?.species}
+              </li>
+              <li>
+                <b>Gender: </b> {details?.gender}
+              </li>
+              <li>
+                <b>Origin: </b> {details?.origin.name}
+              </li>
+              <li>
+                <b>Location: </b> {details?.location.name}
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
     );
   }
 
-  return (
-    <div className={styles.cardDetails}>
-      <CustomButton
-        type="button"
-        text="X"
-        customClass={styles.closeBtn}
-        onClick={closeDetails}
-      />
-      {content}
-    </div>
-  );
+  return content;
 }
