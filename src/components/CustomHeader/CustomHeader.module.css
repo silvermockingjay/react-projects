@@ -20,6 +20,6 @@
 .link:hover,
 .linkActive {
   background-color: #ffe600;
-  color: black;
+  color: #000;
   border-color: #ffe600;
 }

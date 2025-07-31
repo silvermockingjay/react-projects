@@ -2,7 +2,7 @@
   height: 120px;
   width: 120px;
   border: 6px solid;
-  border-color: white transparent white transparent;
+  border-color: #fff transparent #fff transparent;
   border-radius: 50%;
   animation: spin 1.3s ease infinite;
 }
