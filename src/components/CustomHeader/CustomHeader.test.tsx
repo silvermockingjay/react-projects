@@ -9,7 +9,7 @@ import { screen } from '@testing-library/react';
 import { CustomHeader } from './CustomHeader';
 import { CustomMain } from '../CustomMain/CustomMain';
 import { Outlet } from 'react-router';
-import { AboutPage } from '../../pages/AboutPage';
+import { AboutPage } from '../../pages/AboutPage/AboutPage';
 
 describe('CustomHeader', () => {
   test('renders header successfully', async () => {
