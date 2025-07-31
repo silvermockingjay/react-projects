@@ -1,11 +1,11 @@
 .resultsView {
   flex-direction: row;
   align-items: flex-start;
-  gap: 15px;
+  gap: 30px;
 }
 
 .partialViewRes {
-  width: 60%;
+  width: 65%;
 }
 
 .totalViewRes {
@@ -13,7 +13,12 @@
 }
 
 .partialViewDetails {
-  width: 40%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 1rem;
+  width: 35%;
 }
 
 .noViewDetails {
