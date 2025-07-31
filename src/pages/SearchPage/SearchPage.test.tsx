@@ -1,9 +1,9 @@
 import { render, screen } from '@testing-library/react';
-import { getCharacters } from '../services/APIRequests/getCharacters';
+import { getCharacters } from '../../services/APIRequests/getCharacters';
 import type { MockedFunction } from 'vitest';
-import type { SearchResults } from '../services/interfaces/interfaces';
+import type { SearchResults } from '../../services/interfaces/interfaces';
 import { SearchPage } from './SearchPage';
-import { userSetUp } from '../test-utils/test-utils';
+import { userSetUp } from '../../test-utils/test-utils';
 import {
   createMemoryRouter,
   createRoutesFromElements,

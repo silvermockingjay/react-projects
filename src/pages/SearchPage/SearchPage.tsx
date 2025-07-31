@@ -1,14 +1,14 @@
 import { useEffect, useState, useRef } from 'react';
-import { useLocalStorage } from '../services/CustomHooks/useLocalStorage';
+import { useLocalStorage } from '../../services/CustomHooks/useLocalStorage';
 import { useLocation, useNavigate, useSearchParams } from 'react-router';
-import { CustomSection } from '../components/CustomSection/CustomSection';
-import { SearchForm } from '../components/SearchForm/SearchForm';
-import { CardList } from '../components/CardList/CardList';
-import { getCharacters } from '../services/APIRequests/getCharacters';
-import type { Character } from '../services/interfaces/interfaces';
-import { Loader } from '../components/Loader/Loader';
-import { Fallback } from '../components/FallBack/Fallback';
-import { PaginationControls } from '../components/PaginationControls/PaginationControls';
+import { CustomSection } from '../../components/CustomSection/CustomSection';
+import { SearchForm } from '../../components/SearchForm/SearchForm';
+import { CardList } from '../../components/CardList/CardList';
+import { getCharacters } from '../../services/APIRequests/getCharacters';
+import type { Character } from '../../services/interfaces/interfaces';
+import { Loader } from '../../components/Loader/Loader';
+import { Fallback } from '../../components/FallBack/Fallback';
+import { PaginationControls } from '../../components/PaginationControls/PaginationControls';
 import { Outlet } from 'react-router';
 import styles from './SearchPage.module.css';
 

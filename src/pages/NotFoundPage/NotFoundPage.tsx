@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router';
-import { CustomButton } from '../components/CustomButton/CustomButton';
+import { CustomButton } from '../../components/CustomButton/CustomButton';
 
 export function NotFoundPage() {
   const navigate = useNavigate();

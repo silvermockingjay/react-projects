@@ -1,13 +1,13 @@
 import { screen } from '@testing-library/react';
 import { NotFoundPage } from './NotFoundPage';
-import { userSetUp } from '../test-utils/test-utils';
+import { userSetUp } from '../../test-utils/test-utils';
 import {
   createMemoryRouter,
   createRoutesFromElements,
   Route,
   RouterProvider,
 } from 'react-router';
-import { SearchPage } from './SearchPage';
+import { SearchPage } from '../SearchPage/SearchPage';
 
 describe('NotFoundPage', () => {
   test('renders successfully and back home button redirects to the main page', async () => {

@@ -8,9 +8,9 @@ import {
 } from 'react-router';
 import { ErrorBoundary } from './components/ErrorBoundary/ErrorBoundary';
 import { CustomMain } from './components/CustomMain/CustomMain';
-import { SearchPage } from './pages/SearchPage';
-import { AboutPage } from './pages/AboutPage';
-import { NotFoundPage } from './pages/NotFoundPage';
+import { SearchPage } from './pages/SearchPage/SearchPage';
+import { AboutPage } from './pages/AboutPage/AboutPage';
+import { NotFoundPage } from './pages/NotFoundPage/NotFoundPage';
 import { CustomHeader } from './components/CustomHeader/CustomHeader';
 import { CardDetails } from './components/CardDetails/CardDetails';
 
