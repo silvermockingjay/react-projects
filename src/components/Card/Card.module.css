@@ -3,7 +3,7 @@
   flex-direction: column;
   border-radius: 20px;
   overflow: hidden;
-  background-color: white;
+  background-color: #fff;
   width: 310px;
 }
 
@@ -29,9 +29,9 @@
   flex-direction: column;
   gap: 8px;
   padding: 20px;
-  background-color: #ffffff;
+  background-color: #fff;
   box-sizing: border-box;
-  color: #222;
+  color: #000;
 }
 
 .itemTitle {

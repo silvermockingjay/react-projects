@@ -1,6 +1,6 @@
 import type { JSX } from 'react';
 import type { Character } from '../../services/interfaces/interfaces';
-import styles from '../Card/Card.module.css';
+import styles from './CardDetails.module.css';
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router';
 import { getCharacter } from '../../services/APIRequests/getCharacter';
@@ -50,8 +50,8 @@ export function CardDetails(): JSX.Element {
   } else {
     content = (
       <>
-        <h3 className={styles.itemTitle}>{details?.name}</h3>
-        <div className={styles.itemContent}>
+        <h3 className={styles.cardDetailsTitle}>{details?.name}</h3>
+        <div>
           <ul>
             <li>
               <b>Status: </b> {details?.status}
@@ -75,11 +75,11 @@ export function CardDetails(): JSX.Element {
   }
 
   return (
-    <div>
+    <div className={styles.cardDetails}>
       <CustomButton
         type="button"
         text="X"
-        customClass="closeBtn"
+        customClass={styles.closeBtn}
         onClick={closeDetails}
       />
       {content}
