@@ -1,3 +1,7 @@
+vi.mock('../../services/APIRequests/getCharacters', () => ({
+  getCharacters: vi.fn(),
+}));
+
 import { render, screen } from '@testing-library/react';
 import { getCharacters } from '../../services/APIRequests/getCharacters';
 import type { MockedFunction } from 'vitest';
@@ -79,16 +83,17 @@ const searchResultsQuery: SearchResults = {
   ],
 };
 
-vi.mock('../services/APIRequests/getCharacters', () => ({
-  getCharacters: vi.fn(),
-}));
-
 describe('SearchPage', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
   test('search page initially renders with the empty query because local storage is empty', async () => {
+    const mockedGetCharacters = vi.mocked(
+      getCharacters as MockedFunction<typeof getCharacters>
+    );
+    mockedGetCharacters.mockResolvedValue(searchResultsEmptyQuery);
+
     const router = createMemoryRouter(
       createRoutesFromElements(
         <>
@@ -101,17 +106,22 @@ describe('SearchPage', () => {
     const getItemSpy = vi
       .spyOn(window.localStorage.__proto__, 'getItem')
       .mockReturnValue('');
-    (getCharacters as MockedFunction<typeof getCharacters>).mockResolvedValue(
-      searchResultsEmptyQuery
-    );
+
     render(<RouterProvider router={router} />);
     expect(getItemSpy).toHaveBeenCalledWith('query');
-    expect(getCharacters).toHaveBeenCalledWith('', 1);
-    expect(await screen.findAllByRole('list')).toHaveLength(2);
+    expect(mockedGetCharacters).toHaveBeenCalledWith('', 1);
+    expect(
+      await screen.findAllByRole('region', { name: /character card/i })
+    ).toHaveLength(2);
     getItemSpy.mockRestore();
   });
 
   test('search page shows results when user searches for the character', async () => {
+    const mockedGetCharacters = vi.mocked(
+      getCharacters as MockedFunction<typeof getCharacters>
+    );
+    mockedGetCharacters.mockResolvedValue(searchResultsQuery);
+
     const router = createMemoryRouter(
       createRoutesFromElements(
         <>
@@ -122,16 +132,13 @@ describe('SearchPage', () => {
     );
 
     const setItemSpy = vi.spyOn(window.localStorage.__proto__, 'setItem');
-    (getCharacters as MockedFunction<typeof getCharacters>).mockResolvedValue(
-      searchResultsQuery
-    );
     const { user } = userSetUp(<RouterProvider router={router} />);
     const input = screen.getByRole('textbox');
     await user.type(input, 'Morty');
     const button = screen.getByRole('button', { name: /search/i });
     await user.click(button);
     expect(setItemSpy).toHaveBeenCalledWith('query', 'Morty');
-    expect(getCharacters).toHaveBeenCalledWith('Morty', 1);
+    expect(mockedGetCharacters).toHaveBeenCalledWith('Morty', 1);
     expect(await screen.findAllByText(/Morty Smith|Alien Morty/)).toHaveLength(
       2
     );

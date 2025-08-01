@@ -15,7 +15,13 @@ export function Card({
   openCardDetails,
 }: CardProps): JSX.Element {
   return (
-    <div className={styles.itemCard} onClick={openCardDetails} data-id={id}>
+    <div
+      className={styles.itemCard}
+      onClick={openCardDetails}
+      data-id={id}
+      role="region"
+      aria-label="character card"
+    >
       <div className={styles.itemContainer}>
         <img className={styles.itemImage} src={image} alt={name} />
       </div>
