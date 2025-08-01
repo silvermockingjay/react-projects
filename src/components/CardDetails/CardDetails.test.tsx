@@ -41,7 +41,7 @@ describe('CardDetails', () => {
     const mockedGetCharacter = vi.mocked(
       getCharacter as unknown as MockedFunction<typeof getCharacter>
     );
-    mockedGetCharacter.mockResolvedValue(mockData);
+    mockedGetCharacter.mockResolvedValueOnce(mockData);
 
     render(
       <MemoryRouter initialEntries={['/details?detailsId=1']}>
@@ -77,7 +77,7 @@ describe('CardDetails', () => {
     const mockedGetCharacter = vi.mocked(
       getCharacter as unknown as MockedFunction<typeof getCharacter>
     );
-    mockedGetCharacter.mockRejectedValue(
+    mockedGetCharacter.mockRejectedValueOnce(
       new Error('Failed to load resource: 404')
     );
 
@@ -93,7 +93,7 @@ describe('CardDetails', () => {
     const mockedGetCharacter = vi.mocked(
       getCharacter as unknown as MockedFunction<typeof getCharacter>
     );
-    mockedGetCharacter.mockResolvedValue(mockData);
+    mockedGetCharacter.mockResolvedValueOnce(mockData);
 
     const router = createMemoryRouter(
       createRoutesFromElements(
