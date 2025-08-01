@@ -11,7 +11,7 @@
   border-radius: 12px;
 }
 
-a {
+.aboutLink {
   margin-left: 5px;
   text-decoration-style: none;
   padding: 2px 4px;
@@ -20,11 +20,11 @@ a {
   color: #000;
 }
 
-a:link, a:visited {
+.aboutLink:link, .aboutLink:visited {
   text-decoration: none;
 }
 
-a:hover, a:active {
+.aboutLink:hover, .aboutLink:active {
   background-color: #ea5b6f;
   color: #fff;
 }
