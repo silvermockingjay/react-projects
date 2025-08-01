@@ -11,8 +11,8 @@ const mockData: CardListProps = {
       species: 'Human',
       type: '',
       gender: 'Male',
-      origin: { name: 'Earth', location: 'someLocation' },
-      location: { name: 'Earth', location: 'someLocation' },
+      origin: { name: 'Earth', url: 'someLocation' },
+      location: { name: 'Earth', url: 'someLocation' },
       image: 'someImageURL',
       episode: ['someEpisode1', 'someEpisode2'],
       url: 'someURL',
@@ -25,14 +25,15 @@ const mockData: CardListProps = {
       species: 'Human',
       type: '',
       gender: 'Male',
-      origin: { name: 'Earth', location: 'someLocation' },
-      location: { name: 'Earth', location: 'someLocation' },
+      origin: { name: 'Earth', url: 'someLocation' },
+      location: { name: 'Earth', url: 'someLocation' },
       image: 'someImageURL2',
       episode: ['someEpisode1', 'someEpisode2'],
       url: 'someURL',
       created: '2017-11-04T18:50:21.651Z',
     },
   ],
+  open: vi.fn(),
 };
 
 describe('CardList', () => {

@@ -1,15 +1,15 @@
 import { render, screen } from '@testing-library/react';
-import { Button } from './Button';
-import type { ButtonProps } from './Button';
-import styles from './Button.module.css';
+import { CustomButton } from './CustomButton';
+import type { CustomButtonProps } from './CustomButton';
+import styles from './CustomButton.module.css';
 import { userSetUp } from '../../test-utils/test-utils';
 
 const onClick = vi.fn();
 
-const mockData: ButtonProps[] = [
+const mockData: CustomButtonProps[] = [
   {
     type: 'submit',
-    className: 'mockButton',
+    customClass: 'mockButton',
     text: 'Search',
     onClick: onClick,
   },
@@ -18,31 +18,31 @@ const mockData: ButtonProps[] = [
   },
 ];
 
-describe('Button', () => {
+describe('CustomButton', () => {
   beforeEach(() => {
     onClick.mockClear();
   });
 
   test('button renders successfully with all props', () => {
-    render(<Button {...mockData[0]} />);
+    render(<CustomButton {...mockData[0]} />);
     const button = screen.getByRole('button');
     expect(button).toBeInTheDocument();
     expect(button).toHaveAttribute('type', mockData[0].type);
     expect(button).toHaveTextContent(mockData[0].text);
-    if (mockData[0].className) {
-      expect(button).toHaveClass(mockData[0].className);
+    if (mockData[0].customClass) {
+      expect(button).toHaveClass(mockData[0].customClass);
     }
   });
 
   test('calls the onClick callback handler', async () => {
-    const { user } = userSetUp(<Button {...mockData[0]} />);
+    const { user } = userSetUp(<CustomButton {...mockData[0]} />);
     const button = screen.getByRole('button');
     await user.click(button);
     expect(onClick).toHaveBeenCalled();
   });
 
   test('button renders successfully only with required props', () => {
-    render(<Button {...mockData[1]} />);
+    render(<CustomButton {...mockData[1]} />);
     const button = screen.getByRole('button');
     expect(button).toBeInTheDocument();
     expect(button).toHaveAttribute('type', 'button');

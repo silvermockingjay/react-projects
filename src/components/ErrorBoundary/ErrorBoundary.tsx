@@ -1,35 +1,38 @@
-import React from 'react';
-import { FallBack } from '../FallBack/FallBack';
-import { Main } from '../Main/Main';
-import { Section } from '../Section/Section';
+import { Component, type ErrorInfo } from 'react';
+import { Fallback } from '../FallBack/Fallback';
+import { CustomMain } from '../CustomMain/CustomMain';
+import { CustomSection } from '../CustomSection/CustomSection';
 
 export interface ErrorBoundaryProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 interface ErrorBoundaryState {
-  hasError: boolean;
+  error: Error | null;
 }
 
-export class ErrorBoundary extends React.Component<
+export class ErrorBoundary extends Component<
   ErrorBoundaryProps,
   ErrorBoundaryState
 > {
-  state = { hasError: false };
+  state = { error: null };
 
-  componentDidCatch(error: Error): void {
-    console.error('Error:', error);
-    this.setState({ hasError: true });
+  static getDerivedStateFromError(error: Error): ErrorBoundaryState {
+    return { error: error };
+  }
+
+  componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
+    console.error(error, errorInfo.componentStack);
   }
 
   render() {
-    if (this.state.hasError) {
+    if (this.state.error) {
       return (
-        <Main>
-          <Section>
-            <FallBack text="Something went wrong. Please refresh the page." />
-          </Section>
-        </Main>
+        <CustomMain>
+          <CustomSection>
+            <Fallback text="Something went wrong. Please refresh the page." />
+          </CustomSection>
+        </CustomMain>
       );
     }
     return this.props.children;

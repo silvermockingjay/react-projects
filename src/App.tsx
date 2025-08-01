@@ -1,8 +1,43 @@
-import React from 'react';
-import { SearchPage } from './pages/SearchPage';
+import { type JSX } from 'react';
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  Outlet,
+  Route,
+  RouterProvider,
+} from 'react-router';
+import { ErrorBoundary } from './components/ErrorBoundary/ErrorBoundary';
+import { CustomMain } from './components/CustomMain/CustomMain';
+import { SearchPage } from './pages/SearchPage/SearchPage';
+import { AboutPage } from './pages/AboutPage/AboutPage';
+import { NotFoundPage } from './pages/NotFoundPage/NotFoundPage';
+import { CustomHeader } from './components/CustomHeader/CustomHeader';
+import { CardDetails } from './components/CardDetails/CardDetails';
 
-export class App extends React.Component {
-  render() {
-    return <SearchPage />;
-  }
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <>
+      <Route
+        element={
+          <div>
+            <CustomHeader />
+            <CustomMain>
+              <Outlet />
+            </CustomMain>
+          </div>
+        }
+        ErrorBoundary={ErrorBoundary}
+      >
+        <Route path="/" element={<SearchPage />}>
+          <Route path="details" element={<CardDetails />} />
+        </Route>
+        <Route path="/about" element={<AboutPage />} />
+      </Route>
+      <Route path="*" element={<NotFoundPage />} />
+    </>
+  )
+);
+
+export function App(): JSX.Element {
+  return <RouterProvider router={router} />;
 }

@@ -4,7 +4,7 @@
   border-radius: 20px;
   overflow: hidden;
   background-color: #fff;
-  width: 250px;
+  width: 310px;
 }
 
 .itemCard:hover {
@@ -24,9 +24,11 @@
 .itemContent {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 20px 40px;
+  gap: 8px;
+  padding: 20px;
+  background-color: #fff;
+  box-sizing: border-box;
+  color: #000;
 }
 
 .itemTitle {
@@ -40,4 +42,21 @@ ul {
   list-style: none;
   padding: 0;
   margin: 0;
+}
+
+.closeBtn {
+  position: absolute;
+  top: 10px;
+  right: 5px;
+  min-width: auto;
+  max-width: 50px;
+  padding: 0.8rem 1rem;
+  align-self: flex-end;
+  background-color: #77bef0;
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+}
+
+.closeBtn:hover {
+  background-color: #ea5b6f;
 }

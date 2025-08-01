@@ -12,8 +12,22 @@ body {
   font-family: 'Arial', sans-serif;
 }
 
+.controlBtn {
+  min-width: 80px;
+  padding: 0.5rem;
+  font-size: 1rem;
+}
+
 .searchBtn:hover,
-.errorBtn:hover {
+.backHomeBtn:hover,
+.controlBtn:hover {
   background-color: #ffe600;
   transform: scale(1.03);
+}
+
+.inactive {
+  background-color: #ccc;
+  color: #666;
+  pointer-events: none;
+  cursor: not-allowed;
 }

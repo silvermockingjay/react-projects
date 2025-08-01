@@ -1,14 +1,8 @@
-import type { SearchResults } from '../interfaces/interfaces';
+import type { Character } from '../interfaces/interfaces';
 
-export async function getCharacters(
-  query: string,
-  page: number = 1
-): Promise<SearchResults> {
+export async function getCharacter(id: number): Promise<Character> {
   const basicUrl = 'https://rickandmortyapi.com/api';
-  const characterUrl =
-    query !== ''
-      ? `${basicUrl}/character/?page=${page}&name=${query}`
-      : `${basicUrl}/character/?page=${page}`;
+  const characterUrl = `${basicUrl}/character/${id}`;
   try {
     const response = await fetch(characterUrl);
     if (!response.ok) {
@@ -16,7 +10,7 @@ export async function getCharacters(
         `Failed to fetch data: ${response.status} ${response.statusText}`
       );
     }
-    const searchResults: SearchResults = await response.json();
+    const searchResults: Character = await response.json();
     return searchResults;
   } catch (error) {
     throw new Error(

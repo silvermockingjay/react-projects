@@ -2,11 +2,11 @@
   flex: 1;
   height: 100%;
   padding: 0 1rem;
-  border: 2px solid white;
+  border: 2px solid #fff;
   border-radius: 12px;
   font-size: 1rem;
   background: rgba(255, 255, 255, 0.15);
-  color: white;
+  color: #fff;;
   backdrop-filter: blur(6px);
   transition:
     border-color 0.2s ease,

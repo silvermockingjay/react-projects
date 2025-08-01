@@ -1,9 +1,19 @@
+vi.mock('../../services/APIRequests/getCharacters', () => ({
+  getCharacters: vi.fn(),
+}));
+
 import { render, screen } from '@testing-library/react';
-import { getCharacters } from '../services/APIRequests/getCharacters';
+import { getCharacters } from '../../services/APIRequests/getCharacters';
 import type { MockedFunction } from 'vitest';
-import type { SearchResults } from '../services/interfaces/interfaces';
+import type { SearchResults } from '../../services/interfaces/interfaces';
 import { SearchPage } from './SearchPage';
-import { userSetUp } from '../test-utils/test-utils';
+import { userSetUp } from '../../test-utils/test-utils';
+import {
+  createMemoryRouter,
+  createRoutesFromElements,
+  Route,
+  RouterProvider,
+} from 'react-router';
 
 const searchResultsEmptyQuery: SearchResults = {
   info: { count: 2, pages: 1, next: 'urlOfTheNextPage', prev: null },
@@ -15,8 +25,8 @@ const searchResultsEmptyQuery: SearchResults = {
       species: 'Human',
       type: '',
       gender: 'Male',
-      origin: { name: 'Earth', location: 'someLocation' },
-      location: { name: 'Earth', location: 'someLocation' },
+      origin: { name: 'Earth', url: 'LinkToSomeLocation' },
+      location: { name: 'Earth', url: 'LinkToSomeLocation' },
       image: 'someImageURL',
       episode: ['someEpisode1', 'someEpisode2'],
       url: 'someURL',
@@ -29,8 +39,8 @@ const searchResultsEmptyQuery: SearchResults = {
       species: 'Human',
       type: '',
       gender: 'Male',
-      origin: { name: 'Earth', location: 'someLocation' },
-      location: { name: 'Earth', location: 'someLocation' },
+      origin: { name: 'Earth', url: 'LinkToSomeLocation' },
+      location: { name: 'Earth', url: 'LinkToSomeLocation' },
       image: 'someImageURL2',
       episode: ['someEpisode1', 'someEpisode2'],
       url: 'someURL',
@@ -49,8 +59,8 @@ const searchResultsQuery: SearchResults = {
       species: 'Alien',
       type: '',
       gender: 'Male',
-      origin: { name: 'unknown', location: 'someLocation' },
-      location: { name: 'Citadel of Ricks', location: 'someLocation' },
+      origin: { name: 'unknown', url: 'LinkToSomeLocation' },
+      location: { name: 'Citadel of Ricks', url: 'LinkToSomeLocation' },
       image: 'someImageURL',
       episode: ['someEpisode1', 'someEpisode2'],
       url: 'someURL',
@@ -63,8 +73,8 @@ const searchResultsQuery: SearchResults = {
       species: 'Human',
       type: '',
       gender: 'Male',
-      origin: { name: 'Earth', location: 'someLocation' },
-      location: { name: 'Earth', location: 'someLocation' },
+      origin: { name: 'Earth', url: 'LinkToSomeLocation' },
+      location: { name: 'Earth', url: 'LinkToSomeLocation' },
       image: 'someImageURL2',
       episode: ['someEpisode1', 'someEpisode2'],
       url: 'someURL',
@@ -73,41 +83,62 @@ const searchResultsQuery: SearchResults = {
   ],
 };
 
-vi.mock('../services/APIRequests/getCharacters', () => ({
-  getCharacters: vi.fn(),
-}));
-
 describe('SearchPage', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
   test('search page initially renders with the empty query because local storage is empty', async () => {
+    const mockedGetCharacters = vi.mocked(
+      getCharacters as MockedFunction<typeof getCharacters>
+    );
+    mockedGetCharacters.mockResolvedValue(searchResultsEmptyQuery);
+
+    const router = createMemoryRouter(
+      createRoutesFromElements(
+        <>
+          <Route path="/" element={<SearchPage />} />
+        </>
+      ),
+      { initialEntries: ['/'] }
+    );
+
     const getItemSpy = vi
       .spyOn(window.localStorage.__proto__, 'getItem')
       .mockReturnValue('');
-    (getCharacters as MockedFunction<typeof getCharacters>).mockResolvedValue(
-      searchResultsEmptyQuery
-    );
-    render(<SearchPage />);
+
+    render(<RouterProvider router={router} />);
     expect(getItemSpy).toHaveBeenCalledWith('query');
-    expect(getCharacters).toHaveBeenCalledWith('');
-    expect(await screen.findAllByRole('list')).toHaveLength(2);
+    expect(mockedGetCharacters).toHaveBeenCalledWith('', 1);
+    expect(
+      await screen.findAllByRole('region', { name: /character card/i })
+    ).toHaveLength(2);
     getItemSpy.mockRestore();
   });
 
   test('search page shows results when user searches for the character', async () => {
-    const setItemSpy = vi.spyOn(window.localStorage.__proto__, 'setItem');
-    (getCharacters as MockedFunction<typeof getCharacters>).mockResolvedValue(
-      searchResultsQuery
+    const mockedGetCharacters = vi.mocked(
+      getCharacters as MockedFunction<typeof getCharacters>
     );
-    const { user } = userSetUp(<SearchPage />);
+    mockedGetCharacters.mockResolvedValue(searchResultsQuery);
+
+    const router = createMemoryRouter(
+      createRoutesFromElements(
+        <>
+          <Route path="/" element={<SearchPage />} />
+        </>
+      ),
+      { initialEntries: ['/'] }
+    );
+
+    const setItemSpy = vi.spyOn(window.localStorage.__proto__, 'setItem');
+    const { user } = userSetUp(<RouterProvider router={router} />);
     const input = screen.getByRole('textbox');
     await user.type(input, 'Morty');
     const button = screen.getByRole('button', { name: /search/i });
     await user.click(button);
     expect(setItemSpy).toHaveBeenCalledWith('query', 'Morty');
-    expect(getCharacters).toHaveBeenCalledWith('Morty');
+    expect(mockedGetCharacters).toHaveBeenCalledWith('Morty', 1);
     expect(await screen.findAllByText(/Morty Smith|Alien Morty/)).toHaveLength(
       2
     );
