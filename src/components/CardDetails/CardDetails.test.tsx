@@ -65,4 +65,19 @@ describe('CardDetails', () => {
       new RegExp(`Location: ${mockData.location.name}`, 'i')
     );
   });
+  test('shows fallback when getCharacter returns 404', async () => {
+    const mockedGetCharacter = vi.mocked(
+      getCharacter as unknown as MockedFunction<typeof getCharacter>
+    );
+    mockedGetCharacter.mockRejectedValue(
+      new Error('Failed to load resource: 404')
+    );
+
+    render(
+      <MemoryRouter initialEntries={['/details?detailsId=1']}>
+        <CardDetails />
+      </MemoryRouter>
+    );
+    expect(await screen.findByTestId('fallback-text')).toBeInTheDocument();
+  });
 });
