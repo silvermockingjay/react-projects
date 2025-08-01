@@ -2,12 +2,20 @@ vi.mock('../../services/APIRequests/getCharacter', () => ({
   getCharacter: vi.fn(),
 }));
 
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { CardDetails } from './CardDetails';
-import { MemoryRouter } from 'react-router';
+import {
+  createMemoryRouter,
+  createRoutesFromElements,
+  MemoryRouter,
+  Route,
+  RouterProvider,
+} from 'react-router';
 import { getCharacter } from '../../services/APIRequests/getCharacter';
 import type { MockedFunction } from 'vitest';
 import type { Character } from '../../services/interfaces/interfaces';
+import { SearchPage } from '../../pages/SearchPage/SearchPage';
+import { userSetUp } from '../../test-utils/test-utils';
 
 const mockData: Character = {
   id: 1,
@@ -79,5 +87,28 @@ describe('CardDetails', () => {
       </MemoryRouter>
     );
     expect(await screen.findByTestId('fallback-text')).toBeInTheDocument();
+  });
+
+  test('close card details when clicked on x', async () => {
+    const mockedGetCharacter = vi.mocked(
+      getCharacter as unknown as MockedFunction<typeof getCharacter>
+    );
+    mockedGetCharacter.mockResolvedValue(mockData);
+
+    const router = createMemoryRouter(
+      createRoutesFromElements(
+        <>
+          <Route path="/" element={<SearchPage />}>
+            <Route path="details" element={<CardDetails />} />
+          </Route>
+        </>
+      )
+    );
+    const { user } = userSetUp(<RouterProvider router={router} />);
+    const closeBtn = await screen.findByRole('button', { name: /x/i });
+    await user.click(closeBtn);
+    await waitFor(() => {
+      expect(router.state.location.pathname).toBe('/');
+    });
   });
 });

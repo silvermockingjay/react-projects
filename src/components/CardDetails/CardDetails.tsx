@@ -49,7 +49,7 @@ export function CardDetails(): JSX.Element {
     content = <Fallback text={error} />;
   } else {
     content = (
-      <div className={styles.itemCard}>
+      <div className={styles.itemCard} role="region" aria-label="card details">
         <div className={styles.itemContainer}>
           <CustomButton
             type="button"
