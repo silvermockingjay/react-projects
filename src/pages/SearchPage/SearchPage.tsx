@@ -11,9 +11,16 @@ import { Fallback } from '../../components/FallBack/Fallback';
 import { PaginationControls } from '../../components/PaginationControls/PaginationControls';
 import { Outlet } from 'react-router';
 import styles from './SearchPage.module.css';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import {
+  allCleared,
+  restoredFromLS,
+  selectCheckedCards,
+} from '../../features/cards/cardsSlice';
 
 export function SearchPage() {
   const [localQuery, setLocalQuery] = useLocalStorage('query', '');
+  const [checkedCards, setCheckedCards] = useLocalStorage('selectedCards', '');
   const [query, setQuery] = useState(() => localQuery);
   const [page, setPage] = useState(1);
   const [results, setResults] = useState<Character[] | null>(null);
@@ -22,6 +29,9 @@ export function SearchPage() {
   const [fetchError, setFetchError] = useState<string | null>(null);
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
+
+  const selectedCards = useAppSelector(selectCheckedCards);
+  const dispatch = useAppDispatch();
 
   const location = useLocation();
   const areDetailsOpen = location.pathname === '/details';
@@ -85,6 +95,11 @@ export function SearchPage() {
   }, [localQuery, setSearchParams]);
 
   useEffect(() => {
+    if (checkedCards.length) {
+      dispatch(restoredFromLS(JSON.parse(checkedCards)));
+    } else {
+      dispatch(allCleared());
+    }
     const fetchCards = async (): Promise<void> => {
       const searchQuery = searchParams.get('search') || '';
       const pageQuery = Number(searchParams.get('page')) || 1;
@@ -92,9 +107,12 @@ export function SearchPage() {
       setPage(pageQuery);
       await handleSearch(searchQuery, pageQuery);
     };
-
     fetchCards();
-  }, [searchParams, areDetailsOpen, navigate]);
+  }, [searchParams, areDetailsOpen, navigate, checkedCards, dispatch]);
+
+  useEffect(() => {
+    setCheckedCards(JSON.stringify(selectedCards));
+  }, [selectedCards, setCheckedCards]);
 
   const closeDetailsOnPagination = (params: URLSearchParams): void => {
     if (areDetailsOpen) {
