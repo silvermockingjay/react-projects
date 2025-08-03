@@ -25,10 +25,15 @@ const cardsSlice = createSlice({
     allCleared(state) {
       state.length = 0;
     },
+    restoredFromLS(state, action: PayloadAction<Card[]>) {
+      state.length = 0;
+      state.push(...action.payload);
+    },
   },
 });
 
 export const { cardToggled } = cardsSlice.actions;
 export const { allCleared } = cardsSlice.actions;
+export const { restoredFromLS } = cardsSlice.actions;
 
 export default cardsSlice.reducer;
