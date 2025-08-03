@@ -1,4 +1,5 @@
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
+import { customRender } from '../../test-utils/test-utils';
 import type { CardListProps } from './CardList';
 import { CardList } from './CardList';
 
@@ -38,7 +39,7 @@ const mockData: CardListProps = {
 
 describe('CardList', () => {
   test('renders successfully CardList with all props', () => {
-    render(<CardList {...mockData} />);
+    customRender(<CardList {...mockData} />);
     expect(screen.getByText('Rick Sanchez')).toBeInTheDocument();
     expect(screen.getByText('Morty Smith')).toBeInTheDocument();
   });

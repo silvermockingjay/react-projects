@@ -2,7 +2,8 @@ vi.mock('../../services/APIRequests/getCharacters', () => ({
   getCharacters: vi.fn(),
 }));
 
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
+import { customRender } from '../../test-utils/test-utils';
 import { getCharacters } from '../../services/APIRequests/getCharacters';
 import type { MockedFunction } from 'vitest';
 import type { SearchResults } from '../../services/interfaces/interfaces';
@@ -107,7 +108,7 @@ describe('SearchPage', () => {
       .spyOn(window.localStorage.__proto__, 'getItem')
       .mockReturnValue('');
 
-    render(<RouterProvider router={router} />);
+    customRender(<RouterProvider router={router} />);
     expect(getItemSpy).toHaveBeenCalledWith('query');
     expect(mockedGetCharacters).toHaveBeenCalledWith('', 1);
     expect(
