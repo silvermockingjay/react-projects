@@ -37,6 +37,7 @@ export const { cardToggled } = cardsSlice.actions;
 export const { allCleared } = cardsSlice.actions;
 export const { restoredFromLS } = cardsSlice.actions;
 
-export const selectCount = (state: RootState) => state.length;
+export const selectCount = (state: RootState) => state.cards.length;
+export const selectCheckedCards = (state: RootState) => state.cards;
 
 export default cardsSlice.reducer;
