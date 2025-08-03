@@ -1,6 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import cardsReducer from '../features/cards/CardsSlice';
-
+import cardsReducer from '../features/cards/cardsSlice';
 export const store = configureStore({ reducer: cardsReducer });
 
 export type AppStore = typeof store;
