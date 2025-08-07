@@ -6,6 +6,7 @@ import {
   selectCheckedCards,
   type Card,
 } from '../../features/cards/cardsSlice';
+import { CustomInput } from '../CustomInput/CustomInput';
 
 export interface CardProps {
   id: number;
@@ -41,11 +42,11 @@ export function Card({
       aria-label="character card"
     >
       <div className={styles.itemContainer}>
-        <input
+        <CustomInput
           type="checkbox"
-          checked={isChecked}
+          isChecked={isChecked}
           onChange={onChangeToggle}
-          className={styles.checkbox}
+          customClass={styles.checkbox}
         />
         <img className={styles.itemImage} src={image} alt={name} />
       </div>
