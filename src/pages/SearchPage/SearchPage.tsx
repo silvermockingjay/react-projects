@@ -138,6 +138,8 @@ export function SearchPage() {
   };
 
   const openDetails = (e: React.MouseEvent<HTMLElement>): void => {
+    const target = e.target as HTMLElement;
+    if (target.closest('input[type="checkbox"]')) return;
     const detailsId = e.currentTarget.dataset.id || '';
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.set('detailsId', detailsId);
