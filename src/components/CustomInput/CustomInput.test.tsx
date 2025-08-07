@@ -8,6 +8,7 @@ const mockData: InputProps[] = [
   {
     type: 'text',
     value: 'Rick',
+    onChange: mockOnChange,
   },
   {
     type: 'text',
