@@ -2,10 +2,11 @@ import { type JSX } from 'react';
 
 export interface InputProps {
   type: string;
-  value: string;
+  value?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   customClass?: string;
   placeholder?: string;
+  isChecked?: boolean;
 }
 
 export function CustomInput({
@@ -14,6 +15,7 @@ export function CustomInput({
   customClass,
   placeholder,
   onChange,
+  isChecked,
 }: InputProps): JSX.Element {
   return (
     <input
@@ -22,6 +24,7 @@ export function CustomInput({
       className={customClass}
       placeholder={placeholder}
       onChange={onChange}
+      {...(isChecked !== undefined ? { checked: isChecked } : {})}
     />
   );
 }
