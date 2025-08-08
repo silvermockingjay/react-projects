@@ -10,6 +10,7 @@ import { Loader } from '../../components/Loader/Loader';
 import { Fallback } from '../../components/FallBack/Fallback';
 import { PaginationControls } from '../../components/PaginationControls/PaginationControls';
 import { Outlet } from 'react-router';
+import { Flyout } from '../../components/Flyout/Flyout';
 import styles from './SearchPage.module.css';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import {
@@ -138,6 +139,7 @@ export function SearchPage() {
   };
 
   const openDetails = (e: React.MouseEvent<HTMLElement>): void => {
+    e.stopPropagation();
     const target = e.target as HTMLElement;
     if (target.closest('input[type="checkbox"]')) return;
     const detailsId = e.currentTarget.dataset.id || '';
@@ -191,6 +193,9 @@ export function SearchPage() {
         <div className={outletClass}>
           <Outlet />
         </div>
+      </CustomSection>
+      <CustomSection>
+        <Flyout />
       </CustomSection>
     </>
   );

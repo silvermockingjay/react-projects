@@ -1,0 +1,49 @@
+.hide {
+  display: none;
+}
+
+.flyout {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #fff;
+  width: 80%;
+  padding: 10px 20px;
+  border-radius: 8px;
+}
+
+.items {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 1.1rem;
+  color: #000;
+  width: 50%;
+}
+
+.actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  width: 50%;
+  gap: 15px;
+}
+
+.unselectBtn {
+  background-color: #ea5b6f;
+  color: #fff;
+}
+
+.downloadBtn {
+  background-color: #77bef0;
+  color: #fff;
+}
+
+.unselectBtn:hover, .downloadBtn:hover {
+  background-color: #ffe600;
+  color: #000;
+  transform: scale(1.03);
+}
