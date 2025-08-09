@@ -29,7 +29,9 @@ export function Card({
     image: image,
     name: name,
   };
-  const onChangeToggle = (): void => {
+  const onChangeToggle = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    e.stopPropagation();
+    e.preventDefault();
     dispatch(cardToggled(card));
   };
 

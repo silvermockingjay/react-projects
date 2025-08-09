@@ -96,11 +96,6 @@ export function SearchPage() {
   }, [localQuery, setSearchParams]);
 
   useEffect(() => {
-    if (checkedCards.length) {
-      dispatch(restoredFromLS(JSON.parse(checkedCards)));
-    } else {
-      dispatch(allCleared());
-    }
     const fetchCards = async (): Promise<void> => {
       const searchQuery = searchParams.get('search') || '';
       const pageQuery = Number(searchParams.get('page')) || 1;
@@ -109,11 +104,19 @@ export function SearchPage() {
       await handleSearch(searchQuery, pageQuery);
     };
     fetchCards();
-  }, [searchParams, areDetailsOpen, navigate, checkedCards, dispatch]);
+  }, [searchParams, areDetailsOpen, navigate]);
 
   useEffect(() => {
     setCheckedCards(JSON.stringify(selectedCards));
   }, [selectedCards, setCheckedCards]);
+
+  useEffect(() => {
+    if (checkedCards.length) {
+      dispatch(restoredFromLS(JSON.parse(checkedCards)));
+    } else {
+      dispatch(allCleared());
+    }
+  }, [checkedCards, dispatch]);
 
   const closeDetailsOnPagination = (params: URLSearchParams): void => {
     if (areDetailsOpen) {
@@ -139,7 +142,6 @@ export function SearchPage() {
   };
 
   const openDetails = (e: React.MouseEvent<HTMLElement>): void => {
-    e.stopPropagation();
     const target = e.target as HTMLElement;
     if (target.closest('input[type="checkbox"]')) return;
     const detailsId = e.currentTarget.dataset.id || '';
