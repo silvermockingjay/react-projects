@@ -11,7 +11,7 @@ export function Flyout() {
   };
   const flyoutClass = selectedCardsCount ? styles.flyout : styles.hide;
   return (
-    <div className={flyoutClass}>
+    <div className={flyoutClass} data-testid="flyout">
       <div className={styles.items}>{selectedCardsCount} items</div>
       <div className={styles.actions}>
         <CustomButton
