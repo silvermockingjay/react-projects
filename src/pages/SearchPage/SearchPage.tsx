@@ -104,7 +104,7 @@ export function SearchPage() {
       await handleSearch(searchQuery, pageQuery);
     };
     fetchCards();
-  }, [searchParams, areDetailsOpen, navigate]);
+  }, [searchParams]);
 
   useEffect(() => {
     setCheckedCards(JSON.stringify(selectedCards));
