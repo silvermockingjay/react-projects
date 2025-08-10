@@ -11,7 +11,7 @@ export function CardDetails(): JSX.Element {
   const navigate = useNavigate();
   const id = Number(searchParams.get('detailsId'));
 
-  const { data: details, error, isLoading } = useGetCharacterQuery(id);
+  const { data: details, error, isLoading, refetch } = useGetCharacterQuery(id);
 
   const closeDetails = () => {
     const newSearchParams = new URLSearchParams(searchParams);
@@ -70,5 +70,14 @@ export function CardDetails(): JSX.Element {
     );
   }
 
-  return <>{content}</>;
+  return (
+    <div className={styles.detailsContainer}>
+      {content}
+      <CustomButton
+        customClass={styles.refresh}
+        onClick={() => refetch()}
+        text="Refresh details"
+      />
+    </div>
+  );
 }

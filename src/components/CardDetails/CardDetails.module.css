@@ -1,3 +1,9 @@
+.detailsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
 .itemCard {
   display: flex;
   flex-direction: column;
@@ -58,5 +64,10 @@ ul {
 }
 
 .closeBtn:hover {
+  background-color: #ea5b6f;
+}
+
+.refresh:hover {
+  color: #fff;
   background-color: #ea5b6f;
 }
