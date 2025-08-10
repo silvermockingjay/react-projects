@@ -1,7 +1,3 @@
-vi.mock('../../services/APIRequests/getCharacter', () => ({
-  getCharacter: vi.fn(),
-}));
-
 import { screen, waitFor } from '@testing-library/react';
 import { customRender } from '../../test-utils/test-utils';
 import { CardDetails } from './CardDetails';
@@ -12,11 +8,21 @@ import {
   Route,
   RouterProvider,
 } from 'react-router';
-import { getCharacter } from '../../services/APIRequests/getCharacter';
-import type { MockedFunction } from 'vitest';
+import { useGetCharacterQuery } from '../../services/RickAndMortyAPI/rickAndMorty';
 import type { Character } from '../../services/interfaces/interfaces';
 import { SearchPage } from '../../pages/SearchPage/SearchPage';
 import { userSetUp } from '../../test-utils/test-utils';
+
+vi.mock(
+  import('../../services/RickAndMortyAPI/rickAndMorty'),
+  async (importOriginal) => {
+    const actual = await importOriginal();
+    return {
+      ...actual,
+      useGetCharacterQuery: vi.fn(),
+    };
+  }
+);
 
 const mockData: Character = {
   id: 1,
@@ -39,10 +45,15 @@ describe('CardDetails', () => {
   });
 
   test('renders card successfully with all props', async () => {
-    const mockedGetCharacter = vi.mocked(
-      getCharacter as unknown as MockedFunction<typeof getCharacter>
-    );
-    mockedGetCharacter.mockResolvedValueOnce(mockData);
+    const mockedGetCharacter = vi.mocked(useGetCharacterQuery);
+    mockedGetCharacter.mockReturnValue({
+      data: mockData,
+      isLoading: false,
+      isFetching: false,
+      error: null,
+      refetch: vi.fn(),
+      status: 'fulfilled',
+    });
 
     customRender(
       <MemoryRouter initialEntries={['/details?detailsId=1']}>
@@ -75,12 +86,18 @@ describe('CardDetails', () => {
     );
   });
   test('shows fallback when getCharacter returns 404', async () => {
-    const mockedGetCharacter = vi.mocked(
-      getCharacter as unknown as MockedFunction<typeof getCharacter>
-    );
-    mockedGetCharacter.mockRejectedValueOnce(
-      new Error('Failed to load resource: 404')
-    );
+    const mockedGetCharacter = vi.mocked(useGetCharacterQuery);
+    mockedGetCharacter.mockReturnValue({
+      data: undefined,
+      isLoading: false,
+      isFetching: false,
+      error: {
+        status: 404,
+        data: { error: 'Not found' },
+      },
+      refetch: vi.fn(),
+      status: 'rejected',
+    });
 
     customRender(
       <MemoryRouter initialEntries={['/details?detailsId=1']}>
@@ -91,10 +108,15 @@ describe('CardDetails', () => {
   });
 
   test('close card details when clicked on x', async () => {
-    const mockedGetCharacter = vi.mocked(
-      getCharacter as unknown as MockedFunction<typeof getCharacter>
-    );
-    mockedGetCharacter.mockResolvedValueOnce(mockData);
+    const mockedGetCharacter = vi.mocked(useGetCharacterQuery);
+    mockedGetCharacter.mockReturnValue({
+      data: mockData,
+      isLoading: false,
+      isFetching: false,
+      error: null,
+      refetch: vi.fn(),
+      status: 'fulfilled',
+    });
 
     const router = createMemoryRouter(
       createRoutesFromElements(
