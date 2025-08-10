@@ -136,7 +136,7 @@ export function SearchPage() {
   if (isLoading) {
     content = <Loader />;
   } else if (error) {
-    let message = 'Uknown error occured, try one more time';
+    let message = 'Unknown error occured, try one more time';
     if ('status' in error && 'data' in error && error.status === 404) {
       message = 'Character not found, try another one';
     }
