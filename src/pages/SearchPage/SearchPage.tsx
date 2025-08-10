@@ -4,8 +4,6 @@ import { useLocation, useNavigate, useSearchParams } from 'react-router';
 import { CustomSection } from '../../components/CustomSection/CustomSection';
 import { SearchForm } from '../../components/SearchForm/SearchForm';
 import { CardList } from '../../components/CardList/CardList';
-import { getCharacters } from '../../services/APIRequests/getCharacters';
-import type { Character } from '../../services/interfaces/interfaces';
 import { Loader } from '../../components/Loader/Loader';
 import { Fallback } from '../../components/FallBack/Fallback';
 import { PaginationControls } from '../../components/PaginationControls/PaginationControls';
@@ -18,18 +16,23 @@ import {
   restoredFromLS,
   selectCheckedCards,
 } from '../../features/cards/cardsSlice';
+import { useGetCharactersQuery } from '../../services/RickAndMortyAPI/rickAndMorty';
 
 export function SearchPage() {
   const [localQuery, setLocalQuery] = useLocalStorage('query', '');
   const [checkedCards, setCheckedCards] = useLocalStorage('selectedCards', '');
   const [query, setQuery] = useState(() => localQuery);
   const [page, setPage] = useState(1);
-  const [results, setResults] = useState<Character[] | null>(null);
-  const [totalPages, setTotalPages] = useState(0);
-  const [loading, setLoading] = useState(false);
-  const [fetchError, setFetchError] = useState<string | null>(null);
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
+
+  const { data, error, isLoading } = useGetCharactersQuery({
+    name: query,
+    page: page,
+  });
+
+  const results = data?.results || null;
+  const totalPages = data?.info.pages || 0;
 
   const selectedCards = useAppSelector(selectCheckedCards);
   const dispatch = useAppDispatch();
@@ -39,25 +42,6 @@ export function SearchPage() {
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
-  };
-
-  const handleSearch = async (query: string, page: number): Promise<void> => {
-    setLoading(true);
-    setFetchError(null);
-    try {
-      const data = await getCharacters(query, page);
-      setResults(data.results);
-      setTotalPages(data.info.pages);
-      setLoading(false);
-    } catch (error) {
-      if (error instanceof Error) {
-        setFetchError(error.message);
-        setLoading(false);
-      } else {
-        setFetchError('Unknown error occurred');
-        setLoading(false);
-      }
-    }
   };
 
   const handleSubmit = async (
@@ -96,14 +80,10 @@ export function SearchPage() {
   }, [localQuery, setSearchParams]);
 
   useEffect(() => {
-    const fetchCards = async (): Promise<void> => {
-      const searchQuery = searchParams.get('search') || '';
-      const pageQuery = Number(searchParams.get('page')) || 1;
-      setQuery(searchQuery);
-      setPage(pageQuery);
-      await handleSearch(searchQuery, pageQuery);
-    };
-    fetchCards();
+    const searchQuery = searchParams.get('search') || '';
+    const pageQuery = Number(searchParams.get('page')) || 1;
+    setQuery(searchQuery);
+    setPage(pageQuery);
   }, [searchParams]);
 
   useEffect(() => {
@@ -153,12 +133,14 @@ export function SearchPage() {
   };
 
   let content: React.ReactNode;
-  if (loading) {
+  if (isLoading) {
     content = <Loader />;
-  } else if (fetchError) {
-    content = <Fallback text={fetchError} />;
-  } else if (results?.length === 0) {
-    content = <Fallback text="No results found, try another character" />;
+  } else if (error) {
+    let message = 'Uknown error occured, try one more time';
+    if ('status' in error && 'data' in error && error.status === 404) {
+      message = 'Character not found, try another one';
+    }
+    content = <Fallback text={message} />;
   } else if (results) {
     content = (
       <>
