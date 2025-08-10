@@ -5,6 +5,7 @@ import { Loader } from '../Loader/Loader';
 import { Fallback } from '../FallBack/Fallback';
 import { CustomButton } from '../CustomButton/CustomButton';
 import { useGetCharacterQuery } from '../../services/RickAndMortyAPI/rickAndMorty';
+import { RefreshButton } from '../RefreshButton/RefreshButton';
 
 export function CardDetails(): JSX.Element {
   const [searchParams] = useSearchParams();
@@ -73,11 +74,7 @@ export function CardDetails(): JSX.Element {
   return (
     <div className={styles.detailsContainer}>
       {content}
-      <CustomButton
-        customClass={styles.refresh}
-        onClick={() => refetch()}
-        text="Refresh details"
-      />
+      <RefreshButton onClick={() => refetch()} text="Refresh details" />
     </div>
   );
 }

@@ -3,7 +3,6 @@ import { useLocalStorage } from '../../services/CustomHooks/useLocalStorage';
 import { useLocation, useNavigate, useSearchParams } from 'react-router';
 import { CustomSection } from '../../components/CustomSection/CustomSection';
 import { SearchForm } from '../../components/SearchForm/SearchForm';
-import { CustomButton } from '../../components/CustomButton/CustomButton';
 import { CardList } from '../../components/CardList/CardList';
 import { Loader } from '../../components/Loader/Loader';
 import { Fallback } from '../../components/FallBack/Fallback';
@@ -18,6 +17,7 @@ import {
   selectCheckedCards,
 } from '../../features/cards/cardsSlice';
 import { useGetCharactersQuery } from '../../services/RickAndMortyAPI/rickAndMorty';
+import { RefreshButton } from '../../components/RefreshButton/RefreshButton';
 
 export function SearchPage() {
   const [localQuery, setLocalQuery] = useLocalStorage('query', '');
@@ -172,11 +172,7 @@ export function SearchPage() {
           onSubmit={handleSubmit}
           value={query}
         />
-        <CustomButton
-          customClass={styles.refresh}
-          onClick={() => refetch()}
-          text="Refresh results"
-        />
+        <RefreshButton onClick={() => refetch()} text="Refresh results" />
       </CustomSection>
       <CustomSection customClass={styles.resultsView}>
         <div className={contentClass}>{content}</div>
