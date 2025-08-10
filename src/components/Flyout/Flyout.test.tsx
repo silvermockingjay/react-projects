@@ -3,10 +3,15 @@ import { Flyout } from './Flyout';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { allCleared } from '../../features/cards/cardsSlice';
 import { customRender, userSetUp } from '../../test-utils/test-utils';
+import { downloadCSV } from '../../services/downloadCSV';
 
 vi.mock('../../app/hooks', () => ({
   useAppDispatch: vi.fn(),
   useAppSelector: vi.fn(),
+}));
+
+vi.mock('../../services/downloadCSV', () => ({
+  downloadCSV: vi.fn(),
 }));
 
 describe('Flyout', () => {
@@ -30,5 +35,16 @@ describe('Flyout', () => {
     const unselectBtn = screen.getByRole('button', { name: /unselect all/i });
     await user.click(unselectBtn);
     expect(mockDispatch).toHaveBeenCalledWith(allCleared());
+  });
+  test('Click on download button works', async () => {
+    const mockedUseAppSelector = vi.mocked(useAppSelector);
+    const card = [{ id: 1, image: 'url', name: 'Rick' }];
+    mockedUseAppSelector.mockImplementationOnce(() => 1);
+    mockedUseAppSelector.mockImplementationOnce(() => card);
+    const mockedDownload = vi.mocked(downloadCSV);
+    const { user } = userSetUp(<Flyout />);
+    const downloadBtn = screen.getByRole('button', { name: /download/i });
+    await user.click(downloadBtn);
+    expect(mockedDownload).toHaveBeenCalled();
   });
 });
