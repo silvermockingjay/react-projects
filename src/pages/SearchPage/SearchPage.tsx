@@ -3,6 +3,7 @@ import { useLocalStorage } from '../../services/CustomHooks/useLocalStorage';
 import { useLocation, useNavigate, useSearchParams } from 'react-router';
 import { CustomSection } from '../../components/CustomSection/CustomSection';
 import { SearchForm } from '../../components/SearchForm/SearchForm';
+import { CustomButton } from '../../components/CustomButton/CustomButton';
 import { CardList } from '../../components/CardList/CardList';
 import { Loader } from '../../components/Loader/Loader';
 import { Fallback } from '../../components/FallBack/Fallback';
@@ -26,7 +27,7 @@ export function SearchPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
 
-  const { data, error, isLoading } = useGetCharactersQuery({
+  const { data, error, isLoading, refetch } = useGetCharactersQuery({
     name: query,
     page: page,
   });
@@ -170,6 +171,11 @@ export function SearchPage() {
           onChange={handleInput}
           onSubmit={handleSubmit}
           value={query}
+        />
+        <CustomButton
+          customClass={styles.refresh}
+          onClick={() => refetch()}
+          text="Refresh results"
         />
       </CustomSection>
       <CustomSection customClass={styles.resultsView}>
