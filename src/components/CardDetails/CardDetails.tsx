@@ -1,6 +1,5 @@
 import type { JSX } from 'react';
 import styles from './CardDetails.module.css';
-import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router';
 import { Loader } from '../Loader/Loader';
 import { Fallback } from '../FallBack/Fallback';
@@ -8,15 +7,11 @@ import { CustomButton } from '../CustomButton/CustomButton';
 import { useGetCharacterQuery } from '../../services/RickAndMortyAPI/rickAndMorty';
 
 export function CardDetails(): JSX.Element {
-  const [id, setId] = useState(1);
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const id = Number(searchParams.get('detailsId'));
 
   const { data: details, error, isLoading } = useGetCharacterQuery(id);
-
-  useEffect(() => {
-    setId(Number(searchParams.get('detailsId')) || 1);
-  }, [searchParams]);
 
   const closeDetails = () => {
     const newSearchParams = new URLSearchParams(searchParams);
@@ -33,7 +28,7 @@ export function CardDetails(): JSX.Element {
       message = 'Character not found, try another one';
     }
     content = <Fallback text={message} />;
-  } else {
+  } else if (details) {
     content = (
       <div className={styles.itemCard} role="region" aria-label="card details">
         <div className={styles.itemContainer}>
@@ -63,10 +58,10 @@ export function CardDetails(): JSX.Element {
                 <b>Gender: </b> {details?.gender}
               </li>
               <li>
-                <b>Origin: </b> {details?.origin.name}
+                <b>Origin: </b> {details?.origin?.name}
               </li>
               <li>
-                <b>Location: </b> {details?.location.name}
+                <b>Location: </b> {details?.location?.name}
               </li>
             </ul>
           </div>
@@ -75,5 +70,5 @@ export function CardDetails(): JSX.Element {
     );
   }
 
-  return content;
+  return <>{content}</>;
 }
