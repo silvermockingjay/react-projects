@@ -1,15 +1,11 @@
 import styles from './AboutPage.module.css';
+import { useTranslations } from 'next-intl';
 
 export function AboutPage() {
+  const t = useTranslations('AboutPage');
   return (
     <div data-testid="about-page-content" className={styles.aboutContainer}>
-      <div>
-        Hi! I&#39;m Anastasia. <br />
-        I&#39;m a motivated frontend developer passionate about creating
-        meaningful digital experiences using modern web technologies. <br />
-        I&#39;m eager to keep learning and growing within a collaborative,
-        professional tech environment.
-      </div>
+      <div>{t('author')}</div>
       <div>
         GitHub:
         <a
@@ -22,7 +18,7 @@ export function AboutPage() {
         </a>
       </div>
       <div>
-        This app is developed to showcase React: Routing and Hooks Task of
+        {t('app')}
         <a
           className={styles.aboutLink}
           href="https://rs.school/courses/reactjs"
