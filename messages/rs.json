@@ -19,5 +19,6 @@
   },
   "title": "Moja React aplikacija",
   "main": "Glavna",
-  "about": "O aplikaciji"
+  "about": "O aplikaciji",
+  "fallback": "Došlo je do greške. Osvežite stranicu."
 }

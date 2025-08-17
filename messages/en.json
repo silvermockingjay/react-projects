@@ -19,5 +19,6 @@
   },
   "title": "My React App",
   "main": "Main",
-  "about": "About"
+  "about": "About",
+  "fallback": "Something went wrong. Please refresh the page."
 }
