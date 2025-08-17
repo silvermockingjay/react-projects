@@ -4,11 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
+    "dev": "next dev",
+    "build": "tsc -b && next build",
     "lint": "eslint .",
     "format:fix": "prettier --write .",
-    "preview": "vite preview",
     "prepare": "husky",
     "test": "vitest",
     "test:coverage": "vitest --coverage"
