@@ -18,6 +18,7 @@ import {
 } from '../../features/cards/cardsSlice';
 import { useGetCharactersQuery } from '../../services/RickAndMortyAPI/rickAndMorty';
 import { RefreshButton } from '../../components/RefreshButton/RefreshButton';
+import { useTranslations } from 'next-intl';
 
 export function SearchPage() {
   const [localQuery, setLocalQuery] = useLocalStorage('query', '');
@@ -26,6 +27,7 @@ export function SearchPage() {
   const [page, setPage] = useState(1);
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
+  const t = useTranslations('RefreshBtn');
 
   const { data, error, isLoading, refetch } = useGetCharactersQuery({
     name: query,
@@ -172,7 +174,7 @@ export function SearchPage() {
           onSubmit={handleSubmit}
           value={query}
         />
-        <RefreshButton onClick={() => refetch()} text="Refresh results" />
+        <RefreshButton onClick={() => refetch()} text={t('refreshResBtnTxt')} />
       </CustomSection>
       <CustomSection customClass={styles.resultsView}>
         <div className={contentClass}>{content}</div>

@@ -6,11 +6,13 @@ import { Fallback } from '../FallBack/Fallback';
 import { CustomButton } from '../CustomButton/CustomButton';
 import { useGetCharacterQuery } from '../../services/RickAndMortyAPI/rickAndMorty';
 import { RefreshButton } from '../RefreshButton/RefreshButton';
+import { useTranslations } from 'use-intl';
 
 export function CardDetails(): JSX.Element {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const id = Number(searchParams.get('detailsId'));
+  const t = useTranslations('RefreshBtn');
 
   const { data: details, error, isLoading, refetch } = useGetCharacterQuery(id);
 
@@ -74,7 +76,7 @@ export function CardDetails(): JSX.Element {
   return (
     <div className={styles.detailsContainer}>
       {content}
-      <RefreshButton onClick={() => refetch()} text="Refresh details" />
+      <RefreshButton onClick={() => refetch()} text={t('refreshDetBtnTxt')} />
     </div>
   );
 }
