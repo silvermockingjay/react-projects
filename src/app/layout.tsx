@@ -1,3 +1,8 @@
+import { Provider } from 'react-redux';
+import { store } from './store';
+import { CustomHeader } from '../components/CustomHeader/CustomHeader';
+import { CustomMain } from '../components/CustomMain/CustomMain';
+
 export default function RootLayout({
   children,
 }: {
@@ -6,7 +11,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <div id="root">{children}</div>
+        <Provider store={store}>
+          <CustomHeader />
+          <CustomMain>{children}</CustomMain>
+        </Provider>
       </body>
     </html>
   );
