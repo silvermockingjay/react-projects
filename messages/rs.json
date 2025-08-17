@@ -3,7 +3,9 @@
     "searchBtnTxt": "Pretraži",
     "refreshResBtnTxt": "Osveži rezultate",
     "refreshDetBtnTxt": "Osveži detalje",
-    "inputPlaceholder": "Pretraži likove iz Rick and Morty, npr. Rick Sanchez",
+    "inputPlaceholder": "Pretraži likove iz Rick and Morty, npr. Rick Sanchez"
+  },
+  "Pagination": {
     "prevPageBtnTxt": "Prethodna",
     "nextPageBtnTxt": "Sledeća",
     "paginationTxt": "Prikazano {page} od ukupno {totalPages}"

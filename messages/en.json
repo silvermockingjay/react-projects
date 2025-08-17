@@ -3,7 +3,9 @@
     "searchBtnTxt": "Search",
     "refreshResBtnTxt": "Refresh results",
     "refreshDetBtnTxt": "Refresh details",
-    "inputPlaceholder": "Search for characters from Rick and Morty, e.g. Rick Sanchez",
+    "inputPlaceholder": "Search for characters from Rick and Morty, e.g. Rick Sanchez"
+  },
+  "Pagination": {
     "prevPageBtnTxt": "Prev",
     "nextPageBtnTxt": "Next",
     "paginationTxt": "Showing {page} out of {totalPages}"
