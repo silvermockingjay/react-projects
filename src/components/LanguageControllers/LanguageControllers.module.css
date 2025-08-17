@@ -1,25 +1,20 @@
-.header {
+.langControllers {
   display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  padding: 1rem 2rem;
-  gap: 15px;
+  flex-direction: row;
+  gap: 5px;
 }
 
-.link, .linkActive {
+.langBtn {
+  max-width: 50px;
   color: #fff;
   background-color: transparent;
   border: 2px solid #fff;
   padding: 0.5rem 1rem;
-  text-decoration: none;
   font-size: 1.1rem;
   border-radius: 4px;
   transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 
-.link:hover,
-.linkActive {
-  background-color: #ffe600;
-  color: #000;
-  border-color: #ffe600;
+.langBtn:hover {
+  background-color: #ea5b6f;
 }
