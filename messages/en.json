@@ -20,5 +20,10 @@
   "title": "My React App",
   "main": "Main",
   "about": "About",
-  "fallback": "Something went wrong. Please refresh the page."
+  "fallback": "Something went wrong. Please refresh the page.",
+  "flyout": {
+    "items": "{count} item(s)",
+    "downloadBtnTxt": "Download",
+    "unselectBtnTxt": "Unselect All"
+  }
 }

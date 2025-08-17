@@ -20,5 +20,10 @@
   "title": "Moja React aplikacija",
   "main": "Glavna",
   "about": "O aplikaciji",
-  "fallback": "Došlo je do greške. Osvežite stranicu."
+  "fallback": "Došlo je do greške. Osvežite stranicu.",
+  "flyout": {
+    "items": "{count} stavka(e)",
+    "downloadBtnTxt": "Preuzmi",
+    "unselectBtnTxt": "Poništi izbor"
+  }
 }
