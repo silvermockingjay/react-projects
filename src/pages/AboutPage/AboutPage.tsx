@@ -1,8 +1,8 @@
 import styles from './AboutPage.module.css';
-import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 
-export function AboutPage() {
-  const t = useTranslations('AboutPage');
+export async function AboutPage() {
+  const t = await getTranslations('AboutPage');
   return (
     <div data-testid="about-page-content" className={styles.aboutContainer}>
       <div>{t('author')}</div>
