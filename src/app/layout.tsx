@@ -1,9 +1,3 @@
-import type { Metadata } from 'next';
-
-export const metadata: Metadata = {
-  title: 'My React App',
-};
-
 export default function RootLayout({
   children,
 }: {
