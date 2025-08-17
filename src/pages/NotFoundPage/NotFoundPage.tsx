@@ -1,22 +1,16 @@
-import { useNavigate } from 'react-router';
-import { CustomButton } from '../../components/CustomButton/CustomButton';
 import styles from './NotFoundPage.module.css';
-import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
+import { Link } from '../../i18n/navigation';
 
-export function NotFoundPage() {
-  const navigate = useNavigate();
-  const onClick = () => navigate('/');
-  const t = useTranslations('NotFoundPage');
+export async function NotFoundPage() {
+  const t = await getTranslations('NotFoundPage');
   return (
     <div className={styles.notFoundContainer}>
       <h1>{t('title')}</h1>
       <p>{t('sorryTxt')}</p>
-      <CustomButton
-        type="button"
-        text={t('backBtnTxt')}
-        customClass="backHomeBtn"
-        onClick={onClick}
-      />
+      <Link href="/" className={styles.backLink}>
+        {t('backBtnTxt')}
+      </Link>
     </div>
   );
 }
