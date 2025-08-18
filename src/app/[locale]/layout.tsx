@@ -1,11 +1,12 @@
-import { Provider } from 'react-redux';
-import { store } from '../store';
 import { CustomHeader } from '../../components/CustomHeader/CustomHeader';
 import { CustomMain } from '../../components/CustomMain/CustomMain';
 import { ErrorBoundary } from '../../components/ErrorBoundary/ErrorBoundary';
-import { NextIntlClientProvider, hasLocale } from 'next-intl';
+import { hasLocale } from 'next-intl';
 import { notFound } from 'next/navigation';
 import { routing } from '../../i18n/routing';
+import { ReduxProvider } from '../providers/ReduxProvider';
+import { NextIntlClientProvider } from 'next-intl';
+import '../styles/global.css';
 
 export default async function RootLayout({
   children,
@@ -18,17 +19,18 @@ export default async function RootLayout({
   if (!hasLocale(routing.locales, locale)) {
     notFound();
   }
+
   return (
     <html lang={locale}>
       <body>
-        <Provider store={store}>
+        <ReduxProvider>
           <NextIntlClientProvider>
             <ErrorBoundary>
               <CustomHeader />
               <CustomMain>{children}</CustomMain>
             </ErrorBoundary>
           </NextIntlClientProvider>
-        </Provider>
+        </ReduxProvider>
       </body>
     </html>
   );
