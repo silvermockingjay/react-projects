@@ -5,14 +5,7 @@
 }
 
 .langBtn {
-  max-width: 50px;
-  color: #fff;
-  background-color: transparent;
-  border: 2px solid #fff;
   padding: 0.5rem 1rem;
-  font-size: 1.1rem;
-  border-radius: 4px;
-  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 
 .langBtn:hover {
