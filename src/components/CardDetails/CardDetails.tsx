@@ -10,6 +10,7 @@ import { RefreshButton } from '../RefreshButton/RefreshButton';
 import { useTranslations } from 'use-intl';
 import { usePathname, useRouter } from '../../i18n/navigation';
 import { useSearchParams } from 'next/navigation';
+import Image from 'next/image';
 
 export function CardDetails(): JSX.Element {
   const router = useRouter();
@@ -46,10 +47,12 @@ export function CardDetails(): JSX.Element {
             customClass={styles.closeBtn}
             onClick={closeDetails}
           />
-          <img
+          <Image
             className={styles.itemImage}
             src={details?.image}
             alt={details?.name}
+            width={310}
+            height={314}
           />
         </div>
         <div>
