@@ -11,7 +11,7 @@ export function CustomHeader() {
   const t = useTranslations();
   return (
     <div className={styles.header}>
-      <nav>
+      <nav className={styles.nav}>
         <Link
           href="/"
           className={pathname === '/' ? styles.linkActive : styles.link}
