@@ -17,7 +17,7 @@ export function SearchForm({
   onSubmit,
   onChange,
 }: FormProps): JSX.Element {
-  const t = useTranslations('SearchPage');
+  const t = useTranslations('SearchForm');
   return (
     <form className={styles.searchForm} onSubmit={onSubmit}>
       <CustomInput
