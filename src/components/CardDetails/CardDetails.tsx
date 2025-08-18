@@ -1,25 +1,30 @@
+'use client';
+
 import type { JSX } from 'react';
 import styles from './CardDetails.module.css';
-import { useNavigate, useSearchParams } from 'react-router';
 import { Loader } from '../Loader/Loader';
 import { Fallback } from '../FallBack/Fallback';
 import { CustomButton } from '../CustomButton/CustomButton';
 import { useGetCharacterQuery } from '../../services/RickAndMortyAPI/rickAndMorty';
 import { RefreshButton } from '../RefreshButton/RefreshButton';
 import { useTranslations } from 'use-intl';
+import { usePathname, useRouter } from '../../i18n/navigation';
+import { useSearchParams } from 'next/navigation';
 
 export function CardDetails(): JSX.Element {
-  const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
-  const id = Number(searchParams.get('detailsId'));
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const id = Number(searchParams?.get('detailsId'));
   const t = useTranslations('RefreshBtn');
 
   const { data: details, error, isLoading, refetch } = useGetCharacterQuery(id);
 
   const closeDetails = () => {
-    const newSearchParams = new URLSearchParams(searchParams);
+    const newSearchParams = new URLSearchParams(searchParams || {});
     newSearchParams.delete('detailsId');
-    navigate(`/?${newSearchParams.toString()}`);
+    router.replace(`${pathname}?${newSearchParams.toString()}`);
   };
 
   let content: React.ReactNode;
@@ -50,7 +55,7 @@ export function CardDetails(): JSX.Element {
         <div>
           <h3 className={styles.itemTitle}>{details?.name}</h3>
           <div className={styles.itemContent}>
-            <ul>
+            <ul className={styles.detailsList}>
               <li>
                 <b>Status: </b> {details?.status}
               </li>
