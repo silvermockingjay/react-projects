@@ -1,0 +1,33 @@
+{
+  "SearchForm": {
+    "searchBtnTxt": "Search",
+    "inputPlaceholder": "Search for characters from Rick and Morty, e.g. Rick Sanchez"
+  },
+  "RefreshBtn": {
+    "refreshResBtnTxt": "Refresh results",
+    "refreshDetBtnTxt": "Refresh details"
+  },
+  "Pagination": {
+    "prevPageBtnTxt": "Prev",
+    "nextPageBtnTxt": "Next",
+    "paginationTxt": "Showing {page} out of {totalPages}"
+  },
+  "AboutPage": {
+    "author": "Hi! I'm Anastasia. I'm a motivated frontend developer passionate about creating meaningful digital experiences using modern web technologies. I'm eager to keep learning and growing within a collaborative, professional tech environment.",
+    "app": "This app is developed to showcase React Tasks of"
+  },
+  "NotFoundPage": {
+    "title": "Page not found",
+    "sorryTxt": "Sorry, we couldn't find the page you're looking for",
+    "backBtnTxt": "Back to home"
+  },
+  "title": "My React App",
+  "main": "Main",
+  "about": "About",
+  "fallback": "Something went wrong. Please refresh the page.",
+  "flyout": {
+    "items": "{count} item(s)",
+    "downloadBtnTxt": "Download",
+    "unselectBtnTxt": "Unselect All"
+  }
+}

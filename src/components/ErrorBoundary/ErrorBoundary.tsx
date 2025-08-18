@@ -1,3 +1,5 @@
+'use client';
+
 import { Component, type ErrorInfo } from 'react';
 import { Fallback } from '../FallBack/Fallback';
 import { CustomMain } from '../CustomMain/CustomMain';

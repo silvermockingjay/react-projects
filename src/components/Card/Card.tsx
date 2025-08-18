@@ -1,3 +1,5 @@
+'use client';
+
 import type { JSX } from 'react';
 import styles from './Card.module.css';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
@@ -7,6 +9,7 @@ import {
   type Card,
 } from '../../features/cards/cardsSlice';
 import { CustomInput } from '../CustomInput/CustomInput';
+import Image from 'next/image';
 
 export interface CardProps {
   id: number;
@@ -50,7 +53,13 @@ export function Card({
           onChange={onChangeToggle}
           customClass={styles.checkbox}
         />
-        <img className={styles.itemImage} src={image} alt={name} />
+        <Image
+          className={styles.itemImage}
+          src={image}
+          alt={name}
+          width={250}
+          height={254}
+        />
       </div>
       <div className={styles.itemContent}>
         <h3 className={styles.itemTitle}>{name}</h3>

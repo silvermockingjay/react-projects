@@ -9,5 +9,18 @@
   padding: 1rem;
   color: #fff;
   font-size: 1.5rem;
+}
 
+.backLink {
+  color: #000;
+  background-color: #fff;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  font-size: 1.1rem;
+  border-radius: 4px;
+}
+
+.backLink:hover {
+  background-color: #ffe600;
+  color: #000;
 }

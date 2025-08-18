@@ -1,0 +1,33 @@
+{
+  "SearchForm": {
+    "searchBtnTxt": "Pretraži",
+    "inputPlaceholder": "Pretraži likove iz Rick and Morty, npr. Rick Sanchez"
+  },
+  "RefreshBtn": {
+    "refreshResBtnTxt": "Osveži rezultate",
+    "refreshDetBtnTxt": "Osveži detalje"
+  },
+  "Pagination": {
+    "prevPageBtnTxt": "Prethodna",
+    "nextPageBtnTxt": "Sledeća",
+    "paginationTxt": "Prikazano {page} od ukupno {totalPages}"
+  },
+  "AboutPage": {
+    "author": "Zdravo! Ja sam Anastasija. Motivisani sam frontend programer, strastven u stvaranju značajnih digitalnih iskustava korišćenjem modernih web tehnologija. Želim da nastavim da učim i napredujem u saradničkom, profesionalnom IT okruženju.",
+    "app": "Ova aplikacija je razvijena kao deo zadatka React kursa"
+  },
+  "NotFoundPage": {
+    "title": "Stranica nije pronađena",
+    "sorryTxt": "Nažalost, nismo mogli da pronađemo stranicu koju tražite",
+    "backBtnTxt": "Nazad na početnu"
+  },
+  "title": "Moja React aplikacija",
+  "main": "Glavna",
+  "about": "O aplikaciji",
+  "fallback": "Došlo je do greške. Osvežite stranicu.",
+  "flyout": {
+    "items": "{count} stavka(e)",
+    "downloadBtnTxt": "Preuzmi",
+    "unselectBtnTxt": "Poništi izbor"
+  }
+}

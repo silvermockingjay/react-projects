@@ -1,3 +1,5 @@
+'use client';
+
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import {
   allCleared,
@@ -8,8 +10,10 @@ import { downloadCSV } from '../../services/downloadCSV';
 import { CustomButton } from '../CustomButton/CustomButton';
 import { useRef } from 'react';
 import styles from './Flyout.module.css';
+import { useTranslations } from 'next-intl';
 
 export function Flyout() {
+  const t = useTranslations('flyout');
   const dispatch = useAppDispatch();
   const selectedCardsCount = useAppSelector(selectCount);
   const selectedCards = useAppSelector(selectCheckedCards);
@@ -27,15 +31,17 @@ export function Flyout() {
   const flyoutClass = selectedCardsCount ? styles.flyout : styles.hide;
   return (
     <div className={flyoutClass} data-testid="flyout">
-      <div className={styles.items}>{selectedCardsCount} items</div>
+      <div className={styles.items}>
+        {t('items', { count: selectedCardsCount })}
+      </div>
       <div className={styles.actions}>
         <CustomButton
-          text="Unselect All"
+          text={t('unselectBtnTxt')}
           customClass={styles.unselectBtn}
           onClick={unselectAll}
         />
         <CustomButton
-          text="Download"
+          text={t('downloadBtnTxt')}
           customClass={styles.downloadBtn}
           onClick={download}
         />

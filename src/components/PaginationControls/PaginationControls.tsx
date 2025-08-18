@@ -1,6 +1,9 @@
+'use client';
+
 import type { JSX } from 'react';
 import { CustomButton } from '../CustomButton/CustomButton';
 import styles from './PaginationControls.module.css';
+import { useTranslations } from 'next-intl';
 
 interface PaginationProps {
   page: number;
@@ -17,20 +20,19 @@ export function PaginationControls({
   const prevPageClass = page === 1 ? 'controlBtn inactive' : 'controlBtn';
   const nextPageClass =
     page === totalPages ? 'controlBtn inactive' : 'controlBtn';
+  const t = useTranslations('Pagination');
   return (
     <div className={styles.paginationControls}>
       <CustomButton
         type="button"
-        text="Prev"
+        text={t('prevPageBtnTxt')}
         customClass={prevPageClass}
         onClick={prevPage}
       />
-      <div>
-        Showing {page} out of {totalPages}
-      </div>
+      <div>{t('paginationTxt', { page: page, totalPages: totalPages })}</div>
       <CustomButton
         type="button"
-        text="Next"
+        text={t('nextPageBtnTxt')}
         customClass={nextPageClass}
         onClick={nextPage}
       />

@@ -1,0 +1,13 @@
+.langControllers {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+
+.langBtn {
+  padding: 0.5rem 1rem;
+}
+
+.langBtn:hover {
+  background-color: #ea5b6f;
+}
