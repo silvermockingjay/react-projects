@@ -78,8 +78,8 @@ export function SearchPage() {
   }, [localQuery, router, pathname, searchParams]);
 
   useEffect(() => {
-    const searchQuery = searchParams.get('search') || '';
-    const pageQuery = Number(searchParams.get('page')) || 1;
+    const searchQuery = searchParams?.get('search') || '';
+    const pageQuery = Number(searchParams?.get('page')) || 1;
     setQuery(searchQuery);
     setPage(pageQuery);
   }, [searchParams]);
@@ -98,14 +98,14 @@ export function SearchPage() {
 
   const prevPage = async (): Promise<void> => {
     const prevPage = page - 1;
-    const newSearchParams = new URLSearchParams(searchParams);
+    const newSearchParams = new URLSearchParams(searchParams || {});
     newSearchParams.set('page', `${prevPage}`);
     router.replace(`${pathname}?${newSearchParams.toString()}`);
   };
 
   const nextPage = async (): Promise<void> => {
     const nextPage = page + 1;
-    const newSearchParams = new URLSearchParams(searchParams);
+    const newSearchParams = new URLSearchParams(searchParams || {});
     newSearchParams.set('page', `${nextPage}`);
     router.replace(`${pathname}?${newSearchParams.toString()}`);
   };
@@ -114,7 +114,7 @@ export function SearchPage() {
     const target = e.target as HTMLElement;
     if (target.closest('input[type="checkbox"]')) return;
     const detailsId = e.currentTarget.dataset.id || '';
-    const newSearchParams = new URLSearchParams(searchParams);
+    const newSearchParams = new URLSearchParams(searchParams || {});
     newSearchParams.set('detailsId', detailsId);
     router.replace(`/details?${newSearchParams.toString()}`);
     window.scrollTo({ top: 0, behavior: 'smooth' });

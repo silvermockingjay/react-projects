@@ -8,7 +8,7 @@ import { CustomButton } from '../CustomButton/CustomButton';
 export function LanguageControllers() {
   const router = useRouter();
   const pathname = usePathname();
-  const searchParams = useSearchParams();
+  const searchParams = useSearchParams() || {};
   const changeLang = (option: string) => {
     router.replace(`${pathname}?${searchParams.toString()}`, {
       locale: option,
