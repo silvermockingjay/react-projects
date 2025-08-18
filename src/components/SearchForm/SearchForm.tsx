@@ -1,3 +1,5 @@
+'use client';
+
 import { type JSX } from 'react';
 import { CustomButton } from '../CustomButton/CustomButton';
 import { CustomInput } from '../CustomInput/CustomInput';

@@ -1,3 +1,5 @@
+'use client';
+
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import {
   allCleared,
