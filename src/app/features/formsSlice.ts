@@ -11,7 +11,6 @@ export interface Form {
   acceptTerms: boolean;
   picture: string;
   country: string;
-  createdAt: string;
 }
 
 const initialState: Form[] = [];
