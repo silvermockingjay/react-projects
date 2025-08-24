@@ -1,8 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
 import formsReducer from './features/formsSlice';
+import countriesReducer from './features/countriesSlice';
 
 export const store = configureStore({
-  reducer: { forms: formsReducer },
+  reducer: {
+    forms: formsReducer,
+    countries: countriesReducer,
+  },
 });
 
 export type AppStore = typeof store;
