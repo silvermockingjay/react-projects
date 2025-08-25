@@ -154,12 +154,21 @@ export function ControlledForm() {
       {errors.confirmPassword && (
         <p className={styles.formErrors}>{errors.confirmPassword.message}</p>
       )}
-      <label>Gender</label>
-      <input type="radio" value="Male" {...register('gender')} />
-      <input type="radio" value="Female" {...register('gender')} />
-      {errors.gender && (
-        <p className={styles.formErrors}>{errors.gender.message}</p>
-      )}
+      <div>
+        <p>Gender</p>
+        <label htmlFor="male">Male</label>
+        <input type="radio" value="Male" {...register('gender')} id="male" />
+        <label htmlFor="male">Female</label>
+        <input
+          type="radio"
+          value="Female"
+          {...register('gender')}
+          id="female"
+        />
+        {errors.gender && (
+          <p className={styles.formErrors}>{errors.gender.message}</p>
+        )}
+      </div>
       <label htmlFor="agreement">I accept T&C agreement</label>
       <input type="checkbox" {...register('acceptTerms')} id="agreement" />
       {errors.acceptTerms && (
