@@ -1,0 +1,35 @@
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 40%;
+}
+
+.formField {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.formFieldInline {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+input {
+  width: 50%;
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+  width: auto;
+}
+
+.uploadFileBtn {
+  width: 110px;
+}
+
+.submitBtn {
+  width: 200px;
+}
