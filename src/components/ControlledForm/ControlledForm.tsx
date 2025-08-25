@@ -1,15 +1,11 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { countries } from '../../utils/countries';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import styles from './ControlledForm.module.css';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import {
-  countriesAdded,
-  selectCountries,
-} from '../../app/features/countriesSlice';
+import { selectCountries } from '../../app/features/countriesSlice';
 import { dataSubmitted } from '../../app/features/formsSlice';
 import { convertToBase64 } from '../../utils/convertToBase64';
 import type { SubmitHandler } from 'react-hook-form';
@@ -32,10 +28,6 @@ export function ControlledForm() {
   const dispatch = useAppDispatch();
   const myCountries = useAppSelector(selectCountries);
   const [file, setFile] = useState<File | null>(null);
-
-  useEffect(() => {
-    dispatch(countriesAdded(countries));
-  }, [dispatch]);
 
   const schema = yup.object({
     name: yup
@@ -85,12 +77,13 @@ export function ControlledForm() {
       .test(
         'size',
         'File should be max 2MB',
-        (value) => value && (value as FileList)[0].size <= MAX_FILE_SIZE
+        (value) => value && (value as FileList)[0]?.size <= MAX_FILE_SIZE
       )
       .test(
         'type',
         'Allowed file extensions: jpeg, jpg, png',
-        (value) => value && fileExtensions.includes((value as FileList)[0].type)
+        (value) =>
+          value && fileExtensions.includes((value as FileList)[0]?.type)
       ),
     country: yup.string().required('Choose a country'),
   });
@@ -102,15 +95,16 @@ export function ControlledForm() {
   } = useForm<ControlledForm>({
     resolver: yupResolver(schema),
     mode: 'onChange',
+    reValidateMode: 'onChange',
     defaultValues: {
       name: '',
-      age: 0,
+      age: undefined as unknown as number,
       email: '',
       password: '',
       confirmPassword: '',
       gender: '',
       acceptTerms: false,
-      picture: {} as FileList,
+      picture: undefined as unknown as FileList,
       country: '',
     },
   });
@@ -175,16 +169,19 @@ export function ControlledForm() {
         <p className={styles.formErrors}>{errors.acceptTerms.message}</p>
       )}
       <label htmlFor="country">Country</label>
-      <select autoComplete="on" {...register('country')} id="country">
-        <option value="" disabled={true}>
-          Select a country
-        </option>
+      <input
+        list="countries"
+        {...register('country')}
+        id="country"
+        placeholder="Select a country"
+      />
+      <datalist id="countries">
         {myCountries.map((country) => (
           <option key={country} value={country}>
             {country}
           </option>
         ))}
-      </select>
+      </datalist>
       {errors.country && (
         <p className={styles.country}>{errors.country.message}</p>
       )}
@@ -203,7 +200,9 @@ export function ControlledForm() {
       {errors.picture && (
         <p className={styles.formErrors}>{errors.picture.message}</p>
       )}
-      <button disabled={!isValid}>Submit</button>
+      <button type="submit" disabled={!isValid}>
+        Submit
+      </button>
     </form>
   );
 }
