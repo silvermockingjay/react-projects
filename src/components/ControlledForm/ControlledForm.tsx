@@ -130,7 +130,7 @@ export function ControlledForm() {
       </div>
       <div className={styles.formField}>
         <label htmlFor="age">Age</label>
-        <input type="text" {...register('age')} id="age" autoComplete="on" />
+        <input type="number" {...register('age')} id="age" autoComplete="on" />
         {errors.age && (
           <p className={styles.formErrors}>{errors.age.message}</p>
         )}
