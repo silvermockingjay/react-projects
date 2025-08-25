@@ -77,9 +77,10 @@ export function ControlledForm() {
     gender: yup.string().required('Choose gender'),
     acceptTerms: yup
       .boolean()
-      .oneOf([true], 'Accept terms and conditions policies'),
+      .oneOf([true], 'Accept terms and conditions policies')
+      .defined(),
     picture: yup
-      .mixed()
+      .mixed<FileList>()
       .required('Upload a picture')
       .test(
         'size',
