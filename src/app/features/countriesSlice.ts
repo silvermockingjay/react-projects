@@ -1,8 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from '../store';
+import { countries } from '../../utils/countries';
 
-const initialState: string[] = [];
+const initialState: string[] = [...countries];
 
 const countriesSlice = createSlice({
   name: 'countries',
