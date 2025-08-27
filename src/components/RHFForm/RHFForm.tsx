@@ -9,18 +9,9 @@ import { selectCountries } from '../../app/features/countriesSlice';
 import { dataSubmitted } from '../../app/features/formsSlice';
 import { convertToBase64 } from '../../utils/convertToBase64';
 import type { SubmitHandler } from 'react-hook-form';
+import type { InferType } from 'yup';
 
-interface RHFForm {
-  name: string;
-  age: number;
-  email: string;
-  password: string;
-  confirmPassword: string;
-  gender: string;
-  acceptTerms: boolean;
-  picture: FileList;
-  country: string;
-}
+type RHFForm = InferType<typeof schema>;
 
 export function RHFForm() {
   const dispatch = useAppDispatch();
@@ -31,10 +22,9 @@ export function RHFForm() {
     register,
     handleSubmit,
     formState: { errors, isValid },
-  } = useForm<RHFForm>({
+  } = useForm({
     resolver: yupResolver(schema),
-    mode: 'onChange',
-    reValidateMode: 'onChange',
+    mode: 'all',
     defaultValues: {
       name: '',
       age: undefined as unknown as number,
@@ -43,7 +33,7 @@ export function RHFForm() {
       confirmPassword: '',
       gender: '',
       acceptTerms: false,
-      picture: undefined as unknown as FileList,
+      picture: undefined,
       country: '',
     },
   });
@@ -163,7 +153,6 @@ export function RHFForm() {
             }}
           />
         </div>
-        <button className={styles.uploadFileBtn}>Upload picture</button>
         {errors.picture && (
           <p className={styles.formErrors}>{errors.picture.message}</p>
         )}
