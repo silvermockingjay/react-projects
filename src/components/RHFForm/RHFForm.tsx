@@ -3,14 +3,14 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useState } from 'react';
 
-import styles from './ControlledForm.module.css';
+import styles from './RHFForm.module.css';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { selectCountries } from '../../app/features/countriesSlice';
 import { dataSubmitted } from '../../app/features/formsSlice';
 import { convertToBase64 } from '../../utils/convertToBase64';
 import type { SubmitHandler } from 'react-hook-form';
 
-interface ControlledForm {
+interface RHFForm {
   name: string;
   age: number;
   email: string;
@@ -22,7 +22,7 @@ interface ControlledForm {
   country: string;
 }
 
-export function ControlledForm() {
+export function RHFForm() {
   const MAX_FILE_SIZE = 2 * 1024 * 1024;
   const fileExtensions = ['image/jpeg', 'image/jpg', 'image/png'];
   const dispatch = useAppDispatch();
@@ -92,7 +92,7 @@ export function ControlledForm() {
     register,
     handleSubmit,
     formState: { errors, isValid },
-  } = useForm<ControlledForm>({
+  } = useForm<RHFForm>({
     resolver: yupResolver(schema),
     mode: 'onChange',
     reValidateMode: 'onChange',
@@ -109,7 +109,7 @@ export function ControlledForm() {
     },
   });
 
-  const onSubmit: SubmitHandler<ControlledForm> = async (data) => {
+  const onSubmit: SubmitHandler<RHFForm> = async (data) => {
     let pictureBase64: string = '';
     if (file) pictureBase64 = await convertToBase64(file);
     const formattedData = {

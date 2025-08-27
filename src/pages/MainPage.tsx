@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useAppDispatch } from '../app/hooks';
 import { countriesAdded } from '../app/features/countriesSlice';
 import { countries } from '..//utils/countries';
-import { ControlledForm } from '../components/ControlledForm/ControlledForm';
+import { RHFForm } from '../components/RHFForm/RHFForm';
 
 export function MainPage() {
   const dispatch = useAppDispatch();
@@ -11,7 +11,7 @@ export function MainPage() {
   }, [dispatch]);
   return (
     <main>
-      <ControlledForm />
+      <RHFForm />
     </main>
   );
 }
