@@ -2,14 +2,15 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { schema } from '../../utils/schema';
 import { useState } from 'react';
-
-import styles from './RHFForm.module.css';
+import type { InferType } from 'yup';
+import type { SubmitHandler } from 'react-hook-form';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { selectCountries } from '../../app/features/countriesSlice';
 import { dataSubmitted } from '../../app/features/formsSlice';
 import { convertToBase64 } from '../../utils/convertToBase64';
-import type { SubmitHandler } from 'react-hook-form';
-import type { InferType } from 'yup';
+import { calcPasswordStrength } from '../../utils/calcPasswordStrength';
+
+import styles from './RHFForm.module.css';
 
 type RHFForm = InferType<typeof schema>;
 
@@ -22,6 +23,7 @@ export function RHFForm() {
     register,
     handleSubmit,
     formState: { errors, isValid },
+    watch,
   } = useForm({
     resolver: yupResolver(schema),
     mode: 'all',
@@ -37,6 +39,9 @@ export function RHFForm() {
       country: '',
     },
   });
+
+  const password = watch('password');
+  const passwordStrength = calcPasswordStrength(password);
 
   const onSubmit: SubmitHandler<RHFForm> = async (data) => {
     let pictureBase64: string = '';
@@ -81,6 +86,11 @@ export function RHFForm() {
         <input type="password" {...register('password')} id="password" />
         {errors.password && (
           <p className={styles.formErrors}>{errors.password.message}</p>
+        )}
+        {passwordStrength !== '' && (
+          <p className={styles.PasswordStrength}>
+            Password strength: {passwordStrength}
+          </p>
         )}
       </div>
       <div className={styles.formField}>
