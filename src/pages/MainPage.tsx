@@ -15,6 +15,7 @@ export function MainPage() {
     setFormType(type);
     setOpenModal(true);
   };
+  const closeForm = () => setOpenModal(false);
   return (
     <main>
       <section className={styles.formOptions}>
@@ -43,8 +44,10 @@ export function MainPage() {
       </section>
       {openModal && (
         <Modal onClick={() => setOpenModal(false)}>
-          {formType === 'uncontrolledForm' && <UncontrolledForm />}
-          {formType === 'RHFForm' && <RHFForm />}
+          {formType === 'uncontrolledForm' && (
+            <UncontrolledForm closeForm={closeForm} />
+          )}
+          {formType === 'RHFForm' && <RHFForm closeForm={closeForm} />}
         </Modal>
       )}
     </main>

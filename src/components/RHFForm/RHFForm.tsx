@@ -14,7 +14,11 @@ import styles from './RHFForm.module.css';
 
 type RHFForm = InferType<typeof schema>;
 
-export function RHFForm() {
+export interface FormProps {
+  closeForm: () => void;
+}
+
+export function RHFForm({ closeForm }: FormProps) {
   const dispatch = useAppDispatch();
   const myCountries = useAppSelector(selectCountries);
   const [file, setFile] = useState<File | null>(null);
@@ -51,6 +55,7 @@ export function RHFForm() {
       picture: pictureBase64,
     };
     dispatch(dataSubmitted(formattedData));
+    closeForm();
   };
 
   return (

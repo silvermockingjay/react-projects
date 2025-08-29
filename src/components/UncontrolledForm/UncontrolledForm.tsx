@@ -5,6 +5,7 @@ import styles from './UncontrolledForm.module.css';
 import { convertToBase64 } from '../../utils/convertToBase64';
 import { dataSubmitted } from '../../app/features/formsSlice';
 import type { Form } from '../../app/features/formsSlice';
+import type { FormProps } from '../RHFForm/RHFForm';
 import { schema } from '../../utils/schema';
 import { ValidationError } from 'yup';
 import { calcPasswordStrength } from '../../utils/calcPasswordStrength';
@@ -21,7 +22,7 @@ interface FormErrors {
   country?: string[];
 }
 
-export function UncontrolledForm() {
+export function UncontrolledForm({ closeForm }: FormProps) {
   const dispatch = useAppDispatch();
   const myCountries = useAppSelector(selectCountries);
   const [passwordStrength, setPasswordStrength] = useState('');
@@ -51,7 +52,10 @@ export function UncontrolledForm() {
       const validData = await schema.validate(formattedData, {
         abortEarly: false,
       });
-      if (validData) dispatch(dataSubmitted(formattedData));
+      if (validData) {
+        dispatch(dataSubmitted(formattedData));
+        closeForm();
+      }
     } catch (error) {
       if (error instanceof ValidationError) {
         const errors: Record<string, string[]> = {};
