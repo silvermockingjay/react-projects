@@ -50,12 +50,18 @@ export const schema = yup.object({
     .test(
       'size',
       'File should be max 2MB',
-      (value) => !value || (value as FileList)[0]?.size <= MAX_FILE_SIZE
+      (value) =>
+        !value ||
+        value.length === 0 ||
+        (value as FileList)[0]?.size <= MAX_FILE_SIZE
     )
     .test(
       'type',
       'Allowed file extensions: jpeg, jpg, png',
-      (value) => !value || fileExtensions.includes((value as FileList)[0]?.type)
+      (value) =>
+        !value ||
+        value.length === 0 ||
+        fileExtensions.includes((value as FileList)[0]?.type)
     ),
   country: yup.string().required('Choose a country'),
 });
