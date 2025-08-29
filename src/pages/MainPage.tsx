@@ -5,6 +5,7 @@ import { UncontrolledForm } from '../components/UncontrolledForm/UncontrolledFor
 import styles from './MainPage.module.css';
 import { useAppSelector } from '../app/hooks';
 import { selectFormsData } from '../app/features/formsSlice';
+import { Card } from '../components/Card/Card';
 
 export function MainPage() {
   const [formType, setFormType] = useState('');
@@ -31,7 +32,14 @@ export function MainPage() {
         </button>
       </section>
       <section className={styles.results}>
-        {results.length !== 0 && 'Results are here'}
+        {results.length !== 0 &&
+          results.map((result, i) => (
+            <Card
+              key={result.email}
+              data={result}
+              customClass={i === results.length - 1 ? styles.newCard : ''}
+            />
+          ))}
       </section>
       {openModal && (
         <Modal onClick={() => setOpenModal(false)}>
