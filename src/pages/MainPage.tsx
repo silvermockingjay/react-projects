@@ -38,7 +38,7 @@ export function MainPage() {
             <Card
               key={result.email}
               data={result}
-              customClass={i === results.length - 1 ? styles.newCard : ''}
+              isNewCard={i === results.length - 1}
             />
           ))}
       </section>

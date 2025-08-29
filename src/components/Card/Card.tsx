@@ -3,11 +3,12 @@ import styles from './Card.module.css';
 
 interface CardProps {
   data: Form;
+  isNewCard: boolean;
 }
 
-export function Card({ data }: CardProps) {
+export function Card({ data, isNewCard }: CardProps) {
   return (
-    <div className={styles.card}>
+    <div className={`${styles.card} ${isNewCard ? styles.newCard : ''}`}>
       <ul className={styles.contentList}>
         <li>Name: {data.name}</li>
         <li>Age: {data.age}</li>
