@@ -15,8 +15,8 @@ export function Card({ data, isNewCard }: CardProps) {
         <li>Email: {data.email}</li>
         <li>Gender: {data.gender}</li>
         <li>Password: {data.password}</li>
-        <li>T&C agreement: {data.age ? 'yes' : 'no'}</li>
-        <li>Country: {data.age}</li>
+        <li>T&C agreement: {data.acceptTerms ? 'yes' : 'no'}</li>
+        <li>Country: {data.country}</li>
         <li className={styles.imageContainer}>
           <img src={data.picture} alt="Uploaded picture" />
         </li>
