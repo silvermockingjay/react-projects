@@ -1,16 +1,15 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { schema } from '../../utils/schema';
+import { schema } from '../../../utils/schema';
 import { useState } from 'react';
 import type { InferType } from 'yup';
 import type { SubmitHandler } from 'react-hook-form';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { selectCountries } from '../../app/features/countriesSlice';
-import { dataSubmitted } from '../../app/features/formsSlice';
-import { convertToBase64 } from '../../utils/convertToBase64';
-import { calcPasswordStrength } from '../../utils/calcPasswordStrength';
-
-import styles from './RHFForm.module.css';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
+import { selectCountries } from '../../../app/features/countriesSlice';
+import { dataSubmitted } from '../../../app/features/formsSlice';
+import { convertToBase64 } from '../../../utils/convertToBase64';
+import { calcPasswordStrength } from '../../../utils/calcPasswordStrength';
+import styles from '../Forms.module.css';
 
 type RHFForm = InferType<typeof schema>;
 

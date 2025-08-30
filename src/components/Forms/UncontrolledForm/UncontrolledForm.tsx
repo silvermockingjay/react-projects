@@ -1,13 +1,13 @@
 import { useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { selectCountries } from '../../app/features/countriesSlice';
-import styles from './UncontrolledForm.module.css';
-import { convertToBase64 } from '../../utils/convertToBase64';
-import { dataSubmitted } from '../../app/features/formsSlice';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
+import { selectCountries } from '../../../app/features/countriesSlice';
+import { convertToBase64 } from '../../../utils/convertToBase64';
+import { dataSubmitted } from '../../../app/features/formsSlice';
 import type { FormProps } from '../RHFForm/RHFForm';
-import { schema } from '../../utils/schema';
+import { schema } from '../../../utils/schema';
 import { ValidationError } from 'yup';
-import { calcPasswordStrength } from '../../utils/calcPasswordStrength';
+import { calcPasswordStrength } from '../../../utils/calcPasswordStrength';
+import styles from '../Forms.module.css';
 
 interface FormErrors {
   name?: string[];

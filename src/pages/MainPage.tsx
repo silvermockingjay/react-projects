@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Modal } from '../components/Modal/Modal';
-import { RHFForm } from '../components/RHFForm/RHFForm';
-import { UncontrolledForm } from '../components/UncontrolledForm/UncontrolledForm';
+import { RHFForm } from '../components/Forms/RHFForm/RHFForm';
+import { UncontrolledForm } from '../components/Forms/UncontrolledForm/UncontrolledForm';
 import styles from './MainPage.module.css';
 import { useAppSelector } from '../app/hooks';
 import { selectFormsData } from '../app/features/formsSlice';
