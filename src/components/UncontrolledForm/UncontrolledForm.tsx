@@ -4,7 +4,6 @@ import { selectCountries } from '../../app/features/countriesSlice';
 import styles from './UncontrolledForm.module.css';
 import { convertToBase64 } from '../../utils/convertToBase64';
 import { dataSubmitted } from '../../app/features/formsSlice';
-import type { Form } from '../../app/features/formsSlice';
 import type { FormProps } from '../RHFForm/RHFForm';
 import { schema } from '../../utils/schema';
 import { ValidationError } from 'yup';
@@ -38,14 +37,15 @@ export function UncontrolledForm({ closeForm }: FormProps) {
     const data = Object.fromEntries(formData.entries());
     let pictureBase64: string = '';
     if (file) pictureBase64 = await convertToBase64(file);
-    const formattedData: Form = {
+    const formattedData = {
       name: data.name as string,
       age: Number(data.age),
       email: data.email as string,
       password: data.password as string,
+      confirmPassword: data.confirmPassword as string,
       gender: data.gender as string,
       acceptTerms: data.acceptTerms === 'on',
-      picture: pictureBase64,
+      picture: [data.picture],
       country: data.country as string,
     };
     try {
@@ -53,7 +53,12 @@ export function UncontrolledForm({ closeForm }: FormProps) {
         abortEarly: false,
       });
       if (validData) {
-        dispatch(dataSubmitted(formattedData));
+        dispatch(
+          dataSubmitted({
+            ...formattedData,
+            picture: pictureBase64,
+          })
+        );
         closeForm();
       }
     } catch (error) {
