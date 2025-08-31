@@ -1,15 +1,18 @@
 interface FiltersProp {
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  data: string[] | number[];
 }
 
-export function Filters({ onChange }: FiltersProp) {
+export function Filters({ onChange, data }: FiltersProp) {
   return (
     <label>
       Filter by:
       <select onChange={onChange}>
-        <option value="name">Name</option>
-        <option value="population/asc">Population (asc)</option>
-        <option value="population/desc">Population (desc)</option>
+        {data.map((item) => (
+          <option key={item} value={item}>
+            {item}
+          </option>
+        ))}
       </select>
     </label>
   );
