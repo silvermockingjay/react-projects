@@ -1,7 +1,8 @@
 import type { CountriesData } from '../../interfaces/interfaces';
+import { use } from 'react';
+import { getData } from '../../services/getData';
 
 interface TableProps {
-  data: CountriesData;
   year: number;
   search: string;
   sortBy: 'name' | 'population';
@@ -10,13 +11,13 @@ interface TableProps {
 }
 
 export function Table({
-  data,
   year,
   search,
   sortBy,
   sortOrder,
   optionalCol,
 }: TableProps) {
+  const data: CountriesData = use(getData());
   let countriesData = Object.entries(data);
   if (search) {
     countriesData = countriesData.filter(
