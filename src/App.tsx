@@ -1,5 +1,10 @@
 import './App.css';
+import { MainPage } from './pages/MainPage';
 
 export default function App() {
-  return <main>Main page</main>;
+  return (
+    <main>
+      <MainPage />
+    </main>
+  );
 }
