@@ -43,7 +43,7 @@ export function MainPage() {
           ))}
       </section>
       {openModal && (
-        <Modal onClick={() => setOpenModal(false)}>
+        <Modal isOpen={openModal} onClick={() => setOpenModal(false)}>
           {formType === 'uncontrolledForm' && (
             <UncontrolledForm closeForm={closeForm} />
           )}
