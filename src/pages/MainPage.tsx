@@ -3,6 +3,7 @@ import styles from './MainPage.module.css';
 import { Table } from '../components/Table/Table';
 import { SearchBar } from '../components/SearchBar/SearchBar';
 import { Filters } from '../components/Filters/Filters';
+import { Modal } from '../components/Modal/Modal';
 import years from '../utils/years';
 import sort from '../utils/sorting';
 
@@ -11,7 +12,9 @@ export function MainPage() {
   const [year, setYear] = useState(0);
   const [sortBy, setSortBy] = useState<'population' | 'name'>('name');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+  const [optionalCol, setOptionalCol] = useState<string[]>([]);
   const [query, setQuery] = useState('');
+  const [isOpen, setIsOpen] = useState(false);
 
   const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setQuery(e.target.value);
@@ -37,12 +40,19 @@ export function MainPage() {
     setYear(Number(e.target.value));
   };
 
+  const openModal = () => setIsOpen(true);
+
+  const closeModal = () => setIsOpen(false);
+
   return (
     <div>
       <section className={styles.controls}>
         <SearchBar onChange={onInputChange} onSubmit={onFormSubmit} />
         <Filters data={years} onChange={onYearChange} />
         <Filters data={sort} onChange={onSortChange} />
+        <button className={styles.modalBtn} onClick={openModal}>
+          Add columns
+        </button>
       </section>
       <section className={styles.dataTable}>
         <Suspense fallback="Loading data...">
@@ -51,9 +61,18 @@ export function MainPage() {
             year={year}
             sortBy={sortBy}
             sortOrder={sortOrder}
+            optionalCol={optionalCol}
           />
         </Suspense>
       </section>
+      {isOpen && (
+        <Modal
+          isOpen={isOpen}
+          onClose={closeModal}
+          optionalCol={optionalCol}
+          setOptionalCol={setOptionalCol}
+        />
+      )}
     </div>
   );
 }
