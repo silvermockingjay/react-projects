@@ -1,5 +1,7 @@
 import type { CountriesData } from '../interfaces/interfaces';
 
+let cachedPromise: Promise<CountriesData> | null = null;
+
 export async function getData(): Promise<CountriesData> {
   try {
     const response = await fetch('/owid-co2-data.json');
@@ -15,4 +17,11 @@ export async function getData(): Promise<CountriesData> {
       `No results found, try one more time. ${error instanceof Error ? error.message : String(error)}`
     );
   }
+}
+
+export async function getDataForTable(): Promise<CountriesData> {
+  if (!cachedPromise) {
+    cachedPromise = getData();
+  }
+  return cachedPromise;
 }
