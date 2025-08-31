@@ -48,8 +48,12 @@ export function MainPage() {
     <div>
       <section className={styles.controls}>
         <SearchBar onChange={onInputChange} onSubmit={onFormSubmit} />
-        <Filters data={years} onChange={onYearChange} />
-        <Filters data={sort} onChange={onSortChange} />
+        <Filters
+          data={years}
+          onChange={onYearChange}
+          labelTxt="Select a year"
+        />
+        <Filters data={sort} onChange={onSortChange} labelTxt="Filter by" />
         <button className={styles.modalBtn} onClick={openModal}>
           Add columns
         </button>
