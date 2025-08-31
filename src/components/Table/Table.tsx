@@ -70,10 +70,10 @@ export function Table({
           <tr key={country}>
             <td>{country}</td>
             <td>{info.iso_code ?? 'N/A'}</td>
-            <td>{info.data[0].year}</td>
-            <td>{info.data[0].population ?? 'N/A'}</td>
-            <td>{info.data[0].co2 ?? 'N/A'}</td>
-            <td>{info.data[0].co2_per_capita ?? 'N/A'}</td>
+            <td>{info.data[0]?.year ?? 'N/A'}</td>
+            <td>{info.data[0]?.population ?? 'N/A'}</td>
+            <td>{info.data[0]?.co2 ?? 'N/A'}</td>
+            <td>{info.data[0]?.co2_per_capita ?? 'N/A'}</td>
             {optionalCol.map((col) => (
               <td key={col}>{info.data[0][col] ?? 'N/A'}</td>
             ))}
