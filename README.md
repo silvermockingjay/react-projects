@@ -19,7 +19,7 @@
 - Interactions:
 - Flame Graph:
 
-![Flame Graph React Profiler screenshot](images/Searching%20for%20a%20country%202.jpg)
+![Flame Graph React Profiler screenshot](images/Searching%20for%20a%20country.jpg)
 
 - Ranked Chart:
 
