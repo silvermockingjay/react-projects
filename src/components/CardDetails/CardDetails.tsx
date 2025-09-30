@@ -59,7 +59,7 @@ export function CardDetails(): JSX.Element {
           <CustomButton
             type="button"
             text="X"
-            customClass={styles.closeBtn}
+            style="iconBtn"
             onClick={closeDetails}
           />
           <img

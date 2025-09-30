@@ -31,14 +31,10 @@ export function Flyout() {
       <div className={styles.actions}>
         <CustomButton
           text="Unselect All"
-          customClass={styles.unselectBtn}
+          style="secondary"
           onClick={unselectAll}
         />
-        <CustomButton
-          text="Download"
-          customClass={styles.downloadBtn}
-          onClick={download}
-        />
+        <CustomButton text="Download" style="secondary" onClick={download} />
         <a ref={linkRef} className={styles.hide}></a>
       </div>
     </div>

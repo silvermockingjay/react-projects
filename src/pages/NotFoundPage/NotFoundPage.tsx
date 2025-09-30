@@ -12,7 +12,7 @@ export function NotFoundPage() {
       <CustomButton
         type="button"
         text="Back to home"
-        customClass="backHomeBtn"
+        style="primary"
         onClick={onClick}
       />
     </div>

@@ -2,14 +2,55 @@
   flex-shrink: 0;
   min-width: 120px;
   padding: 1rem;
-  background: #fff;
   color: #000;
   border: none;
   border-radius: 8px;
   font-size: 1.1rem;
   cursor: pointer;
-  transition:
-    background-color 0.3s ease,
-    transform 0.2s ease;
+  transition: 0.3s ease;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
+
+.primary {
+  background-color: #ffff00;
+}
+
+.primary:hover {
+  background-color: #ffea00;
+  transform: scale(1.03);
+}
+
+.secondary {
+  background: #fff;
+}
+
+.secondary:hover {
+  transform: scale(1.03);
+}
+
+.primary:disabled,
+.secondary:disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: default;
+  transform: none;
+}
+
+.iconBtn {
+  position: absolute;
+  top: 10px;
+  right: 5px;
+  min-width: auto;
+  max-width: 50px;
+  padding: 0.8rem 1rem;
+  align-self: flex-end;
+  background-color: #77bef0;
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+}
+
+.iconBtn:hover {
+  background-color: #ea5b6f;
+}
+
+
