@@ -41,22 +41,29 @@ export function SearchPage() {
     setQuery(e.target.value);
   };
 
-  const handleSearch = async (query: string, page: number): Promise<void> => {
+  const handleSearch = async (
+    query: string,
+    page: number,
+    signal?: AbortSignal
+  ): Promise<void> => {
     setLoading(true);
     setFetchError(null);
     try {
-      const data = await getCharacters(query, page);
+      const data = await getCharacters(query, page, signal);
       setResults(data.results);
       setTotalPages(data.info.pages);
       setLoading(false);
     } catch (error) {
+      if (error instanceof DOMException && error.name === 'AbortError') {
+        return;
+      }
       if (error instanceof Error) {
         setFetchError(error.message);
-        setLoading(false);
       } else {
         setFetchError('Unknown error occurred');
-        setLoading(false);
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -93,14 +100,16 @@ export function SearchPage() {
   }, []);
 
   useEffect(() => {
+    const controller = new AbortController();
     const fetchCards = async (): Promise<void> => {
       const searchQuery = searchParams.get('search') || '';
       const pageQuery = Number(searchParams.get('page')) || 1;
       setQuery(searchQuery);
       setPage(pageQuery);
-      await handleSearch(searchQuery, pageQuery);
+      await handleSearch(searchQuery, pageQuery, controller.signal);
     };
     fetchCards();
+    return () => controller.abort();
   }, [searchParams]);
 
   useEffect(() => {
