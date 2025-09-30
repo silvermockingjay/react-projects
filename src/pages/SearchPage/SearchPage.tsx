@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocalStorage } from '../../services/CustomHooks/useLocalStorage';
 import { useLocation, useNavigate, useSearchParams } from 'react-router';
 import { CustomSection } from '../../components/CustomSection/CustomSection';
@@ -80,10 +80,7 @@ export function SearchPage() {
     }
   };
 
-  const renderedOnMount = useRef(false);
   useEffect(() => {
-    if (renderedOnMount.current) return;
-    renderedOnMount.current = true;
     const character = localQuery;
     if (character) {
       const newSearchParams = new URLSearchParams();
@@ -93,7 +90,7 @@ export function SearchPage() {
       setQuery(character);
       setSearchParams(newSearchParams);
     }
-  }, [localQuery, setSearchParams]);
+  }, []);
 
   useEffect(() => {
     const fetchCards = async (): Promise<void> => {
