@@ -19,7 +19,7 @@
 
 .link:hover,
 .linkActive {
-  background-color: #ffe600;
+  background-color: #fff;
   color: #000;
-  border-color: #ffe600;
+  border-color: #fff;
 }
