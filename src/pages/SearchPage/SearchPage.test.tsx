@@ -110,7 +110,11 @@ describe('SearchPage', () => {
 
     customRender(<RouterProvider router={router} />);
     expect(getItemSpy).toHaveBeenCalledWith('query');
-    expect(mockedGetCharacters).toHaveBeenCalledWith('', 1);
+    expect(mockedGetCharacters).toHaveBeenCalledWith(
+      '',
+      1,
+      expect.any(AbortSignal)
+    );
     expect(
       await screen.findAllByRole('region', { name: /character card/i })
     ).toHaveLength(2);
@@ -139,7 +143,11 @@ describe('SearchPage', () => {
     const button = screen.getByRole('button', { name: /search/i });
     await user.click(button);
     expect(setItemSpy).toHaveBeenCalledWith('query', 'Morty');
-    expect(mockedGetCharacters).toHaveBeenCalledWith('Morty', 1);
+    expect(mockedGetCharacters).toHaveBeenCalledWith(
+      'Morty',
+      1,
+      expect.any(AbortSignal)
+    );
     expect(await screen.findAllByText(/Morty Smith|Alien Morty/)).toHaveLength(
       2
     );
