@@ -107,15 +107,8 @@ export function SearchPage() {
     closeDetailsOnPagination(newSearchParams);
   };
 
-  const prevPage = () => {
-    const prevPage = page - 1;
-    navigateToPage(prevPage);
-  };
-
-  const nextPage = () => {
-    const nextPage = page + 1;
-    navigateToPage(nextPage);
-  };
+  const prevPage = () => navigateToPage(page - 1);
+  const nextPage = () => navigateToPage(page + 1);
 
   const openDetails = (e: React.MouseEvent<HTMLElement>): void => {
     const target = e.target as HTMLElement;
