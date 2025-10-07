@@ -6,17 +6,18 @@ import { userSetUp } from '../../test-utils/test-utils';
 
 const onClick = vi.fn();
 
-const mockData: CustomButtonProps[] = [
-  {
-    type: 'submit',
-    customClass: 'mockButton',
-    text: 'Search',
-    onClick: onClick,
-  },
-  {
-    text: 'Search',
-  },
-];
+const mockAllProps: CustomButtonProps = {
+  type: 'submit',
+  style: 'primary',
+  text: 'Search',
+  onClick: onClick,
+  isDisabled: false,
+};
+
+const mockRequiredProps: CustomButtonProps = {
+  style: 'primary',
+  text: 'Search',
+};
 
 describe('CustomButton', () => {
   beforeEach(() => {
@@ -24,30 +25,29 @@ describe('CustomButton', () => {
   });
 
   test('button renders successfully with all props', () => {
-    render(<CustomButton {...mockData[0]} />);
+    render(<CustomButton {...mockAllProps} />);
     const button = screen.getByRole('button');
     expect(button).toBeInTheDocument();
-    expect(button).toHaveAttribute('type', mockData[0].type);
-    expect(button).toHaveTextContent(mockData[0].text);
-    if (mockData[0].customClass) {
-      expect(button).toHaveClass(mockData[0].customClass);
-    }
+    expect(button).toHaveAttribute('type', 'submit');
+    expect(button).toBeEnabled();
+    expect(button).toHaveTextContent(/search/i);
+    expect(button).toHaveClass(styles.primary);
   });
 
   test('calls the onClick callback handler', async () => {
-    const { user } = userSetUp(<CustomButton {...mockData[0]} />);
+    const { user } = userSetUp(<CustomButton {...mockAllProps} />);
     const button = screen.getByRole('button');
     await user.click(button);
     expect(onClick).toHaveBeenCalled();
   });
 
   test('button renders successfully only with required props', () => {
-    render(<CustomButton {...mockData[1]} />);
+    render(<CustomButton {...mockRequiredProps} />);
     const button = screen.getByRole('button');
     expect(button).toBeInTheDocument();
     expect(button).toHaveAttribute('type', 'button');
     expect(() => button.click()).not.toThrow();
-    expect(button).toHaveTextContent(mockData[1].text);
+    expect(button).toHaveTextContent(/search/i);
     expect(button).toHaveClass(styles.button);
   });
 });
