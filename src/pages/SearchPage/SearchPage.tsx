@@ -22,8 +22,6 @@ import {
 export function SearchPage() {
   const [localQuery, setLocalQuery] = useLocalStorage('query', '');
   const [checkedCards, setCheckedCards] = useLocalStorage('selectedCards', '');
-  const [query, setQuery] = useState(() => localQuery);
-  const [page, setPage] = useState(1);
   const [results, setResults] = useState<Character[] | null>(null);
   const [totalPages, setTotalPages] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -37,8 +35,12 @@ export function SearchPage() {
   const location = useLocation();
   const areDetailsOpen = location.pathname === '/details';
 
+  const query = searchParams.get('search') || '';
+  const page = Number(searchParams.get('page')) || 1;
+  const [inputValue, setInputValue] = useState(query);
+
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setQuery(e.target.value);
+    setInputValue(e.target.value);
   };
 
   const handleSearch = async (
@@ -52,11 +54,8 @@ export function SearchPage() {
       const data = await getCharacters(query, page, signal);
       setResults(data.results);
       setTotalPages(data.info.pages);
-      setLoading(false);
     } catch (error) {
-      if (error instanceof DOMException && error.name === 'AbortError') {
-        return;
-      }
+      if (error instanceof DOMException && error.name === 'AbortError') return;
       if (error instanceof Error) {
         setFetchError(error.message);
       } else {
@@ -71,9 +70,8 @@ export function SearchPage() {
     e: React.FormEvent<HTMLFormElement>
   ): Promise<void> => {
     e.preventDefault();
-    const character = query.trim();
+    const character = inputValue.trim();
     setLocalQuery(character);
-    setPage(1);
     const newSearchParams = new URLSearchParams();
     if (character) {
       newSearchParams.set('search', character);
@@ -93,19 +91,19 @@ export function SearchPage() {
       const newSearchParams = new URLSearchParams();
       newSearchParams.set('search', character);
       newSearchParams.set('page', '1');
-      setPage(1);
-      setQuery(character);
       setSearchParams(newSearchParams);
     }
   }, []);
+
+  useEffect(() => {
+    setInputValue(query);
+  }, [query]);
 
   useEffect(() => {
     const controller = new AbortController();
     const fetchCards = async (): Promise<void> => {
       const searchQuery = searchParams.get('search') || '';
       const pageQuery = Number(searchParams.get('page')) || 1;
-      setQuery(searchQuery);
-      setPage(pageQuery);
       await handleSearch(searchQuery, pageQuery, controller.signal);
     };
     fetchCards();
@@ -133,18 +131,20 @@ export function SearchPage() {
     }
   };
 
+  const navigateToPage = (page: number) => {
+    const newSearchParams = new URLSearchParams(searchParams);
+    newSearchParams.set('page', `${page}`);
+    closeDetailsOnPagination(newSearchParams);
+  };
+
   const prevPage = async (): Promise<void> => {
     const prevPage = page - 1;
-    const newSearchParams = new URLSearchParams(searchParams);
-    newSearchParams.set('page', `${prevPage}`);
-    closeDetailsOnPagination(newSearchParams);
+    navigateToPage(prevPage);
   };
 
   const nextPage = async (): Promise<void> => {
     const nextPage = page + 1;
-    const newSearchParams = new URLSearchParams(searchParams);
-    newSearchParams.set('page', `${nextPage}`);
-    closeDetailsOnPagination(newSearchParams);
+    navigateToPage(nextPage);
   };
 
   const openDetails = (e: React.MouseEvent<HTMLElement>): void => {
@@ -193,7 +193,7 @@ export function SearchPage() {
         <SearchForm
           onChange={handleInput}
           onSubmit={handleSubmit}
-          value={query}
+          value={inputValue}
         />
       </CustomSection>
       <CustomSection customClass={styles.resultsView}>
