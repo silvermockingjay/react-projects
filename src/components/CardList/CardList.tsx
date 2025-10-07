@@ -11,8 +11,8 @@ export interface CardListProps {
 export function CardList({ cards, open }: CardListProps): JSX.Element {
   return (
     <div className={styles.cardList}>
-      {cards.map((card, index) => (
-        <Card key={index} openCardDetails={open} {...card} />
+      {cards.map((card) => (
+        <Card key={card.id} openCardDetails={open} {...card} />
       ))}
     </div>
   );

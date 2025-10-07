@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocalStorage } from '../../services/CustomHooks/useLocalStorage';
 import { useLocation, useNavigate, useSearchParams } from 'react-router';
 import { CustomSection } from '../../components/CustomSection/CustomSection';
@@ -9,7 +9,7 @@ import { Fallback } from '../../components/FallBack/Fallback';
 import { PaginationControls } from '../../components/PaginationControls/PaginationControls';
 import { Outlet } from 'react-router';
 import { Flyout } from '../../components/Flyout/Flyout';
-import styles from './SearchPage.module.css';
+import { CustomButton } from '../../components/CustomButton/CustomButton';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import {
   allCleared,
@@ -17,15 +17,16 @@ import {
   selectCheckedCards,
 } from '../../features/cards/cardsSlice';
 import { useGetCharactersQuery } from '../../services/RickAndMortyAPI/rickAndMorty';
-import { RefreshButton } from '../../components/RefreshButton/RefreshButton';
+
+import styles from './SearchPage.module.css';
 
 export function SearchPage() {
   const [localQuery, setLocalQuery] = useLocalStorage('query', '');
   const [checkedCards, setCheckedCards] = useLocalStorage('selectedCards', '');
-  const [query, setQuery] = useState(() => localQuery);
-  const [page, setPage] = useState(1);
   const [searchParams, setSearchParams] = useSearchParams();
-  const navigate = useNavigate();
+  const query = searchParams.get('search') || '';
+  const page = Number(searchParams.get('page')) || 1;
+  const [inputValue, setInputValue] = useState(query);
 
   const { data, error, isLoading, refetch } = useGetCharactersQuery({
     name: query,
@@ -40,18 +41,18 @@ export function SearchPage() {
 
   const location = useLocation();
   const areDetailsOpen = location.pathname === '/details';
+  const navigate = useNavigate();
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setQuery(e.target.value);
+    setInputValue(e.target.value);
   };
 
   const handleSubmit = async (
     e: React.FormEvent<HTMLFormElement>
   ): Promise<void> => {
     e.preventDefault();
-    const character = query.trim();
+    const character = inputValue.trim();
     setLocalQuery(character);
-    setPage(1);
     const newSearchParams = new URLSearchParams();
     if (character) {
       newSearchParams.set('search', character);
@@ -65,27 +66,19 @@ export function SearchPage() {
     }
   };
 
-  const renderedOnMount = useRef(false);
   useEffect(() => {
-    if (renderedOnMount.current) return;
-    renderedOnMount.current = true;
     const character = localQuery;
     if (character) {
       const newSearchParams = new URLSearchParams();
       newSearchParams.set('search', character);
       newSearchParams.set('page', '1');
-      setPage(1);
-      setQuery(character);
       setSearchParams(newSearchParams);
     }
-  }, [localQuery, setSearchParams]);
+  }, []);
 
   useEffect(() => {
-    const searchQuery = searchParams.get('search') || '';
-    const pageQuery = Number(searchParams.get('page')) || 1;
-    setQuery(searchQuery);
-    setPage(pageQuery);
-  }, [searchParams]);
+    setInputValue(query);
+  }, [query]);
 
   useEffect(() => {
     setCheckedCards(JSON.stringify(selectedCards));
@@ -108,19 +101,14 @@ export function SearchPage() {
     }
   };
 
-  const prevPage = async (): Promise<void> => {
-    const prevPage = page - 1;
+  const navigateToPage = (page: number) => {
     const newSearchParams = new URLSearchParams(searchParams);
-    newSearchParams.set('page', `${prevPage}`);
+    newSearchParams.set('page', `${page}`);
     closeDetailsOnPagination(newSearchParams);
   };
 
-  const nextPage = async (): Promise<void> => {
-    const nextPage = page + 1;
-    const newSearchParams = new URLSearchParams(searchParams);
-    newSearchParams.set('page', `${nextPage}`);
-    closeDetailsOnPagination(newSearchParams);
-  };
+  const prevPage = () => navigateToPage(page - 1);
+  const nextPage = () => navigateToPage(page + 1);
 
   const openDetails = (e: React.MouseEvent<HTMLElement>): void => {
     const target = e.target as HTMLElement;
@@ -170,9 +158,14 @@ export function SearchPage() {
         <SearchForm
           onChange={handleInput}
           onSubmit={handleSubmit}
-          value={query}
+          value={inputValue}
         />
-        <RefreshButton onClick={() => refetch()} text="Refresh results" />
+        <CustomButton
+          type="button"
+          style="secondary"
+          onClick={() => refetch()}
+          text="Refresh results"
+        />
       </CustomSection>
       <CustomSection customClass={styles.resultsView}>
         <div className={contentClass}>{content}</div>

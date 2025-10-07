@@ -14,16 +14,14 @@ export function PaginationControls({
   page,
   totalPages,
 }: PaginationProps): JSX.Element {
-  const prevPageClass = page === 1 ? 'controlBtn inactive' : 'controlBtn';
-  const nextPageClass =
-    page === totalPages ? 'controlBtn inactive' : 'controlBtn';
   return (
     <div className={styles.paginationControls}>
       <CustomButton
         type="button"
         text="Prev"
-        customClass={prevPageClass}
+        style="secondary"
         onClick={prevPage}
+        isDisabled={page === 1}
       />
       <div>
         Showing {page} out of {totalPages}
@@ -31,8 +29,9 @@ export function PaginationControls({
       <CustomButton
         type="button"
         text="Next"
-        customClass={nextPageClass}
+        style="secondary"
         onClick={nextPage}
+        isDisabled={page === totalPages}
       />
     </div>
   );

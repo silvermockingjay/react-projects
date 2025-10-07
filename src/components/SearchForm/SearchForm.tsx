@@ -23,7 +23,7 @@ export function SearchForm({
         placeholder="Search for characters from Rick and Morty, e.g: Rick Sanchez"
         onChange={onChange}
       />
-      <CustomButton type="submit" customClass="searchBtn" text="Search" />
+      <CustomButton type="submit" style="primary" text="Search" />
     </form>
   );
 }
