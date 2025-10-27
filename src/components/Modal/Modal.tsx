@@ -45,10 +45,16 @@ export function Modal({ children, isOpen, onClick }: ModalProps) {
       aria-modal="true"
       ref={modalRef}
     >
-      <button className={styles.closeBtn} onClick={onClick} aria-label="close">
-        X
-      </button>
-      <div className={styles.modalBody}>{children}</div>
+      <div className={styles.modalBody}>
+        <button
+          className={styles.closeBtn}
+          onClick={onClick}
+          aria-label="close"
+        >
+          X
+        </button>
+        {children}
+      </div>
     </div>,
     document.body
   );

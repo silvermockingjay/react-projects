@@ -18,7 +18,10 @@
 }
 
 input {
-  width: 50%;
+  width: 100%;
+  border-radius: 4px;
+  height: 30px;
+  font-size: 16px;
 }
 
 input[type="radio"],
@@ -26,10 +29,6 @@ input[type="checkbox"] {
   width: auto;
 }
 
-.uploadFileBtn {
-  width: 110px;
-}
-
-.submitBtn {
-  width: 200px;
+.formErrors{
+  color: #e6aace;
 }

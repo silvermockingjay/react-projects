@@ -1,0 +1,16 @@
+.formOptions {
+  display: flex;
+  gap: 15px;
+  border-radius: 4px;
+  background-color: #344966;
+  padding: 2rem;
+}
+
+.results {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}

@@ -20,27 +20,30 @@ export function MainPage() {
     <main>
       <section className={styles.formOptions}>
         <button
-          className={styles.button}
+          className="button"
           onClick={() => handleClick('uncontrolledForm')}
         >
           Uncontrolled Form
         </button>
-        <button
-          className={styles.button}
-          onClick={() => handleClick('RHFForm')}
-        >
+        <button className="button" onClick={() => handleClick('RHFForm')}>
           RHF Form
         </button>
       </section>
       <section className={styles.results}>
-        {results.length !== 0 &&
+        {results.length ? (
           results.map((result, i) => (
             <Card
               key={result.email}
               data={result}
               isNewCard={i === results.length - 1}
             />
-          ))}
+          ))
+        ) : (
+          <div className={styles.info}>
+            You haven&#39;t submitted any information yet. Please, choose any
+            form above to proceed
+          </div>
+        )}
       </section>
       {openModal && (
         <Modal isOpen={openModal} onClick={() => setOpenModal(false)}>

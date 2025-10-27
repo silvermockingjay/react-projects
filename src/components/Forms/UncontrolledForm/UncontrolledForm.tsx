@@ -199,7 +199,7 @@ export function UncontrolledForm({ closeForm }: FormProps) {
           </p>
         ))}
       </div>
-      <button className={styles.submitBtn} type="submit">
+      <button className="button submit" type="submit">
         Submit
       </button>
     </form>

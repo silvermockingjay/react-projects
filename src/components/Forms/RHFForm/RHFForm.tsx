@@ -171,7 +171,7 @@ export function RHFForm({ closeForm }: FormProps) {
           <p className={styles.formErrors}>{errors.picture.message}</p>
         )}
       </div>
-      <button className={styles.submitBtn} type="submit" disabled={!isValid}>
+      <button className="button submit" type="submit" disabled={!isValid}>
         Submit
       </button>
     </form>
