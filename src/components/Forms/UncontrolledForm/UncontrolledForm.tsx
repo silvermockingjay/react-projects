@@ -119,7 +119,9 @@ export function UncontrolledForm({ closeForm }: FormProps) {
           </p>
         ))}
         {passwordStrength !== '' && (
-          <p className={styles.PasswordStrength}>
+          <p
+            className={`${styles.passwordStrength} ${styles[passwordStrength]}`}
+          >
             Password strength: {passwordStrength}
           </p>
         )}
