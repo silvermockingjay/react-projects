@@ -9,9 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "prepare": "husky",
-    "format:fix": "prettier --write .",
-    "test": "vitest",
-    "test:coverage": "vitest --coverage"
+    "format:fix": "prettier --write ."
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.1",
