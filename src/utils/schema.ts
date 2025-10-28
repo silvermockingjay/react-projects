@@ -9,8 +9,9 @@ export const schema = yup.object({
     .matches(/^[A-Z][a-zA-Z\s]*$/, 'First letter should be uppercase'),
   age: yup
     .number()
+    .typeError('Age must be a number')
     .required('Age is required')
-    .positive('No negative numbers allowed'),
+    .positive('Only positive numbers allowed'),
   email: yup
     .string()
     .required('Email is required')
