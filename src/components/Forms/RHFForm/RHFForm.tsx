@@ -29,7 +29,7 @@ export function RHFForm({ closeForm }: FormProps) {
     watch,
   } = useForm({
     resolver: yupResolver(schema),
-    mode: 'all',
+    mode: 'onBlur',
     defaultValues: {
       name: '',
       age: undefined as unknown as number,
@@ -98,8 +98,10 @@ export function RHFForm({ closeForm }: FormProps) {
           {errors.password && (
             <p className={styles.formErrors}>{errors.password.message}</p>
           )}
-          {passwordStrength !== '' && (
-            <p className={styles.PasswordStrength}>
+          {passwordStrength !== '' && !errors.password && (
+            <p
+              className={`${styles.passwordStrength} ${styles[passwordStrength]}`}
+            >
               Password strength: {passwordStrength}
             </p>
           )}

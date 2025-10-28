@@ -33,6 +33,23 @@ input[type="checkbox"] {
   height: 18px;
 }
 
+.passwordStrength {
+  margin: 0;
+  font-size: 14px;
+}
+
+.weak {
+  color: #e6aace;
+}
+
+.average {
+  color: #cca43b;
+}
+
+.strong {
+  color: #bfcc94
+}
+
 .formErrors{
   color: #e6aace;
   margin: 0;
