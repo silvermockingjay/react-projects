@@ -4,7 +4,7 @@ This is a project for RS School React course 2025 Q3 [task](https://github.com/r
 
 
 ## Deployment
-
+https://react-forms-project.netlify.app/
 
 ## Preview
 
