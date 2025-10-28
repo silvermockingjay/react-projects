@@ -62,16 +62,20 @@ export function RHFForm({ closeForm }: FormProps) {
       <div className={styles.formField}>
         <label htmlFor="name">Name</label>
         <input type="text" {...register('name')} id="name" autoComplete="on" />
-        {errors.name && (
-          <p className={styles.formErrors}>{errors.name.message}</p>
-        )}
+        <div className={styles.infoPlaceholder}>
+          {errors.name && (
+            <p className={styles.formErrors}>{errors.name.message}</p>
+          )}
+        </div>
       </div>
       <div className={styles.formField}>
         <label htmlFor="age">Age</label>
         <input type="number" {...register('age')} id="age" autoComplete="on" />
-        {errors.age && (
-          <p className={styles.formErrors}>{errors.age.message}</p>
-        )}
+        <div className={styles.infoPlaceholder}>
+          {errors.age && (
+            <p className={styles.formErrors}>{errors.age.message}</p>
+          )}
+        </div>
       </div>
       <div className={styles.formField}>
         <label htmlFor="email">Email</label>
@@ -81,21 +85,25 @@ export function RHFForm({ closeForm }: FormProps) {
           id="email"
           autoComplete="on"
         />
-        {errors.email && (
-          <p className={styles.formErrors}>{errors.email.message}</p>
-        )}
+        <div className={styles.infoPlaceholder}>
+          {errors.email && (
+            <p className={styles.formErrors}>{errors.email.message}</p>
+          )}
+        </div>
       </div>
       <div className={styles.formField}>
         <label htmlFor="password">Password</label>
         <input type="password" {...register('password')} id="password" />
-        {errors.password && (
-          <p className={styles.formErrors}>{errors.password.message}</p>
-        )}
-        {passwordStrength !== '' && (
-          <p className={styles.PasswordStrength}>
-            Password strength: {passwordStrength}
-          </p>
-        )}
+        <div className={styles.infoPlaceholder}>
+          {errors.password && (
+            <p className={styles.formErrors}>{errors.password.message}</p>
+          )}
+          {passwordStrength !== '' && (
+            <p className={styles.PasswordStrength}>
+              Password strength: {passwordStrength}
+            </p>
+          )}
+        </div>
       </div>
       <div className={styles.formField}>
         <label htmlFor="confirmPassword">Confirm Password</label>
@@ -104,9 +112,13 @@ export function RHFForm({ closeForm }: FormProps) {
           {...register('confirmPassword')}
           id="confirmPassword"
         />
-        {errors.confirmPassword && (
-          <p className={styles.formErrors}>{errors.confirmPassword.message}</p>
-        )}
+        <div className={styles.infoPlaceholder}>
+          {errors.confirmPassword && (
+            <p className={styles.formErrors}>
+              {errors.confirmPassword.message}
+            </p>
+          )}
+        </div>
       </div>
       <div className={styles.formField}>
         <p>Gender</p>
@@ -121,18 +133,22 @@ export function RHFForm({ closeForm }: FormProps) {
             id="female"
           />
         </div>
-        {errors.gender && (
-          <p className={styles.formErrors}>{errors.gender.message}</p>
-        )}
+        <div className={styles.infoPlaceholder}>
+          {errors.gender && (
+            <p className={styles.formErrors}>{errors.gender.message}</p>
+          )}
+        </div>
       </div>
       <div className={styles.formField}>
         <div className={styles.formFieldInline}>
           <label htmlFor="agreement">I accept T&C agreement</label>
           <input type="checkbox" {...register('acceptTerms')} id="agreement" />
         </div>
-        {errors.acceptTerms && (
-          <p className={styles.formErrors}>{errors.acceptTerms.message}</p>
-        )}
+        <div className={styles.infoPlaceholder}>
+          {errors.acceptTerms && (
+            <p className={styles.formErrors}>{errors.acceptTerms.message}</p>
+          )}
+        </div>
       </div>
       <div className={styles.formField}>
         <label htmlFor="country">Country</label>
@@ -149,9 +165,11 @@ export function RHFForm({ closeForm }: FormProps) {
             </option>
           ))}
         </datalist>
-        {errors.country && (
-          <p className={styles.country}>{errors.country.message}</p>
-        )}
+        <div className={styles.infoPlaceholder}>
+          {errors.country && (
+            <p className={styles.formErrors}>{errors.country.message}</p>
+          )}
+        </div>
       </div>
       <div className={styles.formField}>
         <label htmlFor="picture">Upload a picture</label>
@@ -167,9 +185,11 @@ export function RHFForm({ closeForm }: FormProps) {
             }}
           />
         </div>
-        {errors.picture && (
-          <p className={styles.formErrors}>{errors.picture.message}</p>
-        )}
+        <div className={styles.infoPlaceholder}>
+          {errors.picture && (
+            <p className={styles.formErrors}>{errors.picture.message}</p>
+          )}
+        </div>
       </div>
       <button className="button submit" type="submit" disabled={!isValid}>
         Submit

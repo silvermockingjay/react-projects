@@ -29,6 +29,12 @@ input[type="checkbox"] {
   width: auto;
 }
 
+.infoPlaceholder{
+  height: 18px;
+}
+
 .formErrors{
   color: #e6aace;
+  margin: 0;
+  font-size: 14px;
 }
