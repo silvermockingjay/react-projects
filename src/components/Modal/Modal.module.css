@@ -12,8 +12,8 @@
 }
 
 .modalBody {
-  background-color: #344966;
-  color: #f0f4ef;
+  background-color: var(--color-secondary-dark);
+  color: var(--color-secondary);
   width: 40%;
   display: flex;
   align-items: center;
@@ -26,14 +26,14 @@
   position: absolute;
   top: 10px;
   right: 10px;
-  border-radius: 4px;
+  border-radius: var(--radius);
   padding: 4px 8px;
-  background-color: #f0f4ef;
-  color: #0d1821;
+  background-color: var(--color-secondary);
+  color: var(--font-color);
 }
 
 .closeBtn:hover{
   cursor: pointer;
-  color: #fff;
-  background-color: #e6aace;
+  color: var(--color-basic);
+  background-color: var(--color-warning);
 }

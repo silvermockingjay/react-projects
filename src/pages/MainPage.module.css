@@ -1,8 +1,8 @@
 .formOptions {
   display: flex;
   gap: 15px;
-  border-radius: 4px;
-  background-color: #344966;
+  border-radius: var(--radius);
+  background-color: var(--color-secondary-dark);
   padding: 2rem;
 }
 
