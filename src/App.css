@@ -19,12 +19,14 @@ html {
   font-family: var(--font-family);
   font-size: var(--font-size-md);
   color: var(--font-color);
+  width: 100vw;
+  height: 100vh;
 }
 
 body {
   margin: auto;
   background-color: var(--color-secondary);
-  width: 100%;
+  width: 80vw;
   min-height: 100vh;
   max-width: 1400px;
 }
