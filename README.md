@@ -12,6 +12,7 @@ https://react-forms-project.netlify.app/
 ![Empty form](./screenshots/empty-form.png)
 ![Form errors](./screenshots/form-errors.png)
 ![Filled form](./screenshots/filled-form.png)
+![Filled form 2](./screenshots/filled-form-2.png)
 ![Results](./screenshots/main-results.png)
 
 ## Features
