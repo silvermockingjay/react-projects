@@ -9,7 +9,7 @@
   flex-direction: column;
   border-radius: 20px;
   overflow: hidden;
-  background-color: #fff;
+  background-color: var(--color-secondary);
   width: 310px;
 }
 
@@ -32,7 +32,7 @@
   flex-direction: column;
   gap: 8px;
   padding: 20px;
-  background-color: #fff;
+  background-color: var(--color-secondary);
   box-sizing: border-box;
   color: #000;
 }
