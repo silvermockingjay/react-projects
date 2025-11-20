@@ -43,17 +43,19 @@ describe('getCharacters', () => {
   });
 
   test('fetches character cards', async () => {
+    const controller = new AbortController();
     const mockedFetch = vi.mocked(globalThis.fetch as unknown as typeof fetch);
     mockedFetch.mockResolvedValue({
       ok: true,
       json: async () => mockData,
     } as unknown as Response);
 
-    const results = await getCharacters('Morty', 1);
+    const results = await getCharacters('Morty', 1, controller.signal);
     expect(results).toEqual(mockData);
   });
 
   test('throws on Error', async () => {
+    const controller = new AbortController();
     const mockedFetch = vi.mocked(globalThis.fetch as unknown as typeof fetch);
     mockedFetch.mockResolvedValue({
       ok: false,
@@ -63,7 +65,7 @@ describe('getCharacters', () => {
       },
     } as unknown as Response);
 
-    await expect(getCharacters('Beth', 1)).rejects.toThrow(
+    await expect(getCharacters('Beth', 1, controller.signal)).rejects.toThrow(
       /No results found, try one more time/i
     );
   });

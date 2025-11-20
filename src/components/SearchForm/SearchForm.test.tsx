@@ -9,7 +9,10 @@ const mockOnSubmit = vi.fn();
 const mockData: FormProps = {
   value: 'Morty',
   onChange: mockOnChange,
-  onSubmit: mockOnSubmit,
+  onSubmit: (e) => {
+    e.preventDefault();
+    mockOnSubmit();
+  },
 };
 
 describe('SearchForm', () => {

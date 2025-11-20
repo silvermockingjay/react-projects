@@ -43,20 +43,3 @@ ul {
   padding: 0;
   margin: 0;
 }
-
-.closeBtn {
-  position: absolute;
-  top: 10px;
-  right: 5px;
-  min-width: auto;
-  max-width: 50px;
-  padding: 0.8rem 1rem;
-  align-self: flex-end;
-  background-color: #77bef0;
-  color: #fff;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
-}
-
-.closeBtn:hover {
-  background-color: #ea5b6f;
-}

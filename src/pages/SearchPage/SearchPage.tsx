@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocalStorage } from '../../services/CustomHooks/useLocalStorage';
 import { useLocation, useNavigate, useSearchParams } from 'react-router';
 import { CustomSection } from '../../components/CustomSection/CustomSection';
@@ -10,12 +10,18 @@ import { Loader } from '../../components/Loader/Loader';
 import { Fallback } from '../../components/FallBack/Fallback';
 import { PaginationControls } from '../../components/PaginationControls/PaginationControls';
 import { Outlet } from 'react-router';
+import { Flyout } from '../../components/Flyout/Flyout';
 import styles from './SearchPage.module.css';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import {
+  allCleared,
+  restoredFromLS,
+  selectCheckedCards,
+} from '../../features/cards/cardsSlice';
 
 export function SearchPage() {
   const [localQuery, setLocalQuery] = useLocalStorage('query', '');
-  const [query, setQuery] = useState(() => localQuery);
-  const [page, setPage] = useState(1);
+  const [checkedCards, setCheckedCards] = useLocalStorage('selectedCards', '');
   const [results, setResults] = useState<Character[] | null>(null);
   const [totalPages, setTotalPages] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -23,29 +29,40 @@ export function SearchPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
 
+  const selectedCards = useAppSelector(selectCheckedCards);
+  const dispatch = useAppDispatch();
+
   const location = useLocation();
   const areDetailsOpen = location.pathname === '/details';
 
+  const query = searchParams.get('search') || '';
+  const page = Number(searchParams.get('page')) || 1;
+  const [inputValue, setInputValue] = useState(query);
+
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setQuery(e.target.value);
+    setInputValue(e.target.value);
   };
 
-  const handleSearch = async (query: string, page: number): Promise<void> => {
+  const handleSearch = async (
+    query: string,
+    page: number,
+    signal?: AbortSignal
+  ): Promise<void> => {
     setLoading(true);
     setFetchError(null);
     try {
-      const data = await getCharacters(query, page);
+      const data = await getCharacters(query, page, signal);
       setResults(data.results);
       setTotalPages(data.info.pages);
-      setLoading(false);
     } catch (error) {
+      if (error instanceof DOMException && error.name === 'AbortError') return;
       if (error instanceof Error) {
         setFetchError(error.message);
-        setLoading(false);
       } else {
         setFetchError('Unknown error occurred');
-        setLoading(false);
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -53,9 +70,8 @@ export function SearchPage() {
     e: React.FormEvent<HTMLFormElement>
   ): Promise<void> => {
     e.preventDefault();
-    const character = query.trim();
+    const character = inputValue.trim();
     setLocalQuery(character);
-    setPage(1);
     const newSearchParams = new URLSearchParams();
     if (character) {
       newSearchParams.set('search', character);
@@ -69,32 +85,42 @@ export function SearchPage() {
     }
   };
 
-  const renderedOnMount = useRef(false);
   useEffect(() => {
-    if (renderedOnMount.current) return;
-    renderedOnMount.current = true;
     const character = localQuery;
     if (character) {
       const newSearchParams = new URLSearchParams();
       newSearchParams.set('search', character);
       newSearchParams.set('page', '1');
-      setPage(1);
-      setQuery(character);
       setSearchParams(newSearchParams);
     }
-  }, [localQuery, setSearchParams]);
+  }, []);
 
   useEffect(() => {
+    setInputValue(query);
+  }, [query]);
+
+  useEffect(() => {
+    const controller = new AbortController();
     const fetchCards = async (): Promise<void> => {
       const searchQuery = searchParams.get('search') || '';
       const pageQuery = Number(searchParams.get('page')) || 1;
-      setQuery(searchQuery);
-      setPage(pageQuery);
-      await handleSearch(searchQuery, pageQuery);
+      await handleSearch(searchQuery, pageQuery, controller.signal);
     };
-
     fetchCards();
-  }, [searchParams, areDetailsOpen, navigate]);
+    return () => controller.abort();
+  }, [searchParams]);
+
+  useEffect(() => {
+    setCheckedCards(JSON.stringify(selectedCards));
+  }, [selectedCards, setCheckedCards]);
+
+  useEffect(() => {
+    if (checkedCards.length) {
+      dispatch(restoredFromLS(JSON.parse(checkedCards)));
+    } else {
+      dispatch(allCleared());
+    }
+  }, [checkedCards, dispatch]);
 
   const closeDetailsOnPagination = (params: URLSearchParams): void => {
     if (areDetailsOpen) {
@@ -105,21 +131,25 @@ export function SearchPage() {
     }
   };
 
+  const navigateToPage = (page: number) => {
+    const newSearchParams = new URLSearchParams(searchParams);
+    newSearchParams.set('page', `${page}`);
+    closeDetailsOnPagination(newSearchParams);
+  };
+
   const prevPage = async (): Promise<void> => {
     const prevPage = page - 1;
-    const newSearchParams = new URLSearchParams(searchParams);
-    newSearchParams.set('page', `${prevPage}`);
-    closeDetailsOnPagination(newSearchParams);
+    navigateToPage(prevPage);
   };
 
   const nextPage = async (): Promise<void> => {
     const nextPage = page + 1;
-    const newSearchParams = new URLSearchParams(searchParams);
-    newSearchParams.set('page', `${nextPage}`);
-    closeDetailsOnPagination(newSearchParams);
+    navigateToPage(nextPage);
   };
 
   const openDetails = (e: React.MouseEvent<HTMLElement>): void => {
+    const target = e.target as HTMLElement;
+    if (target.closest('input[type="checkbox"]')) return;
     const detailsId = e.currentTarget.dataset.id || '';
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.set('detailsId', detailsId);
@@ -163,7 +193,7 @@ export function SearchPage() {
         <SearchForm
           onChange={handleInput}
           onSubmit={handleSubmit}
-          value={query}
+          value={inputValue}
         />
       </CustomSection>
       <CustomSection customClass={styles.resultsView}>
@@ -171,6 +201,9 @@ export function SearchPage() {
         <div className={outletClass}>
           <Outlet />
         </div>
+      </CustomSection>
+      <CustomSection>
+        <Flyout />
       </CustomSection>
     </>
   );

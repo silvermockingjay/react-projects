@@ -2,7 +2,8 @@ vi.mock('../../services/APIRequests/getCharacters', () => ({
   getCharacters: vi.fn(),
 }));
 
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
+import { customRender } from '../../test-utils/test-utils';
 import { getCharacters } from '../../services/APIRequests/getCharacters';
 import type { MockedFunction } from 'vitest';
 import type { SearchResults } from '../../services/interfaces/interfaces';
@@ -107,9 +108,13 @@ describe('SearchPage', () => {
       .spyOn(window.localStorage.__proto__, 'getItem')
       .mockReturnValue('');
 
-    render(<RouterProvider router={router} />);
+    customRender(<RouterProvider router={router} />);
     expect(getItemSpy).toHaveBeenCalledWith('query');
-    expect(mockedGetCharacters).toHaveBeenCalledWith('', 1);
+    expect(mockedGetCharacters).toHaveBeenCalledWith(
+      '',
+      1,
+      expect.any(AbortSignal)
+    );
     expect(
       await screen.findAllByRole('region', { name: /character card/i })
     ).toHaveLength(2);
@@ -138,7 +143,11 @@ describe('SearchPage', () => {
     const button = screen.getByRole('button', { name: /search/i });
     await user.click(button);
     expect(setItemSpy).toHaveBeenCalledWith('query', 'Morty');
-    expect(mockedGetCharacters).toHaveBeenCalledWith('Morty', 1);
+    expect(mockedGetCharacters).toHaveBeenCalledWith(
+      'Morty',
+      1,
+      expect.any(AbortSignal)
+    );
     expect(await screen.findAllByText(/Morty Smith|Alien Morty/)).toHaveLength(
       2
     );

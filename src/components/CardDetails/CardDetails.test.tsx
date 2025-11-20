@@ -2,7 +2,8 @@ vi.mock('../../services/APIRequests/getCharacter', () => ({
   getCharacter: vi.fn(),
 }));
 
-import { render, screen, waitFor } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
+import { customRender } from '../../test-utils/test-utils';
 import { CardDetails } from './CardDetails';
 import {
   createMemoryRouter,
@@ -43,7 +44,7 @@ describe('CardDetails', () => {
     );
     mockedGetCharacter.mockResolvedValueOnce(mockData);
 
-    render(
+    customRender(
       <MemoryRouter initialEntries={['/details?detailsId=1']}>
         <CardDetails />
       </MemoryRouter>
@@ -81,7 +82,7 @@ describe('CardDetails', () => {
       new Error('Failed to load resource: 404')
     );
 
-    render(
+    customRender(
       <MemoryRouter initialEntries={['/details?detailsId=1']}>
         <CardDetails />
       </MemoryRouter>

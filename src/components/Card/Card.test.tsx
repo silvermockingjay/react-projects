@@ -1,4 +1,5 @@
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
+import { customRender } from '../../test-utils/test-utils';
 import { Card } from './Card';
 import type { CardProps } from './Card';
 
@@ -11,7 +12,7 @@ const mockData: CardProps = {
 
 describe('Card', () => {
   test('renders card successfully with all props', () => {
-    render(<Card {...mockData} />);
+    customRender(<Card {...mockData} />);
     const image = screen.getByRole('img');
     expect(image).toHaveAttribute('src', mockData.image);
     expect(image).toHaveAttribute('alt', mockData.name);

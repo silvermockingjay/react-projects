@@ -16,24 +16,29 @@ export function CardDetails(): JSX.Element {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const controller = new AbortController();
     const getDetails = async (): Promise<void> => {
       setLoading(true);
       const id = Number(searchParams.get('detailsId')) || 1;
       try {
-        const results = await getCharacter(id);
+        const results = await getCharacter(id, controller.signal);
         setDetails(results);
         setLoading(false);
       } catch (error) {
+        if (error instanceof DOMException && error.name === 'AbortError') {
+          return;
+        }
         if (error instanceof Error) {
           setError(error.message);
-          setLoading(false);
         } else {
           setError('Unknown error occurred');
-          setLoading(false);
         }
+      } finally {
+        setLoading(false);
       }
     };
     getDetails();
+    return () => controller.abort();
   }, [searchParams]);
 
   const closeDetails = () => {
@@ -54,7 +59,7 @@ export function CardDetails(): JSX.Element {
           <CustomButton
             type="button"
             text="X"
-            customClass={styles.closeBtn}
+            style="iconBtn"
             onClick={closeDetails}
           />
           <img

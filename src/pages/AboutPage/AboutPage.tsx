@@ -2,7 +2,7 @@ import styles from './AboutPage.module.css';
 
 export function AboutPage() {
   return (
-    <div data-testId="about-page-content" className={styles.aboutContainer}>
+    <div data-testid="about-page-content" className={styles.aboutContainer}>
       <div>
         Hi! I&#39;m Anastasia. <br />
         I&#39;m a motivated frontend developer passionate about creating
@@ -13,6 +13,7 @@ export function AboutPage() {
       <div>
         GitHub:
         <a
+          className={styles.aboutLink}
           href="https://github.com/silvermockingjay"
           target="_blank"
           rel="noreferrer"
@@ -23,6 +24,7 @@ export function AboutPage() {
       <div>
         This app is developed to showcase React: Routing and Hooks Task of
         <a
+          className={styles.aboutLink}
           href="https://rs.school/courses/reactjs"
           target="_blank"
           rel="noreferrer"
