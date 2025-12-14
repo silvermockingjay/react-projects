@@ -4,66 +4,47 @@ import { useLocation, useNavigate, useSearchParams } from 'react-router';
 import { CustomSection } from '../../components/CustomSection/CustomSection';
 import { SearchForm } from '../../components/SearchForm/SearchForm';
 import { CardList } from '../../components/CardList/CardList';
-import { getCharacters } from '../../services/APIRequests/getCharacters';
-import type { Character } from '../../services/interfaces/interfaces';
 import { Loader } from '../../components/Loader/Loader';
 import { Fallback } from '../../components/FallBack/Fallback';
 import { PaginationControls } from '../../components/PaginationControls/PaginationControls';
 import { Outlet } from 'react-router';
 import { Flyout } from '../../components/Flyout/Flyout';
-import styles from './SearchPage.module.css';
+import { CustomButton } from '../../components/CustomButton/CustomButton';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import {
   allCleared,
   restoredFromLS,
   selectCheckedCards,
 } from '../../features/cards/cardsSlice';
+import { useGetCharactersQuery } from '../../services/RickAndMortyAPI/rickAndMorty';
+
+import styles from './SearchPage.module.css';
 
 export function SearchPage() {
   const [localQuery, setLocalQuery] = useLocalStorage('query', '');
   const [checkedCards, setCheckedCards] = useLocalStorage('selectedCards', '');
-  const [results, setResults] = useState<Character[] | null>(null);
-  const [totalPages, setTotalPages] = useState(0);
-  const [loading, setLoading] = useState(false);
-  const [fetchError, setFetchError] = useState<string | null>(null);
   const [searchParams, setSearchParams] = useSearchParams();
-  const navigate = useNavigate();
+  const query = searchParams.get('search') || '';
+  const page = Number(searchParams.get('page')) || 1;
+  const [inputValue, setInputValue] = useState(query);
+
+  const { data, error, isLoading, refetch } = useGetCharactersQuery({
+    name: query,
+    page: page,
+  });
+
+  const results = data?.results || null;
+  const totalPages = data?.info.pages || 0;
 
   const selectedCards = useAppSelector(selectCheckedCards);
   const dispatch = useAppDispatch();
 
   const location = useLocation();
   const areDetailsOpen = location.pathname === '/details';
-
-  const query = searchParams.get('search') || '';
-  const page = Number(searchParams.get('page')) || 1;
-  const [inputValue, setInputValue] = useState(query);
+  const navigate = useNavigate();
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
-  };
-
-  const handleSearch = async (
-    query: string,
-    page: number,
-    signal?: AbortSignal
-  ): Promise<void> => {
-    setLoading(true);
-    setFetchError(null);
-    try {
-      const data = await getCharacters(query, page, signal);
-      setResults(data.results);
-      setTotalPages(data.info.pages);
-    } catch (error) {
-      if (error instanceof DOMException && error.name === 'AbortError') return;
-      if (error instanceof Error) {
-        setFetchError(error.message);
-      } else {
-        setFetchError('Unknown error occurred');
-      }
-    } finally {
-      setLoading(false);
-    }
   };
 
   const handleSubmit = async (
@@ -100,17 +81,6 @@ export function SearchPage() {
   }, [query]);
 
   useEffect(() => {
-    const controller = new AbortController();
-    const fetchCards = async (): Promise<void> => {
-      const searchQuery = searchParams.get('search') || '';
-      const pageQuery = Number(searchParams.get('page')) || 1;
-      await handleSearch(searchQuery, pageQuery, controller.signal);
-    };
-    fetchCards();
-    return () => controller.abort();
-  }, [searchParams]);
-
-  useEffect(() => {
     setCheckedCards(JSON.stringify(selectedCards));
   }, [selectedCards, setCheckedCards]);
 
@@ -137,15 +107,8 @@ export function SearchPage() {
     closeDetailsOnPagination(newSearchParams);
   };
 
-  const prevPage = async (): Promise<void> => {
-    const prevPage = page - 1;
-    navigateToPage(prevPage);
-  };
-
-  const nextPage = async (): Promise<void> => {
-    const nextPage = page + 1;
-    navigateToPage(nextPage);
-  };
+  const prevPage = () => navigateToPage(page - 1);
+  const nextPage = () => navigateToPage(page + 1);
 
   const openDetails = (e: React.MouseEvent<HTMLElement>): void => {
     const target = e.target as HTMLElement;
@@ -159,12 +122,14 @@ export function SearchPage() {
   };
 
   let content: React.ReactNode;
-  if (loading) {
+  if (isLoading) {
     content = <Loader />;
-  } else if (fetchError) {
-    content = <Fallback text={fetchError} />;
-  } else if (results?.length === 0) {
-    content = <Fallback text="No results found, try another character" />;
+  } else if (error) {
+    let message = 'Unknown error occured, try one more time';
+    if ('status' in error && 'data' in error && error.status === 404) {
+      message = 'Character not found, try another one';
+    }
+    content = <Fallback text={message} />;
   } else if (results) {
     content = (
       <>
@@ -194,6 +159,12 @@ export function SearchPage() {
           onChange={handleInput}
           onSubmit={handleSubmit}
           value={inputValue}
+        />
+        <CustomButton
+          type="button"
+          style="secondary"
+          onClick={() => refetch()}
+          text="Refresh results"
         />
       </CustomSection>
       <CustomSection customClass={styles.resultsView}>

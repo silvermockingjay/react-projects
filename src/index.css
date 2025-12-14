@@ -1,3 +1,19 @@
+:root {
+  --color-primary: #ffe600;
+  --color-primary-hover: #fffb00;
+  --color-secondary: #fff;
+  --color-basic-dark: #000;
+  --color-warning: #ea5b6f;
+  --color-disabled: #ccc;
+  --font-color-disabled: #7c7c7c;
+  --border-color-primary: #e6c200;
+  --border-color-secondary: #00ffff;
+  --shadow-color-primary: rgba(255, 230, 0, 0.4);
+  --shadow-color-secondary: rgba(0, 255, 255, 0.4);
+  --shadow-color-basic: rgba(0,0,0,0.4);
+  --shadow-color-light: rgba(0,0,0,0.15);
+}
+
 html {
   min-height: 100%;
   background: linear-gradient(to bottom right, #ff00ff, #00ffff);

@@ -3,39 +3,39 @@
   min-width: 120px;
   height: 50px;
   padding: 1rem;
-  color: #000;
+  color: var(--color-basic-dark);
   border: none;
   border-radius: 8px;
   font-size: 1.1rem;
   cursor: pointer;
   transition: 0.3s ease;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 2px 6px var(--shadow-color-light);
   box-sizing: border-box;
 }
 
 .primary {
-  background-color: #ffe600;
+  background-color: var(--color-primary);
 }
 
 .primary:hover {
-  background-color: #fffb00;
-  border: 1px solid #e6c200;
-  box-shadow: 0 2px 6px rgba(255, 230, 0, 0.4);
+  background-color: var(--color-primary-hover);
+  border: 1px solid var(--border-color-primary);
+  box-shadow: 0 2px 6px var(--shadow-color-primary);
 }
 
 .secondary {
-  background-color: #fff;
+  background-color: var(--color-secondary);
 }
 
 .secondary:hover {
-  border: 1px solid #00ffff;
-  box-shadow: 0 2px 6px rgba(0, 255, 255, 0.4);
+  border: 1px solid var(--border-color-secondary);;
+  box-shadow: 0 2px 6px var(--shadow-color-secondary);
 }
 
 .primary:disabled,
 .secondary:disabled {
-  background-color: #ccc;
-  color: #666;
+  background-color: var(--color-disabled);
+  color: var(--font-color-disabled);
   cursor: default;
   pointer-events: none;
 }
@@ -48,13 +48,13 @@
   max-width: 50px;
   padding: 0.8rem 1rem;
   align-self: flex-end;
-  background-color: #fff;
-  color: #000;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+  background-color: var(--color-secondary);
+  color: var(--color-basic-dark);
+  box-shadow: 0 4px 10px var(--shadow-color-basic);
 }
 
 .iconBtn:hover {
-  background-color: #ea5b6f;
+  background-color: var(--color-warning);
 }
 
 

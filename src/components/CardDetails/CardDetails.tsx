@@ -1,45 +1,17 @@
 import type { JSX } from 'react';
-import type { Character } from '../../services/interfaces/interfaces';
 import styles from './CardDetails.module.css';
-import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router';
-import { getCharacter } from '../../services/APIRequests/getCharacter';
 import { Loader } from '../Loader/Loader';
 import { Fallback } from '../FallBack/Fallback';
 import { CustomButton } from '../CustomButton/CustomButton';
+import { useGetCharacterQuery } from '../../services/RickAndMortyAPI/rickAndMorty';
 
 export function CardDetails(): JSX.Element {
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [details, setDetails] = useState<Character | null>(null);
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const id = Number(searchParams.get('detailsId'));
 
-  useEffect(() => {
-    const controller = new AbortController();
-    const getDetails = async (): Promise<void> => {
-      setLoading(true);
-      const id = Number(searchParams.get('detailsId')) || 1;
-      try {
-        const results = await getCharacter(id, controller.signal);
-        setDetails(results);
-        setLoading(false);
-      } catch (error) {
-        if (error instanceof DOMException && error.name === 'AbortError') {
-          return;
-        }
-        if (error instanceof Error) {
-          setError(error.message);
-        } else {
-          setError('Unknown error occurred');
-        }
-      } finally {
-        setLoading(false);
-      }
-    };
-    getDetails();
-    return () => controller.abort();
-  }, [searchParams]);
+  const { data: details, error, isLoading, refetch } = useGetCharacterQuery(id);
 
   const closeDetails = () => {
     const newSearchParams = new URLSearchParams(searchParams);
@@ -48,11 +20,15 @@ export function CardDetails(): JSX.Element {
   };
 
   let content: React.ReactNode;
-  if (loading) {
+  if (isLoading) {
     content = <Loader />;
   } else if (error) {
-    content = <Fallback text={error} />;
-  } else {
+    let message = 'Unknown error occured, try one more time';
+    if ('status' in error && 'data' in error && error.status === 404) {
+      message = 'Character not found, try another one';
+    }
+    content = <Fallback text={message} />;
+  } else if (details) {
     content = (
       <div className={styles.itemCard} role="region" aria-label="card details">
         <div className={styles.itemContainer}>
@@ -82,10 +58,10 @@ export function CardDetails(): JSX.Element {
                 <b>Gender: </b> {details?.gender}
               </li>
               <li>
-                <b>Origin: </b> {details?.origin.name}
+                <b>Origin: </b> {details?.origin?.name}
               </li>
               <li>
-                <b>Location: </b> {details?.location.name}
+                <b>Location: </b> {details?.location?.name}
               </li>
             </ul>
           </div>
@@ -94,5 +70,15 @@ export function CardDetails(): JSX.Element {
     );
   }
 
-  return content;
+  return (
+    <div className={styles.detailsContainer}>
+      {content}
+      <CustomButton
+        type="button"
+        style="secondary"
+        onClick={() => refetch()}
+        text="Refresh details"
+      />
+    </div>
+  );
 }

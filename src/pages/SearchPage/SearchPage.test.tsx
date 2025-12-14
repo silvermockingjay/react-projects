@@ -1,11 +1,6 @@
-vi.mock('../../services/APIRequests/getCharacters', () => ({
-  getCharacters: vi.fn(),
-}));
-
 import { screen } from '@testing-library/react';
 import { customRender } from '../../test-utils/test-utils';
-import { getCharacters } from '../../services/APIRequests/getCharacters';
-import type { MockedFunction } from 'vitest';
+import { useGetCharactersQuery } from '../../services/RickAndMortyAPI/rickAndMorty';
 import type { SearchResults } from '../../services/interfaces/interfaces';
 import { SearchPage } from './SearchPage';
 import { userSetUp } from '../../test-utils/test-utils';
@@ -15,6 +10,17 @@ import {
   Route,
   RouterProvider,
 } from 'react-router';
+
+vi.mock(
+  import('../../services/RickAndMortyAPI/rickAndMorty'),
+  async (importOriginal) => {
+    const actual = await importOriginal();
+    return {
+      ...actual,
+      useGetCharactersQuery: vi.fn(),
+    };
+  }
+);
 
 const searchResultsEmptyQuery: SearchResults = {
   info: { count: 2, pages: 1, next: 'urlOfTheNextPage', prev: null },
@@ -90,10 +96,15 @@ describe('SearchPage', () => {
   });
 
   test('search page initially renders with the empty query because local storage is empty', async () => {
-    const mockedGetCharacters = vi.mocked(
-      getCharacters as MockedFunction<typeof getCharacters>
-    );
-    mockedGetCharacters.mockResolvedValue(searchResultsEmptyQuery);
+    const mockedGetCharacters = vi.mocked(useGetCharactersQuery);
+    mockedGetCharacters.mockReturnValue({
+      data: searchResultsEmptyQuery,
+      isLoading: false,
+      isFetching: false,
+      error: null,
+      refetch: vi.fn(),
+      status: 'fulfilled',
+    });
 
     const router = createMemoryRouter(
       createRoutesFromElements(
@@ -110,11 +121,7 @@ describe('SearchPage', () => {
 
     customRender(<RouterProvider router={router} />);
     expect(getItemSpy).toHaveBeenCalledWith('query');
-    expect(mockedGetCharacters).toHaveBeenCalledWith(
-      '',
-      1,
-      expect.any(AbortSignal)
-    );
+    expect(mockedGetCharacters).toHaveBeenCalledWith({ name: '', page: 1 });
     expect(
       await screen.findAllByRole('region', { name: /character card/i })
     ).toHaveLength(2);
@@ -122,10 +129,15 @@ describe('SearchPage', () => {
   });
 
   test('search page shows results when user searches for the character', async () => {
-    const mockedGetCharacters = vi.mocked(
-      getCharacters as MockedFunction<typeof getCharacters>
-    );
-    mockedGetCharacters.mockResolvedValue(searchResultsQuery);
+    const mockedGetCharacters = vi.mocked(useGetCharactersQuery);
+    mockedGetCharacters.mockReturnValue({
+      data: searchResultsQuery,
+      isLoading: false,
+      isFetching: false,
+      error: null,
+      refetch: vi.fn(),
+      status: 'fulfilled',
+    });
 
     const router = createMemoryRouter(
       createRoutesFromElements(
@@ -143,11 +155,10 @@ describe('SearchPage', () => {
     const button = screen.getByRole('button', { name: /search/i });
     await user.click(button);
     expect(setItemSpy).toHaveBeenCalledWith('query', 'Morty');
-    expect(mockedGetCharacters).toHaveBeenCalledWith(
-      'Morty',
-      1,
-      expect.any(AbortSignal)
-    );
+    expect(mockedGetCharacters).toHaveBeenCalledWith({
+      name: 'Morty',
+      page: 1,
+    });
     expect(await screen.findAllByText(/Morty Smith|Alien Morty/)).toHaveLength(
       2
     );

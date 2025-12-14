@@ -22,7 +22,7 @@ export function AboutPage() {
         </a>
       </div>
       <div>
-        This app is developed to showcase React: Routing and Hooks Task of
+        This app is developed as a part of
         <a
           className={styles.aboutLink}
           href="https://rs.school/courses/reactjs"
