@@ -1,0 +1,59 @@
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 40%;
+}
+
+.formField {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.formFieldInline {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+input {
+  width: 100%;
+  border-radius: var(--radius);
+  height: 30px;
+  font-size: var(--font-size-md);
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+  width: auto;
+  cursor: pointer;
+}
+
+.infoPlaceholder{
+  height: 18px;
+}
+
+.passwordStrength {
+  margin: 0;
+  font-size: var(--font-size-sm);
+}
+
+.weak {
+  color: var(--color-warning);
+}
+
+.average {
+  color: var(--color-notification);
+}
+
+.strong {
+  color: var(--color-primary);
+}
+
+.formErrors{
+  color: var(--color-warning);
+  margin: 0;
+  font-size: var(--font-size-sm);
+}

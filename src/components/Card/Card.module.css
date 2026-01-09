@@ -1,0 +1,32 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  border-radius: 20px;
+  background-color: var(--color-secondary-dark);
+  color: var(--color-secondary);
+  height: 230px;
+  width: 200px;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.contentList {
+  list-style: none;
+  font-size: var(--font-size-sm);
+  font-family: var(--font-family);
+  padding: 0;
+}
+
+.newCard {
+  background-color: var(--color-primary);
+  color: var(--font-color);
+}
+
+.imageFile {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  border-radius: 50%;
+}
